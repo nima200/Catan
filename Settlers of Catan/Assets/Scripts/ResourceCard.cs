@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ResourceCard : MonoBehaviour {
+public class ResourceCard : Card {
 
-	enum CardType {Wood, Brick, Ore, Sheep};
-
-    public ResourceCard(CardType type)
+    public override void initialize(string id)
     {
-        
+        base.initialize(id);
+        this.activateable = false;
+        this.stealable = true;
     }
 }
