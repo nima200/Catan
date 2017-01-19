@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class HexMesh : MonoBehaviour {
-    Mesh hexMesh;
-    List<Vector3> vertices;
-    List<int> triangles;
+using System;
 
-    void awake()
+public class HexMesh : MonoBehaviour {
+
+    void Awake()
     {
-        GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
-        hexMesh.name = "Hex Mesh";
-        vertices = new List<Vector3>();
-        triangles = new List<int>();
-        
+        gameObject.name = "Hex Mesh";
     }
-	
-	
+
+    public void Triangulate(HexCell[] cells)
+    {
+        for (int i = 0; i < cells.Length; i++)
+        {
+            cells[i].Triangulate();
+        }
+    }
 }

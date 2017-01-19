@@ -10,6 +10,7 @@ public class HexGrid : MonoBehaviour {
     public HexCell cellPrefab;
     public Text cellLabelPrefab;
     Canvas gridCanvas;
+    HexMesh hexMesh;
 
 
     HexCell[] cells;
@@ -25,6 +26,11 @@ public class HexGrid : MonoBehaviour {
 			}
 		}
 	}
+
+    void Start()
+    {
+        hexMesh.Triangulate(cells);
+    }
 	
 	void CreateCell (int x, int z, int i) {
 		Vector3 position;
