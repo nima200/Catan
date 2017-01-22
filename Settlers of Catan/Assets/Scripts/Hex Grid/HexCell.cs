@@ -24,13 +24,10 @@ public class HexCell : MonoBehaviour {
         for (int i = 0; i < 6; i++)
         {
             AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[i+1]);
-            
-            
             cellMesh.vertices = vertices.ToArray();
             cellMesh.triangles = triangle.ToArray();
         }
         cellMesh.RecalculateNormals();
-        //AddLight();
     }
 
     void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
@@ -43,18 +40,4 @@ public class HexCell : MonoBehaviour {
         triangle.Add(vertexIndex + 1);
         triangle.Add(vertexIndex + 2);
     }
-    // UNDER CONSTRUCTION
-    //void AddLight()
-    //{
-    //    for (int i = 0; i < HexMetrics.corners.Length; i++) {
-    //        GameObject cornerIndicator = new GameObject("CornerIndicator Light");
-    //        Light cornerLight = cornerIndicator.AddComponent<Light>();
-    //        cornerLight.color = Color.red;
-    //        cornerLight.range = 5;
-    //        cornerLight.intensity = 8;
-    //        cornerIndicator.transform.position = HexMetrics.corners[i];
-    //        cornerIndicator.transform.Translate(0, 0.5f, 0, Space.Self);
-    //    }
-        
-    //}
 }
