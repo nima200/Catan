@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour {
 
@@ -10,6 +11,8 @@ public class HexGrid : MonoBehaviour {
     public int height = 6;
 
     int cellIndex = 0;
+
+    
 
     // the prefab to make the grid use as cells
     public HexCell cellPrefab;
@@ -50,6 +53,7 @@ public class HexGrid : MonoBehaviour {
     void Start()
     {
         hexMesh.Triangulate(cells);
+        
     }
 
     void Update()
@@ -66,29 +70,10 @@ public class HexGrid : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit))
         {
-            TouchCell(hit.point);
             EchoNeighbors(hit.point);
         }
     }
 
-    void TouchCell(Vector3 position)
-    {
-        Debug.ClearDeveloperConsole();
-        position = transform.InverseTransformPoint(position);
-        HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-        int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
-        HexCell cell = cells[index];
-        for (int i = 0; i < 6; i++)
-        {
-            if (cell.GetNeighbor(i) != null)
-            {
-                cell.GetNeighbor(i).color = Color.red;
-
-            }
-        }
-        hexMesh.Triangulate(cells);
-        
-    }
 
     // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
     // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
@@ -158,11 +143,12 @@ public class HexGrid : MonoBehaviour {
         // making sure the label falls under the canvas, as its child
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        label.text = cell.coordinates.ToStringOnSeparateLines();
+        label.text = cell.cellNumber.ToString();
     }
 
     void EchoNeighbors(Vector3 position)
     {
+        Debug.ClearDeveloperConsole();
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
         int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
@@ -191,5 +177,23 @@ public class HexGrid : MonoBehaviour {
         {
             Debug.Log("My NW neighbor is: " + cells[index].GetNeighbor(HexDirection.NW).cellNumber);
         }
+    }
+
+    void makeRandomCells()
+    {
+        HashSet<int> cellNums = new HashSet<int>();
+        for (int i = 0; i < (height*width); i++)
+        {
+            int cellNum = Random.Range(1, (height * width));
+            if (!cellNums.Contains(cellNum))
+            {
+                cellNums.Add(cellNum);
+            } else
+            {
+                i--;
+            }
+        }
+        //Debug.Log(cellNums.ToString());
+
     }
 }
