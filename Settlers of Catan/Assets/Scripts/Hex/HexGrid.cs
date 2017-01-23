@@ -12,7 +12,7 @@ public class HexGrid : MonoBehaviour {
 
     int cellIndex = 0;
 
-    
+    int[] tokens;
 
     // the prefab to make the grid use as cells
     public HexCell cellPrefab;
@@ -33,7 +33,7 @@ public class HexGrid : MonoBehaviour {
         // hence we don't need to search for the name
         gridCanvas = GetComponentInChildren<Canvas>();
         hexMesh = GetComponentInChildren<HexMesh>();
-
+        makeTokens();
 
         cells = new HexCell[height * width];
         // i is the index of the cell in the HexCell array.
@@ -74,7 +74,10 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
-
+    void makeTokens()
+    {
+        tokens = TokenGenerator.generate(height * width);
+    }
     // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
     // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
 
@@ -98,7 +101,7 @@ public class HexGrid : MonoBehaviour {
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
         cell.color = defaultColor;
-        cell.cellNumber = cellIndex;
+        cell.cellNumber = tokens[i];
         cellIndex++;
         if (x > 0)
         {
@@ -177,23 +180,5 @@ public class HexGrid : MonoBehaviour {
         {
             Debug.Log("My NW neighbor is: " + cells[index].GetNeighbor(HexDirection.NW).cellNumber);
         }
-    }
-
-    void makeRandomCells()
-    {
-        HashSet<int> cellNums = new HashSet<int>();
-        for (int i = 0; i < (height*width); i++)
-        {
-            int cellNum = Random.Range(1, (height * width));
-            if (!cellNums.Contains(cellNum))
-            {
-                cellNums.Add(cellNum);
-            } else
-            {
-                i--;
-            }
-        }
-        //Debug.Log(cellNums.ToString());
-
     }
 }
