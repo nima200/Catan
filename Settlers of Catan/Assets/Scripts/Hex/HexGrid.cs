@@ -27,6 +27,11 @@ public class HexGrid : MonoBehaviour {
     public Color defaultColor = Color.white;
     public Color neighborColor = Color.magenta;
 
+    public HexCell[] getCells()
+    {
+        return this.cells;
+    }
+
     void Awake()
     {
         // there's only one canvas as a child to the gameObject this script is attached to
@@ -62,6 +67,7 @@ public class HexGrid : MonoBehaviour {
         {
             HandleInput();
         }
+
     }
 
     void HandleInput()

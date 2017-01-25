@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\CommodityCard.cs" />
     <Compile Include="Assets\Scripts\DisableLight.cs" />
     <Compile Include="Assets\Scripts\Hex\HexCell.cs" />
+    <Compile Include="Assets\Scripts\Hex\HexColorManager.cs" />
     <Compile Include="Assets\Scripts\Hex\HexCoordinates.cs" />
     <Compile Include="Assets\Scripts\Hex\HexDirection.cs" />
     <Compile Include="Assets\Scripts\Hex\HexGrid.cs" />

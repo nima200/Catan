@@ -20,6 +20,8 @@ public class HexMesh : MonoBehaviour {
         triangles = new List<int>();
     }
 
+
+    
     public void Triangulate(HexCell[] cells)
     {
         // first clearing any old data that might have been in the mesh data structure
@@ -47,6 +49,7 @@ public class HexMesh : MonoBehaviour {
         {
             AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[i+1]);
             AddTriangleColor(cell.color);
+            
         }
     }
 
