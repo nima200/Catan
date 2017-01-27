@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public enum HexType { Wood, Ore, Brick, Sheep, Sea, Desert };
@@ -13,20 +14,19 @@ public class HexCell : MonoBehaviour {
     public HexCoordinates coordinates;
     List<Color> colors;
     public Color color;
-    MeshCollider meshCollider;
     public Renderer rend;
     public int cellNumber;
+    public Text label;
     [SerializeField]
     HexCell[] neighbors;
 
     void Awake()
     {
+        
         GetComponent<MeshFilter>().mesh = cellMesh = new Mesh();
-        meshCollider = gameObject.AddComponent<MeshCollider>();
         cellMesh.name = "Cell Mesh";
         vertices = new List<Vector3>();
         triangles = new List<int>();
-        colors = new List<Color>();
         rend = GetComponent<Renderer>();
     }
 
@@ -58,7 +58,6 @@ public class HexCell : MonoBehaviour {
         cellMesh.Clear();
         vertices.Clear();
         triangles.Clear();
-        colors.Clear();
         Vector3 center = gameObject.transform.parent.localPosition;
         for (int i = 0; i < 6; i++)
         {
@@ -67,9 +66,7 @@ public class HexCell : MonoBehaviour {
 
             cellMesh.vertices = vertices.ToArray();
             cellMesh.triangles = triangles.ToArray();
-            cellMesh.colors = colors.ToArray();
         }
-        AddTriangleColor(this.color);
         cellMesh.RecalculateNormals();
 
     }
@@ -83,12 +80,5 @@ public class HexCell : MonoBehaviour {
         triangles.Add(vertexIndex);
         triangles.Add(vertexIndex + 1);
         triangles.Add(vertexIndex + 2);
-    }
-
-    void AddTriangleColor(Color color)
-    {
-        colors.Add(color);
-        colors.Add(color);
-        colors.Add(color);
     }
 }

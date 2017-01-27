@@ -87,7 +87,9 @@
     <Compile Include="Assets\Scripts\Map\Hex\HexGrid.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexMesh.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexMetrics.cs" />
-    <Compile Include="Assets\Scripts\Map\Hex\TokenGenerator.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\Utilities\BoardTrimmer.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\Utilities\HexColorManager.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\Utilities\TokenGenerator.cs" />
     <Compile Include="Assets\Scripts\Map\Square Grid\Grid.cs" />
     <Compile Include="Assets\Scripts\Menus\UtilityMenu.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
@@ -99,7 +101,6 @@
     <Compile Include="Assets\Scripts\Utility\Light Utilities\LightTurnOn.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Materials\VertexColors.shader" />
     <None Include="Assets\Shaders\VertexColors.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

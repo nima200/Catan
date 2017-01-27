@@ -6,26 +6,18 @@ using System.Collections.Generic;
 public class HexGrid : MonoBehaviour {
 
     // the array of hexcells that the grid stores
-    HexCell[] cells;
+    public HexCell[] cells;
     public int width = 6;
     public int height = 6;
-
-    int cellIndex = 0;
 
     int[] tokens;
 
     // the prefab to make the grid use as cells
     public HexCell cellPrefab;
-    
     // making our grid know about the label prefab
     public Text cellLabelPrefab;
     // making our grid know about the canvas too
     Canvas gridCanvas;
-    // making our grid know about the hex mesh
-    HexMesh hexMesh;
-
-    public Color defaultColor = Color.white;
-    public Color neighborColor = Color.blue;
 
     public HexCell[] getCells()
     {
@@ -37,7 +29,6 @@ public class HexGrid : MonoBehaviour {
         // there's only one canvas as a child to the gameObject this script is attached to
         // hence we don't need to search for the name
         gridCanvas = GetComponentInChildren<Canvas>();
-        hexMesh = GetComponentInChildren<HexMesh>();
         makeTokens();
 
         cells = new HexCell[height * width];
@@ -57,7 +48,7 @@ public class HexGrid : MonoBehaviour {
     // After the grid is awake, we can now triangulate the cells of the mesh.
     void Start()
     {
-        hexMesh.Triangulate(cells);
+        Triangulate(cells);
         
     }
 
@@ -82,7 +73,22 @@ public class HexGrid : MonoBehaviour {
 
     void makeTokens()
     {
-        tokens = TokenGenerator.generate(height * width);
+        tokens = TokenGenerator.generate(44);
+    }
+
+    public void assignTokens()
+    {
+        int tokenIndex = 0;
+        for (int i = 0; i < cells.Length; i++)
+        {
+            if (cells[i] != null)
+            {
+                cells[i].cellNumber = tokens[tokenIndex];
+                cells[i].label.text = cells[i].cellNumber.ToString();
+                cells[i].gameObject.name = "Hex " + cells[i].cellNumber.ToString();
+                tokenIndex++;
+            }
+        }
     }
     // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
     // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
@@ -106,9 +112,8 @@ public class HexGrid : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-        cell.color = defaultColor;
-        cell.cellNumber = tokens[i];
-        cellIndex++;
+
+        ;
         if (x > 0)
         {
             // adding the west neighbor of all cells
@@ -148,11 +153,12 @@ public class HexGrid : MonoBehaviour {
         }
 
         // assigning the coordinates of the cell to the label prefab
-        Text label = Instantiate<Text>(cellLabelPrefab);
+        Text label = cell.label = Instantiate<Text>(cellLabelPrefab);
         // making sure the label falls under the canvas, as its child
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        label.text = cell.cellNumber.ToString();
+        //label.text = cell.cellNumber.ToString();
+        
     }
 
     void EchoNeighbors(Vector3 position)
@@ -187,4 +193,17 @@ public class HexGrid : MonoBehaviour {
             Debug.Log("My NW neighbor is: " + cells[index].GetNeighbor(HexDirection.NW).cellNumber);
         }
     }
+
+    void Triangulate(HexCell[] cells)
+    {
+        for (int i = 0; i < cells.Length; i++)
+        {
+            if (cells[i] != null)
+            {
+                cells[i].Triangulate();
+            }
+            
+        }
+    }
+
 }
