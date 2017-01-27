@@ -66,29 +66,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Card.cs" />
-    <Compile Include="Assets\Scripts\CardIDGenerator.cs" />
-    <Compile Include="Assets\Scripts\CardManager.cs" />
-    <Compile Include="Assets\Scripts\CommodityCard.cs" />
-    <Compile Include="Assets\Scripts\DisableLight.cs" />
-    <Compile Include="Assets\Scripts\Hex\HexCell.cs" />
-    <Compile Include="Assets\Scripts\Hex\HexColorManager.cs" />
-    <Compile Include="Assets\Scripts\Hex\HexCoordinates.cs" />
-    <Compile Include="Assets\Scripts\Hex\HexDirection.cs" />
-    <Compile Include="Assets\Scripts\Hex\HexGrid.cs" />
-    <Compile Include="Assets\Scripts\Hex\HexMesh.cs" />
-    <Compile Include="Assets\Scripts\Hex\HexMetrics.cs" />
-    <Compile Include="Assets\Scripts\Hex\TokenGenerator.cs" />
-    <Compile Include="Assets\Scripts\LevelManager.cs" />
-    <Compile Include="Assets\Scripts\LightTurnOn.cs" />
-    <Compile Include="Assets\Scripts\Player.cs" />
-    <Compile Include="Assets\Scripts\PlayerInventory.cs" />
-    <Compile Include="Assets\Scripts\PlayerManager.cs" />
-    <Compile Include="Assets\Scripts\ProgressCard.cs" />
-    <Compile Include="Assets\Scripts\ResourceCard.cs" />
-    <Compile Include="Assets\Scripts\Square Grid\Grid.cs" />
-    <Compile Include="Assets\Scripts\UIManager.cs" />
-    <Compile Include="Assets\Scripts\UtilityMenu.cs" />
+    <Compile Include="Assets\Scripts\Cards\Card.cs" />
+    <Compile Include="Assets\Scripts\Cards\CardIDGenerator.cs" />
+    <Compile Include="Assets\Scripts\Cards\CardManager.cs" />
+    <Compile Include="Assets\Scripts\Cards\CommodityCard.cs" />
+    <Compile Include="Assets\Scripts\Cards\ProgressCard.cs" />
+    <Compile Include="Assets\Scripts\Cards\ResourceCard.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\HexCell.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\HexColorManager.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\HexCoordinates.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\HexDirection.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\HexGrid.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\HexMesh.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\HexMetrics.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\TokenGenerator.cs" />
+    <Compile Include="Assets\Scripts\Map\Square Grid\Grid.cs" />
+    <Compile Include="Assets\Scripts\Menus\UtilityMenu.cs" />
+    <Compile Include="Assets\Scripts\Player\Player.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerInventory.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\Scene Management\LevelManager.cs" />
+    <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Utility\Light Utilities\DisableLight.cs" />
+    <Compile Include="Assets\Scripts\Utility\Light Utilities\LightTurnOn.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Materials\VertexColors.shader" />

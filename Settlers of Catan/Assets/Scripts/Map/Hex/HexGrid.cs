@@ -25,7 +25,7 @@ public class HexGrid : MonoBehaviour {
     HexMesh hexMesh;
 
     public Color defaultColor = Color.white;
-    public Color neighborColor = Color.magenta;
+    public Color neighborColor = Color.blue;
 
     public HexCell[] getCells()
     {
