@@ -73,13 +73,14 @@
     <Compile Include="Assets\Scripts\Cards\ProgressCard.cs" />
     <Compile Include="Assets\Scripts\Cards\ResourceCard.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCell.cs" />
-    <Compile Include="Assets\Scripts\Map\Hex\HexColorManager.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCoordinates.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexDirection.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexGrid.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexMesh.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexMetrics.cs" />
-    <Compile Include="Assets\Scripts\Map\Hex\TokenGenerator.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\Utilities\BoardTrimmer.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\Utilities\HexColorManager.cs" />
+    <Compile Include="Assets\Scripts\Map\Hex\Utilities\TokenGenerator.cs" />
     <Compile Include="Assets\Scripts\Map\Square Grid\Grid.cs" />
     <Compile Include="Assets\Scripts\Menus\UtilityMenu.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
@@ -91,7 +92,6 @@
     <Compile Include="Assets\Scripts\Utility\Light Utilities\LightTurnOn.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Materials\VertexColors.shader" />
     <None Include="Assets\Shaders\VertexColors.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
