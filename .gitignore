@@ -52,12 +52,24 @@ Temporary Items
 
 Settlers of Catan/Temp/
 Settlers of Catan/Library/
+/Settlers of Catan/Temp/
+/Settlers of Catan/Library/
+/Temp/
+/Library/
+Temp/
+Library/
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
 Settlers of Catan/ExportedObj/
 Settlers of Catan/obj/
+/Settlers of Catan/ExportedObj/
+/Settlers of Catan/obj/
+ExportedObj/
+obj/
+/ExportedObj/
+/obj/
 *.svd
 *.userprefs
 /*.csproj
