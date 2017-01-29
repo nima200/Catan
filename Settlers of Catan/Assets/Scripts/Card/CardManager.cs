@@ -15,15 +15,12 @@ public class CardManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-<<<<<<< HEAD
 		GameObject rCards = new GameObject ("Resource Cards");
         GameObject cCards = new GameObject("Commodity Cards");
         GameObject pCards = new GameObject("Progress Cards");
         createStealableCard ();
-=======
 		GameObject Cards = new GameObject ("Cards");
 		createStealableCard ();
->>>>>>> ee43af9d5422a0d956c82f88bd208d7ea899ae05
 		createProgressCard ();
 		List<ProgressCard> progressCards = cardInventory.getProgressCards();
 		for (int i = 0; i < progressCards.Count; i++) {
@@ -48,10 +45,7 @@ public class CardManager : MonoBehaviour
 				card.name = "resourceCard" + id;
 				card.resourceKind = (ResourceKind)i;
 				card.id = stringID;
-<<<<<<< HEAD
                 card.transform.parent = GameObject.Find("Resource Cards").transform;
-=======
->>>>>>> ee43af9d5422a0d956c82f88bd208d7ea899ae05
 				cardInventory.addResoueceCard((ResourceKind)i, card);
 			}
 		}
@@ -63,12 +57,9 @@ public class CardManager : MonoBehaviour
 				card.name = "commodityCard" + id;
 				card.commodityKind = (CommodityKind)i;
 				card.id = stringID;
-<<<<<<< HEAD
                 card.transform.parent = GameObject.Find("Commodity Cards").transform;
                 cardInventory.addCommodityCard((CommodityKind)i, card);
-=======
 				cardInventory.addCommodityCard((CommodityKind)i, card);
->>>>>>> ee43af9d5422a0d956c82f88bd208d7ea899ae05
 			}
 		}
 		 
@@ -85,12 +76,9 @@ public class CardManager : MonoBehaviour
 				card.name = "progressCard" + id;
 				card.progressCardKind = (ProgressCardKind)i;
 				card.id = stringID;
-<<<<<<< HEAD
                 card.transform.parent = GameObject.Find("Progress Cards").transform;
                 cardInventory.addProgressCard(card);
-=======
 				cardInventory.addProgressCard(card);
->>>>>>> ee43af9d5422a0d956c82f88bd208d7ea899ae05
 			}
 		}
 		Shuffle(cardInventory.getProgressCards());

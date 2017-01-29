@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\Dice\DiceRoll.cs" />
     <Compile Include="Assets\Scripts\Game Control\GameManager.cs" />
     <Compile Include="Assets\Scripts\Game Control\SaveLoad.cs" />
+    <Compile Include="Assets\Scripts\Hex\EmptyEnumeration.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCell.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCoordinates.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexDirection.cs" />
