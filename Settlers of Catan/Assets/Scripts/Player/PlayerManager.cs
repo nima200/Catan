@@ -1,32 +1,49 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class PlayerManager : MonoBehaviour {
+public class PlayerManager : MonoBehaviour
+{
 
-    
+	public static PlayerManager instance = null;
+	public Player playerPrefrab;
+	public List<Player> players = new List<Player> ();
 
-	void Start () {
-        PlayerMaker("player1", 1111, GameObject.Find("Players"));
-        PlayerMaker("player2", 1112, GameObject.Find("Players"));
-        PlayerMaker("player3", 1113, GameObject.Find("Players"));
-        PlayerMaker("player4", 1114, GameObject.Find("Players"));
-    }
 
-    void PlayerMaker(string name, int ID, GameObject parent)
-    {
-        GameObject player = new GameObject("player" + ID);
-        player.AddComponent<Player>();
-        player.GetComponent<Player>().playerID = ID;
-        player.GetComponent<Player>().playerName = name;
-        setParent(player, parent);
-    }
+	void Awake ()
+	{
+//		//Check if instance already exists
+//		if (instance == null) {
+//			instance = this;
+//		}
+//		else if (instance != this) {
+//			Destroy (gameObject);    
+//		}
+//             
+//		//Sets this to not be destroyed when reloading scene
+//		DontDestroyOnLoad (gameObject);
+	}
 
-    void setParent(GameObject child, GameObject parent)
-    {
-        child.transform.parent = parent.transform;
-    }
-	
-	void Update () {
+	void Start ()
+	{
+		createPlayer ();
+	}
+
+	void createPlayer ()
+	{
+		for (int i = 0; i < 4; i++) {
+			Player player = Instantiate (playerPrefrab);
+			player.name = "Player" + i;
+			player.playerID = i;
+			player.playerName = "Player" + i;
+			player.transform.parent = GameObject.Find ("Players").transform;
+			players.Add (player);
+		}
+	}
+
+
+	void Update ()
+	{
 	
 	}
 }
