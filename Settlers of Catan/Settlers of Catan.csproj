@@ -91,9 +91,10 @@
     <Compile Include="Assets\Scripts\Card\ProgressCardKind.cs" />
     <Compile Include="Assets\Scripts\Card\ResourceCard.cs" />
     <Compile Include="Assets\Scripts\Card\ResourceKind.cs" />
-    <Compile Include="Assets\Scripts\CountDisp.cs" />
     <Compile Include="Assets\Scripts\Dice\ChoicePanel.cs" />
     <Compile Include="Assets\Scripts\Dice\DiceRoll.cs" />
+    <Compile Include="Assets\Scripts\Game Control\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Game Control\SaveLoad.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCell.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCoordinates.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexDirection.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Scene Management\LevelManager.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Utility\CountDisp.cs" />
     <Compile Include="Assets\Scripts\Utility\Light Utilities\DisableLight.cs" />
     <Compile Include="Assets\Scripts\Utility\Light Utilities\LightTurnOn.cs" />
   </ItemGroup>
