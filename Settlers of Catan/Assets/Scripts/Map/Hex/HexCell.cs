@@ -51,14 +51,6 @@ public class HexCell : MonoBehaviour {
         
     }
 
-    void SampleMethodForGitMerge()
-    {
-         // ha
-         // ha
-         // ha 
-         // lol
-    }
-
     // Getter Method for neighbors, replies back based on the direction given.
     public HexCell GetNeighbor (HexDirection direction)
     {
