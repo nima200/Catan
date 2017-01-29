@@ -6,38 +6,34 @@ using System.Collections.Generic;
 public class HexGrid : MonoBehaviour {
 
     // the array of hexcells that the grid stores
-    HexCell[] cells;
-    public int width = 6;
-    public int height = 6;
-
-    int cellIndex = 0;
+    public HexCell[] cells;
+    public int width = 8;
+    public int height = 7;
 
     int[] tokens;
 
     // the prefab to make the grid use as cells
     public HexCell cellPrefab;
-    
     // making our grid know about the label prefab
     public Text cellLabelPrefab;
     // making our grid know about the canvas too
     Canvas gridCanvas;
-    // making our grid know about the hex mesh
-    HexMesh hexMesh;
 
-    public Color defaultColor = Color.white;
-    public Color neighborColor = Color.magenta;
+    public HexCell[] getCells()
+    {
+        return this.cells;
+    }
 
     void Awake()
     {
         // there's only one canvas as a child to the gameObject this script is attached to
         // hence we don't need to search for the name
         gridCanvas = GetComponentInChildren<Canvas>();
-        hexMesh = GetComponentInChildren<HexMesh>();
         makeTokens();
 
         cells = new HexCell[height * width];
         // i is the index of the cell in the HexCell array.
-        // i goes from 0 to height*width;
+        // i goes from 0 to (height*width);
         // i is incremented every time we create a new cell
         // we use x and z for the location of the cell because we build on the XZ plane.
         for (int z = 0, i = 0; z < height; z++)
@@ -52,18 +48,22 @@ public class HexGrid : MonoBehaviour {
     // After the grid is awake, we can now triangulate the cells of the mesh.
     void Start()
     {
-        hexMesh.Triangulate(cells);
-        
+        Triangulate(cells);
     }
 
     void Update()
     {
+        // Mouse Button 0 = Left Mouse Button
         if (Input.GetMouseButtonDown(0))
         {
             HandleInput();
         }
+
     }
 
+    // Very generic mouse input handle method.
+    // Check this out for more info
+    // https://docs.unity3d.com/ScriptReference/Input-mousePosition.html
     void HandleInput()
     {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -74,10 +74,27 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
+    // Calls onto the token generator.
     void makeTokens()
     {
-        tokens = TokenGenerator.generate(height * width);
+        tokens = TokenGenerator.generate(44);
     }
+
+    public void assignTokens()
+    {
+        int tokenIndex = 0;
+        for (int i = 0; i < cells.Length; i++)
+        {
+            if (cells[i] != null)
+            {
+                cells[i].cellNumber = tokens[tokenIndex];
+                cells[i].label.text = cells[i].cellNumber.ToString();
+                cells[i].gameObject.name = "Hex " + cells[i].cellNumber.ToString();
+                tokenIndex++;
+            }
+        }
+    }
+
     // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
     // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
 
@@ -100,9 +117,8 @@ public class HexGrid : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-        cell.color = defaultColor;
-        cell.cellNumber = tokens[i];
-        cellIndex++;
+
+        ;
         if (x > 0)
         {
             // adding the west neighbor of all cells
@@ -142,13 +158,16 @@ public class HexGrid : MonoBehaviour {
         }
 
         // assigning the coordinates of the cell to the label prefab
-        Text label = Instantiate<Text>(cellLabelPrefab);
+        Text label = cell.label = Instantiate<Text>(cellLabelPrefab);
         // making sure the label falls under the canvas, as its child
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        label.text = cell.cellNumber.ToString();
+        //label.text = cell.cellNumber.ToString();
+        
     }
 
+    // Straightforward method that is meant for debugging purposes to be able
+    // to echo out the neighbors of each cell and make sure that it actually sees its neighbors!
     void EchoNeighbors(Vector3 position)
     {
         Debug.ClearDeveloperConsole();
@@ -181,4 +200,18 @@ public class HexGrid : MonoBehaviour {
             Debug.Log("My NW neighbor is: " + cells[index].GetNeighbor(HexDirection.NW).cellNumber);
         }
     }
+
+    // Method for triangulating all cells within the "cells" array of a grid.
+    void Triangulate(HexCell[] cells)
+    {
+        for (int i = 0; i < cells.Length; i++)
+        {
+            if (cells[i] != null)
+            {
+                cells[i].Triangulate();
+            }
+            
+        }
+    }
+
 }
