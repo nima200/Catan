@@ -52,9 +52,6 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -94,7 +91,6 @@
     <Compile Include="Assets\Scripts\Map\Hex\HexCoordinates.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexDirection.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexGrid.cs" />
-    <Compile Include="Assets\Scripts\Map\Hex\HexMesh.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexMetrics.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\Utilities\BoardTrimmer.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\Utilities\HexColorManager.cs" />

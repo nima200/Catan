@@ -19,7 +19,9 @@ public class HexColorManager : MonoBehaviour {
             
         }
     }
-
+    // TODO: Figure out how to change the distribution of the hex types
+    // so that they actually correspond to what the game has.
+    // i.e. there aren't as many desert hexes as there are wood.
     HexType TypeGenerator()
     {
         int type = Random.Range(0, 6);

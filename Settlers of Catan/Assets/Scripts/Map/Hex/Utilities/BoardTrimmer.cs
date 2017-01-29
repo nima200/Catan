@@ -5,7 +5,11 @@ using UnityEngine;
 public class BoardTrimmer : MonoBehaviour {
 
     public HexGrid grid;
+    // Manually trimming off the sides of a rectangular grid.
+    // Very hacky and hard coded, lol.
 
+    // Also, we delete all the extras, and then we get to start tokenizing the cells
+    // Since at first we have width*height many cells but we only want 44 anyways.
     void Start()
     {
         HexCell[] cells = grid.getCells();

@@ -7,8 +7,8 @@ public class HexGrid : MonoBehaviour {
 
     // the array of hexcells that the grid stores
     public HexCell[] cells;
-    public int width = 6;
-    public int height = 6;
+    public int width = 8;
+    public int height = 7;
 
     int[] tokens;
 
@@ -33,7 +33,7 @@ public class HexGrid : MonoBehaviour {
 
         cells = new HexCell[height * width];
         // i is the index of the cell in the HexCell array.
-        // i goes from 0 to height*width;
+        // i goes from 0 to (height*width);
         // i is incremented every time we create a new cell
         // we use x and z for the location of the cell because we build on the XZ plane.
         for (int z = 0, i = 0; z < height; z++)
@@ -49,11 +49,11 @@ public class HexGrid : MonoBehaviour {
     void Start()
     {
         Triangulate(cells);
-        
     }
 
     void Update()
     {
+        // Mouse Button 0 = Left Mouse Button
         if (Input.GetMouseButtonDown(0))
         {
             HandleInput();
@@ -61,6 +61,9 @@ public class HexGrid : MonoBehaviour {
 
     }
 
+    // Very generic mouse input handle method.
+    // Check this out for more info
+    // https://docs.unity3d.com/ScriptReference/Input-mousePosition.html
     void HandleInput()
     {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -71,6 +74,7 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
+    // Calls onto the token generator.
     void makeTokens()
     {
         tokens = TokenGenerator.generate(44);
@@ -90,6 +94,7 @@ public class HexGrid : MonoBehaviour {
             }
         }
     }
+
     // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
     // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
 
@@ -161,6 +166,8 @@ public class HexGrid : MonoBehaviour {
         
     }
 
+    // Straightforward method that is meant for debugging purposes to be able
+    // to echo out the neighbors of each cell and make sure that it actually sees its neighbors!
     void EchoNeighbors(Vector3 position)
     {
         Debug.ClearDeveloperConsole();
@@ -194,6 +201,7 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
+    // Method for triangulating all cells within the "cells" array of a grid.
     void Triangulate(HexCell[] cells)
     {
         for (int i = 0; i < cells.Length; i++)
