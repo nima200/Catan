@@ -91,6 +91,9 @@
     <Compile Include="Assets\Scripts\Card\ProgressCardKind.cs" />
     <Compile Include="Assets\Scripts\Card\ResourceCard.cs" />
     <Compile Include="Assets\Scripts\Card\ResourceKind.cs" />
+    <Compile Include="Assets\Scripts\CountDisp.cs" />
+    <Compile Include="Assets\Scripts\Dice\ChoicePanel.cs" />
+    <Compile Include="Assets\Scripts\Dice\DiceRoll.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCell.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCoordinates.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexDirection.cs" />
