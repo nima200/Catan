@@ -90,7 +90,6 @@ obj/
 .Trashes
 ehthumbs.db
 Thumbs.db
-<<<<<<< HEAD
 
 /[Ll]ibrary/
 /[Tt]emp/
@@ -130,5 +129,4 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-=======
->>>>>>> charlotte
+
