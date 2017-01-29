@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4000013619492552}
   - component: {fileID: 114000012639691108}
   m_Layer: 0
-  m_Name: commodityCard
+  m_Name: CommodityCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
