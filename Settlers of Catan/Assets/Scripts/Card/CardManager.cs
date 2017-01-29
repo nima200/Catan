@@ -6,6 +6,11 @@ using System.Collections.Generic;
 public class CardManager : MonoBehaviour
 {
 	private CardInventory cardInventory = new CardInventory();
+	public ResourceCard resourceCardPrefab;
+	public CommodityCard commodityCardPrefab;
+	public ProgressCard progressCardPrefab;
+
+
     
 	// Use this for initialization
 	void Start ()
@@ -13,7 +18,7 @@ public class CardManager : MonoBehaviour
 		GameObject Cards = new GameObject ("Cards");
 		createStealableCard ();
 		createProgressCard ();
-		List<GameObject> progressCards = cardInventory.getProgressCards();
+		List<ProgressCard> progressCards = cardInventory.getProgressCards();
 		for (int i = 0; i < progressCards.Count; i++) {
 			print(progressCards[i].GetComponent<ProgressCard>().id + " " + progressCards[i].GetComponent<ProgressCard>().progressCardKind);
 		}
@@ -32,9 +37,10 @@ public class CardManager : MonoBehaviour
 			for (int j = 1; j < 20; j++) {
 				int id = i * 19 + j;
 				string stringID = id.ToString ();
-				GameObject card = new GameObject ("resourceCard" + id);
-				card.AddComponent<ResourceCard> ().initialize (stringID, (ResourceKind)i);
-				card.transform.parent = GameObject.Find ("Cards").transform;
+				ResourceCard card = Instantiate(resourceCardPrefab);
+				card.name = "resourceCard" + id;
+				card.resourceKind = (ResourceKind)i;
+				card.id = stringID;
 				cardInventory.addResoueceCard((ResourceKind)i, card);
 			}
 		}
@@ -42,9 +48,10 @@ public class CardManager : MonoBehaviour
 			for (int j = 1; j < 13; j++) {
 				int id = i * 12 + j;
 				string stringID = id.ToString ();
-				GameObject card = new GameObject ("commodityCard" + id);
-				card.AddComponent<CommodityCard> ().initialize (stringID, (CommodityKind)i);
-				card.transform.parent = GameObject.Find ("Cards").gameObject.transform;
+				CommodityCard card = Instantiate(commodityCardPrefab);
+				card.name = "commodityCard" + id;
+				card.commodityKind = (CommodityKind)i;
+				card.id = stringID;
 				cardInventory.addCommodityCard((CommodityKind)i, card);
 			}
 		}
@@ -58,9 +65,10 @@ public class CardManager : MonoBehaviour
 			for (int j = 1; j < 19; j++) {
 				int id = i * 18 + j;
 				string stringID = id.ToString ();
-				GameObject card = new GameObject ("progressCard" + id);
-				card.AddComponent<ProgressCard> ().initialize (stringID, (ProgressCardKind)i);
-				card.transform.parent = GameObject.Find ("Cards").gameObject.transform;
+				ProgressCard card = Instantiate(progressCardPrefab);
+				card.name = "progressCard" + id;
+				card.progressCardKind = (ProgressCardKind)i;
+				card.id = stringID;
 				cardInventory.addProgressCard(card);
 			}
 		}
@@ -81,24 +89,4 @@ public class CardManager : MonoBehaviour
 		}  
 	}
 
-	//	public void createCard (string cardType)
-	//	{
-	//		CardIDGenerator.generate ();
-	//		string cardID = CardIDGenerator.ids [CardIDGenerator.ids.Count - 1];
-	//		GameObject card = new GameObject (cardType + cardID);
-	//		if (cardType.Equals ("card")) {
-	//			card.AddComponent<Card> ().initialize (cardID);
-	//			card.transform.parent = GameObject.Find ("Cards").gameObject.transform;
-	//		} else if (cardType.Equals ("resourceCard")) {
-	//			card.AddComponent<ResourceCard> ().initialize (cardID);
-	//			card.transform.parent = GameObject.Find ("Cards").gameObject.transform;
-	//		} else if (cardType.Equals ("commodityCard")) {
-	//			card.AddComponent<CommodityCard> ().initialize (cardID);
-	//			card.transform.parent = GameObject.Find ("Cards").gameObject.transform;
-	//		} else if (cardType.Equals ("progressCard")) {
-	//			card.AddComponent<ProgressCard> ().initialize (cardID);
-	//			card.transform.parent = GameObject.Find ("Cards").gameObject.transform;
-	//		}
-	//
-	//	}
 }

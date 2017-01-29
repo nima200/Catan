@@ -5,32 +5,32 @@ using System.Collections.Generic;
 public class CardInventory : MonoBehaviour
 {
 
-	private Dictionary<ResourceKind, List<GameObject>> resourceCards = new Dictionary<ResourceKind, List<GameObject>> ();
-	private Dictionary<CommodityKind, List<GameObject>> commodityCards = new Dictionary<CommodityKind, List<GameObject>> ();
-	private List<GameObject> progressCards = new List<GameObject> ();
+	private Dictionary<ResourceKind, List<ResourceCard>> resourceCards = new Dictionary<ResourceKind, List<ResourceCard>> ();
+	private Dictionary<CommodityKind, List<CommodityCard>> commodityCards = new Dictionary<CommodityKind, List<CommodityCard>> ();
+	private List<ProgressCard> progressCards = new List<ProgressCard> ();
 
-	public void addResoueceCard (ResourceKind kind, GameObject card)
+	public void addResoueceCard (ResourceKind kind, ResourceCard card)
 	{
 		if (!resourceCards.ContainsKey (kind)) {
-			resourceCards.Add (kind, new List<GameObject> ());
+			resourceCards.Add (kind, new List<ResourceCard> ());
 		}
 		resourceCards [kind].Add (card);
 	}
 
-	public void addCommodityCard (CommodityKind kind, GameObject card)
+	public void addCommodityCard (CommodityKind kind, CommodityCard card)
 	{
 		if (!commodityCards.ContainsKey (kind)) {
-			commodityCards.Add (kind, new List<GameObject> ());
+			commodityCards.Add (kind, new List<CommodityCard> ());
 		}
 		commodityCards [kind].Add (card);
 	}
 
-	public void addProgressCard (GameObject card)
+	public void addProgressCard (ProgressCard card)
 	{
 		progressCards.Add (card);
 	}
 
-	public List<GameObject> getProgressCards ()
+	public List<ProgressCard> getProgressCards ()
 	{
 		return progressCards;
 	}
