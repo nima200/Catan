@@ -28,6 +28,14 @@ public class HexCell : MonoBehaviour {
     [SerializeField]
     HexCell[] neighbors;
 
+    void TestFunctionForMerging()
+    {
+        // ha
+        // ha
+        // ha
+        // LOL
+    }
+
     void Awake()
     {
         // Once the script wakes up we essentially want to intialize all those undeclared
