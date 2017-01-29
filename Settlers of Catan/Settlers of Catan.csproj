@@ -73,14 +73,24 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Cards\Card.cs" />
-    <Compile Include="Assets\Scripts\Cards\CardIDGenerator.cs" />
-    <Compile Include="Assets\Scripts\Cards\CardManager.cs" />
-    <Compile Include="Assets\Scripts\Cards\CommodityCard.cs" />
-    <Compile Include="Assets\Scripts\Cards\ProgressCard.cs" />
-    <Compile Include="Assets\Scripts\Cards\ResourceCard.cs" />
+    <Compile Include="Assets\Scripts\Card\Card.cs" />
+    <Compile Include="Assets\Scripts\Card\CardIDGenerator.cs" />
+    <Compile Include="Assets\Scripts\Card\CardInventory.cs" />
+    <Compile Include="Assets\Scripts\Card\CardManager.cs" />
+    <Compile Include="Assets\Scripts\Card\CommodityCard.cs" />
+    <Compile Include="Assets\Scripts\Card\CommodityKind.cs" />
+    <Compile Include="Assets\Scripts\Card\ProgressCard.cs" />
+    <Compile Include="Assets\Scripts\Card\ProgressCardKind.cs" />
+    <Compile Include="Assets\Scripts\Card\ResourceCard.cs" />
+    <Compile Include="Assets\Scripts\Card\ResourceKind.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCell.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexCoordinates.cs" />
     <Compile Include="Assets\Scripts\Map\Hex\HexDirection.cs" />
