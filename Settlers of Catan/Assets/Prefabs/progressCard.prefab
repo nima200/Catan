@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4000012120267196}
   - component: {fileID: 114000010703395074}
   m_Layer: 0
-  m_Name: progressCard
+  m_Name: ProgressCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
