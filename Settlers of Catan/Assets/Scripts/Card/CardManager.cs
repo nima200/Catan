@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class CardManager : MonoBehaviour
 {
-	private CardInventory cardInventory = new CardInventory();
+	public CardInventory cardInventory = new CardInventory();
 	public ResourceCard resourceCardPrefab;
 	public CommodityCard commodityCardPrefab;
 	public ProgressCard progressCardPrefab;
@@ -19,13 +19,8 @@ public class CardManager : MonoBehaviour
         GameObject cCards = new GameObject("Commodity Cards");
         GameObject pCards = new GameObject("Progress Cards");
         createStealableCard ();
-		GameObject Cards = new GameObject ("Cards");
-		createStealableCard ();
 		createProgressCard ();
-		List<ProgressCard> progressCards = cardInventory.getProgressCards();
-		for (int i = 0; i < progressCards.Count; i++) {
-			print(progressCards[i].GetComponent<ProgressCard>().id + " " + progressCards[i].GetComponent<ProgressCard>().progressCardKind);
-		}
+//		distributeResource(GameObject.Find("Player1").gameObject, ResourceKind.BRICK, 3);
 	}
 	
 	// Update is called once per frame
@@ -97,5 +92,16 @@ public class CardManager : MonoBehaviour
 			pProgressCards [n] = value;  
 		}  
 	}
+
+	private void distributeResource (Player player, ResourceKind resourceKind, int num)
+	{
+		player.cardInventory.iterateResourceCards();
+		List<ResourceCard> cards = cardInventory.removeResourceCard(resourceKind, num);
+		player.cardInventory.addResoueceCards(resourceKind, cards);
+		player.cardInventory.iterateResourceCards();
+	}
+
+
+
 
 }

@@ -16,3 +16,6 @@
 /Users/April/Catan/Catan/Settlers of Catan/Temp/bin/Debug/Assembly-CSharp.dll
 /Users/April/Catan/Catan/Settlers of Catan/obj/Debug/Assembly-CSharp.dll
 /Users/April/Catan/Catan/Settlers of Catan/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/April/Catan/Catan/Settlers of Catan/Temp/bin/Debug/UnityEngine.PlaymodeTestsRunner.dll
+/Users/April/Catan/Catan/Settlers of Catan/Temp/bin/Debug/UnityEngine.HoloLens.dll
+/Users/April/Catan/Catan/Settlers of Catan/Temp/bin/Debug/UnityEngine.VR.dll
