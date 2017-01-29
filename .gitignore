@@ -49,14 +49,15 @@ Temporary Items
 # =============== #
 # Unity generated #
 # =============== #
-Temp/
-Library/
+
+Settlers of Catan/Temp/
+Settlers of Catan/Library/
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
-ExportedObj/
-obj/
+Settlers of Catan/ExportedObj/
+Settlers of Catan/obj/
 *.svd
 *.userprefs
 /*.csproj
