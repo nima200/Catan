@@ -715,9 +715,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1033c0b97eb028440b81c8797217f9fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ydie: {fileID: 1178161627}
-  Rdie: {fileID: 453453490}
-  submit: {fileID: 117613358}
+  Ydie: {fileID: 0}
+  Rdie: {fileID: 0}
+  submit: {fileID: 0}
 --- !u!114 &304929165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,11 +1036,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc970eb2039bdc479e5d08f5bf03844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  display: {fileID: 1544544151}
+  display: {fileID: 0}
   value: 0
   minMax: 
-  minus: {fileID: 874858298}
-  plus: {fileID: 1806242978}
+  minus: {fileID: 0}
+  plus: {fileID: 0}
 --- !u!222 &453453491
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1354,8 +1354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1619743adf673a459eed989c2ce4e59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 1513417332}
-  audio: {fileID: 1608950006}
+  light: {fileID: 0}
+  audio: {fileID: 0}
 --- !u!65 &525342148
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1430,8 +1430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3021da8a354c94f8ea340216fe1eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 1608950006}
-  light: {fileID: 1426768806}
+  audio: {fileID: 0}
+  light: {fileID: 0}
   hovered: 0
 --- !u!114 &586863729
 MonoBehaviour:
@@ -1813,11 +1813,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3ad83adf5b74645863336600ac1eda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rollBtn: {fileID: 1529621458}
-  endTurnBtn: {fileID: 594043471}
-  resetBtn: {fileID: 1940554319}
-  choicePanelObj: {fileID: 304929162}
-  choicePanel: {fileID: 304929164}
+  rollBtn: {fileID: 0}
+  endTurnBtn: {fileID: 0}
+  resetBtn: {fileID: 0}
+  choicePanelObj: {fileID: 0}
+  choicePanel: {fileID: 0}
   hasMerchant: 0
 --- !u!1 &874858296
 GameObject:
@@ -2493,11 +2493,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc970eb2039bdc479e5d08f5bf03844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  display: {fileID: 384183593}
+  display: {fileID: 0}
   value: 0
   minMax: 
-  minus: {fileID: 1200698119}
-  plus: {fileID: 1296851724}
+  minus: {fileID: 0}
+  plus: {fileID: 0}
 --- !u!222 &1178161628
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3474,6 +3474,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefrab: {fileID: 114124705082406530, guid: 4ba07e069105a43f58e5bfa688c16a61,
     type: 2}
+  cardInventoryPrefab: {fileID: 114656945425425102, guid: 8a32e1f42b25145b59b96658e112c559,
+    type: 2}
+  players: []
 --- !u!4 &1496501395
 Transform:
   m_ObjectHideFlags: 0
@@ -3562,7 +3565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f4f9be940cd2f4589ec26abe20490f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 1513417332}
+  light: {fileID: 0}
 --- !u!1 &1522556227
 GameObject:
   m_ObjectHideFlags: 0
@@ -4291,8 +4294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3021da8a354c94f8ea340216fe1eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 1608950006}
-  light: {fileID: 122837878}
+  audio: {fileID: 0}
+  light: {fileID: 0}
   hovered: 0
 --- !u!114 &1707974486
 MonoBehaviour:
@@ -4422,8 +4425,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3021da8a354c94f8ea340216fe1eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 1608950006}
-  light: {fileID: 934460066}
+  audio: {fileID: 0}
+  light: {fileID: 0}
   hovered: 0
 --- !u!1 &1712305403
 GameObject:
@@ -4522,8 +4525,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3021da8a354c94f8ea340216fe1eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 1608950006}
-  light: {fileID: 703948770}
+  audio: {fileID: 0}
+  light: {fileID: 0}
   hovered: 0
 --- !u!114 &1738604218
 MonoBehaviour:
@@ -5156,11 +5159,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b30572001b04bd74cafc1b90794ec8ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardInventoryPrefab: {fileID: 114656945425425102, guid: 8a32e1f42b25145b59b96658e112c559,
+    type: 2}
   resourceCardPrefab: {fileID: 114000014003085930, guid: 73e00ebd82d3b4a48b4ce44535e0fbe5,
     type: 2}
   commodityCardPrefab: {fileID: 114000012639691108, guid: 7d4c85ad0ee3845c496b3bab748a8395,
     type: 2}
   progressCardPrefab: {fileID: 114000010703395074, guid: 2b49f4b60e44a40dfb9b6110133ba239,
+    type: 2}
+  cardInventory: {fileID: 114656945425425102, guid: 8a32e1f42b25145b59b96658e112c559,
     type: 2}
 --- !u!4 &1977989721
 Transform:

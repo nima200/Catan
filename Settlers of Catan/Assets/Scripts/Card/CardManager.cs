@@ -5,22 +5,23 @@ using System.Collections.Generic;
 
 public class CardManager : MonoBehaviour
 {
-	public CardInventory cardInventory = new CardInventory();
+    public CardInventory cardInventoryPrefab;
 	public ResourceCard resourceCardPrefab;
 	public CommodityCard commodityCardPrefab;
 	public ProgressCard progressCardPrefab;
-
+	public CardInventory cardInventory;
 
     
 	// Use this for initialization
 	void Start ()
 	{
+		cardInventory = Instantiate(cardInventoryPrefab);
 		GameObject rCards = new GameObject ("Resource Cards");
         GameObject cCards = new GameObject("Commodity Cards");
         GameObject pCards = new GameObject("Progress Cards");
         createStealableCard ();
 		createProgressCard ();
-//		distributeResource(GameObject.Find("Player1").gameObject, ResourceKind.BRICK, 3);
+		distributeResource(PlayerManager.instance.getPlayer(0), ResourceKind.BRICK, 3);
 	}
 	
 	// Update is called once per frame
@@ -53,8 +54,9 @@ public class CardManager : MonoBehaviour
 				card.commodityKind = (CommodityKind)i;
 				card.id = stringID;
                 card.transform.parent = GameObject.Find("Commodity Cards").transform;
-                cardInventory.addCommodityCard((CommodityKind)i, card);
 				cardInventory.addCommodityCard((CommodityKind)i, card);
+
+				//was there a reason you decided to add twice?
 			}
 		}
 		 
@@ -72,7 +74,6 @@ public class CardManager : MonoBehaviour
 				card.progressCardKind = (ProgressCardKind)i;
 				card.id = stringID;
                 card.transform.parent = GameObject.Find("Progress Cards").transform;
-                cardInventory.addProgressCard(card);
 				cardInventory.addProgressCard(card);
 			}
 		}
@@ -95,10 +96,10 @@ public class CardManager : MonoBehaviour
 
 	private void distributeResource (Player player, ResourceKind resourceKind, int num)
 	{
-		player.cardInventory.iterateResourceCards();
+		cardInventory.iterateResourceCards();
 		List<ResourceCard> cards = cardInventory.removeResourceCard(resourceKind, num);
 		player.cardInventory.addResoueceCards(resourceKind, cards);
-		player.cardInventory.iterateResourceCards();
+		cardInventory.iterateResourceCards();
 	}
 
 

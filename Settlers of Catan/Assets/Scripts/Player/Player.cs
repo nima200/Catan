@@ -6,7 +6,7 @@ public class Player : MonoBehaviour {
     public string playerName;
     public int playerID;
     public string greeting;
-    public CardInventory cardInventory = new CardInventory();
+    public CardInventory cardInventory;
     
 
     public Player()
