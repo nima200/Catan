@@ -36,7 +36,7 @@ public class HexCell : MonoBehaviour {
         // Linking the mesh of the MeshFilter component to be our cellMesh attribute and then initializing it.
         GetComponent<MeshFilter>().mesh = cellMesh = new Mesh();
         cellMesh.name = "Cell Mesh";
-        vertices = new List<Vector3>();
+        vertices = new List<HexVertex>();
         triangles = new List<int>();
         rend = GetComponent<Renderer>();
     }

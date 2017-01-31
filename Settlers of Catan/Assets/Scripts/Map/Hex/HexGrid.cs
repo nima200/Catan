@@ -107,18 +107,20 @@ public class HexGrid : MonoBehaviour {
 
     void CreateCell(int x, int z, int i)
     {
-        Vector3 position;
-        position.x = (x + (z * 0.5f) - z / 2) * (HexMetrics.innerRadius * 2f);
-        position.y = 0f;
-        position.z = z * (HexMetrics.outerRadius * 1.5f);
+        //HexVertex position;
+        float xCoord = (x + (z * 0.5f) - z / 2) * (HexMetrics.innerRadius * 2f);
+        float yCoord = 0f;
+        float zCoord = z * (HexMetrics.outerRadius * 1.5f);
+
+		HexVertex position = new HexVertex(xCoord, yCoord, zCoord);
 
         HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
 
         cell.transform.SetParent(transform, false);
-        cell.transform.localPosition = position;
+        cell.transform.localPosition = position.position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
-        ;
+        
         if (x > 0)
         {
             // adding the west neighbor of all cells
