@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public class PlayerManager : MonoBehaviour
 {
 
-	public static PlayerManager instance = null;
+	private static PlayerManager instance = null;
 	public Player playerPrefrab;
 	public CardInventory cardInventoryPrefab;
-	public List<Player> players = new List<Player> ();
+	private List<Player> players = new List<Player> ();
 
-
+	//Make Player Manager Singleton
 	void Awake ()
 	{
 		if (instance == null) {
@@ -22,6 +22,11 @@ public class PlayerManager : MonoBehaviour
 		DontDestroyOnLoad (gameObject);
 	}
 
+	public static PlayerManager getInstance()
+	{
+		return instance;
+	}
+
 	void Start ()
 	{
 		createPlayer ();
@@ -31,11 +36,7 @@ public class PlayerManager : MonoBehaviour
 	{
 		for (int i = 0; i < 4; i++) {
 			Player player = Instantiate (playerPrefrab);
-			player.name = "Player" + i;
-			player.playerID = i;
-			player.playerName = "Player" + i;
-			player.cardInventory = Instantiate(cardInventoryPrefab);
-			player.cardInventory.transform.parent = player.transform;
+			player.instantiate(i,cardInventoryPrefab);
 			player.transform.parent = GameObject.Find ("Players").transform;
 			players.Add (player);
 		}
@@ -44,6 +45,11 @@ public class PlayerManager : MonoBehaviour
 	public Player getPlayer (int index)
 	{
 		return players[index];
+	}
+
+	public Player getCurrentPlayer ()
+	{
+		return players[0];
 	}
 
 	void Update ()

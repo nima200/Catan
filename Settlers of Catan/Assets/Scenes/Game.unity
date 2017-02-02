@@ -2211,46 +2211,6 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 942161252}
---- !u!1 &988987607
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 988987609}
-  - component: {fileID: 988987608}
-  m_Layer: 0
-  m_Name: CardIDGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &988987608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 988987607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb03c1aa63b607647a4bde1e4bc25434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &988987609
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 988987607}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1031662133
 GameObject:
   m_ObjectHideFlags: 0
@@ -3476,7 +3436,6 @@ MonoBehaviour:
     type: 2}
   cardInventoryPrefab: {fileID: 114656945425425102, guid: 8a32e1f42b25145b59b96658e112c559,
     type: 2}
-  players: []
 --- !u!4 &1496501395
 Transform:
   m_ObjectHideFlags: 0
@@ -5167,8 +5126,6 @@ MonoBehaviour:
     type: 2}
   progressCardPrefab: {fileID: 114000010703395074, guid: 2b49f4b60e44a40dfb9b6110133ba239,
     type: 2}
-  cardInventory: {fileID: 114656945425425102, guid: 8a32e1f42b25145b59b96658e112c559,
-    type: 2}
 --- !u!4 &1977989721
 Transform:
   m_ObjectHideFlags: 0
@@ -5180,7 +5137,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1992394733
 GameObject:

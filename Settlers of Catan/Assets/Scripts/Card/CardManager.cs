@@ -9,19 +9,42 @@ public class CardManager : MonoBehaviour
 	public ResourceCard resourceCardPrefab;
 	public CommodityCard commodityCardPrefab;
 	public ProgressCard progressCardPrefab;
-	public CardInventory cardInventory;
+	private static CardManager instance = null;
+	private CardInventory cardInventory;
 
-    
+	//Make Card Manager Singleton
+	void Awake ()
+	{
+		if (instance == null) {
+			instance = this;
+		}
+		else if (instance != this) {
+			Destroy (gameObject);    
+		}
+		DontDestroyOnLoad (gameObject);
+	}
+
+	public static CardManager getInstance ()
+	{
+		return instance;
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
 		cardInventory = Instantiate(cardInventoryPrefab);
-		GameObject rCards = new GameObject ("Resource Cards");
-        GameObject cCards = new GameObject("Commodity Cards");
-        GameObject pCards = new GameObject("Progress Cards");
+		cardInventory.transform.parent = GameObject.Find("CardManager").transform;
+		GameObject cards = new GameObject("Cards");
+		GameObject resourceCards = new GameObject ("Resource Cards");
+		resourceCards.transform.parent = cards.transform;
+		GameObject commodityCards = new GameObject("Commodity Cards");
+		commodityCards.transform.parent = cards.transform;
+		GameObject progressCards = new GameObject("Progress Cards");
+		progressCards.transform.parent = cards.transform;
         createStealableCard ();
 		createProgressCard ();
-		distributeResource(PlayerManager.instance.getPlayer(0), ResourceKind.BRICK, 3);
+		//		distributeResource(PlayerManager.getInstance.getPlayer(0), ResourceKind.BRICK, 3);
+		//		distributeCommodity(PlayerManager.getInstance.getPlayer(0), CommodityKind.CLOTH, 2);
 	}
 	
 	// Update is called once per frame
@@ -94,12 +117,41 @@ public class CardManager : MonoBehaviour
 		}  
 	}
 
-	private void distributeResource (Player player, ResourceKind resourceKind, int num)
+	public CardInventory getCardInventory()
 	{
-		cardInventory.iterateResourceCards();
+		return cardInventory;
+	}
+
+	/*********************************************
+	Below are operations between the player and the bank
+	**********************************************/
+
+	//Take resource card of a given resourcekKind from the bank and give it to the given player
+	public void distributeResource (Player player, ResourceKind resourceKind, int num)
+	{
 		List<ResourceCard> cards = cardInventory.removeResourceCard(resourceKind, num);
-		player.cardInventory.addResoueceCards(resourceKind, cards);
-		cardInventory.iterateResourceCards();
+		player.getCardInventory().addResoueceCards(resourceKind, cards);
+	}
+
+	//Take commodity card of a given commodityKind from the bank and give it to the given player
+	public void distributeCommodity (Player player, CommodityKind commodityKind, int num)
+	{
+		List<CommodityCard> cards = cardInventory.removeCommodityCard(commodityKind, num);
+		player.getCardInventory().addCommodityCards(commodityKind, cards);
+	}
+
+	//Take resource card of a given resourcekKind from the the given player and put it back to bank
+	public void takeResource (Player player, ResourceKind resourceKind, int num)
+	{
+		List<ResourceCard> cards = player.getCardInventory().removeResourceCard(resourceKind, num);
+		cardInventory.addResoueceCards(resourceKind, cards);
+	}
+
+	//Take commodity card of a given commodityKind from the the given player and put it back to bank
+	public void takeCommodity (Player player, CommodityKind commodityKind, int num)
+	{
+		List<CommodityCard> cards = player.getCardInventory().removeCommodityCard(commodityKind, num);
+		cardInventory.addCommodityCards(commodityKind, cards);
 	}
 
 

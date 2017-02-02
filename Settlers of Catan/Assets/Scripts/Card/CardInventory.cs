@@ -5,9 +5,10 @@ using System.Collections.Generic;
 public class CardInventory : MonoBehaviour
 {
 
-	private Dictionary<ResourceKind, List<ResourceCard>> resourceCards = new Dictionary<ResourceKind, List<ResourceCard>> ();
-	private Dictionary<CommodityKind, List<CommodityCard>> commodityCards = new Dictionary<CommodityKind, List<CommodityCard>> ();
-	private List<ProgressCard> progressCards = new List<ProgressCard> ();
+	public Dictionary<ResourceKind, List<ResourceCard>> resourceCards = new Dictionary<ResourceKind, List<ResourceCard>> ();
+	public Dictionary<CommodityKind, List<CommodityCard>> commodityCards = new Dictionary<CommodityKind, List<CommodityCard>> ();
+	public List<ProgressCard> progressCards = new List<ProgressCard> ();
+	public Dictionary<SteableCard> steableCards = new Dictionary<SteableCard>();
 
 
 	public CardInventory ()
@@ -18,6 +19,16 @@ public class CardInventory : MonoBehaviour
 		for (int i = 0; i < 3; i++) {
 			commodityCards.Add ((CommodityKind)i, new List<CommodityCard> ());
 		}
+	}
+
+	public int countReourceCard (ResourceKind kind)
+	{
+		return resourceCards[kind].Count;
+	}
+
+	public int countCommodityCard (CommodityKind kind)
+	{
+		return commodityCards [kind].Count;
 	}
 
 	public void addResoueceCard (ResourceKind kind, ResourceCard card)
@@ -35,6 +46,11 @@ public class CardInventory : MonoBehaviour
 		commodityCards [kind].Add (card);
 	}
 
+	public void addCommodityCards (CommodityKind kind, List<CommodityCard> cards)
+	{
+		commodityCards [kind].AddRange(cards);
+	}
+
 	public void addProgressCard (ProgressCard card)
 	{
 		progressCards.Add (card);
@@ -44,6 +60,14 @@ public class CardInventory : MonoBehaviour
 	{
 		List<ResourceCard> list = resourceCards[resourceKind];
 		List<ResourceCard> rc = list.GetRange(0, num);
+		list.RemoveRange(0,num);
+		return rc;
+	}
+
+	public List<CommodityCard> removeCommodityCard (CommodityKind commodityKind, int num)
+	{
+		List<CommodityCard> list = commodityCards[commodityKind];
+		List<CommodityCard> rc = list.GetRange(0, num);
 		list.RemoveRange(0,num);
 		return rc;
 	}
@@ -59,8 +83,16 @@ public class CardInventory : MonoBehaviour
 			int count = resourceCards[(ResourceKind)i].Count;
 			print ((ResourceKind)i + " " + count);
 		}
-
 	}
+
+	public void iterateCommodityCards ()
+	{
+		for (int i = 0; i < 3; i++) {
+			int count = commodityCards[(CommodityKind)i].Count;
+			print ((CommodityKind)i + " " + count);
+		}
+	}
+
 
 	// Use this for initialization
 	void Start ()
