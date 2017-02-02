@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SteableCard : Card {
+public class SpecialHarbour : Harbour {
+
 	public SteableKind steableKind;
+
 }

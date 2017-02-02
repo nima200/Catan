@@ -43,8 +43,7 @@ public class CardManager : MonoBehaviour
 		progressCards.transform.parent = cards.transform;
         createStealableCard ();
 		createProgressCard ();
-		//		distributeResource(PlayerManager.getInstance.getPlayer(0), ResourceKind.BRICK, 3);
-		//		distributeCommodity(PlayerManager.getInstance.getPlayer(0), CommodityKind.CLOTH, 2);
+//		distributeSteable(PlayerManager.getInstance().getPlayer(0), SteableKind.BRICK, 3);
 	}
 	
 	// Update is called once per frame
@@ -61,11 +60,11 @@ public class CardManager : MonoBehaviour
 				int id = i * 19 + j;
 				string stringID = id.ToString ();
 				ResourceCard card = Instantiate(resourceCardPrefab);
-				card.name = "resourceCard" + id;
-				card.resourceKind = (ResourceKind)i;
+				card.name = "Resource Card " + id;
+				card.steableKind = (SteableKind)i;
 				card.id = stringID;
                 card.transform.parent = GameObject.Find("Resource Cards").transform;
-				cardInventory.addResoueceCard((ResourceKind)i, card);
+				cardInventory.addSteableCard((SteableKind)i,card);
 			}
 		}
 		for (int i = 0; i < 3; i++) {
@@ -73,13 +72,11 @@ public class CardManager : MonoBehaviour
 				int id = i * 12 + j;
 				string stringID = id.ToString ();
 				CommodityCard card = Instantiate(commodityCardPrefab);
-				card.name = "commodityCard" + id;
-				card.commodityKind = (CommodityKind)i;
+				card.name = "Commodity Card " + id;
+				card.steableKind = (SteableKind)(i+5);
 				card.id = stringID;
                 card.transform.parent = GameObject.Find("Commodity Cards").transform;
-				cardInventory.addCommodityCard((CommodityKind)i, card);
-
-				//was there a reason you decided to add twice?
+				cardInventory.addSteableCard((SteableKind)(i+5), card);
 			}
 		}
 		 
@@ -126,34 +123,19 @@ public class CardManager : MonoBehaviour
 	Below are operations between the player and the bank
 	**********************************************/
 
-	//Take resource card of a given resourcekKind from the bank and give it to the given player
-	public void distributeResource (Player player, ResourceKind resourceKind, int num)
+	//Take resource/commodity card of a given steableKind from the bank and give it to the given player
+	public void distributeSteable (Player player, SteableKind steableKind, int num)
 	{
-		List<ResourceCard> cards = cardInventory.removeResourceCard(resourceKind, num);
-		player.getCardInventory().addResoueceCards(resourceKind, cards);
+		List<SteableCard> cards = cardInventory.removeSteableCard(steableKind, num);
+		player.getCardInventory().addSteableCards(steableKind, cards);
 	}
 
-	//Take commodity card of a given commodityKind from the bank and give it to the given player
-	public void distributeCommodity (Player player, CommodityKind commodityKind, int num)
+	//Take resource/commodity card of a given steableKind from the the given player and put it back to bank
+	public void takeSteable (Player player, SteableKind steableKind, int num)
 	{
-		List<CommodityCard> cards = cardInventory.removeCommodityCard(commodityKind, num);
-		player.getCardInventory().addCommodityCards(commodityKind, cards);
+		List<SteableCard> cards = player.getCardInventory().removeSteableCard(steableKind, num);
+		cardInventory.addSteableCards(steableKind, cards);
 	}
-
-	//Take resource card of a given resourcekKind from the the given player and put it back to bank
-	public void takeResource (Player player, ResourceKind resourceKind, int num)
-	{
-		List<ResourceCard> cards = player.getCardInventory().removeResourceCard(resourceKind, num);
-		cardInventory.addResoueceCards(resourceKind, cards);
-	}
-
-	//Take commodity card of a given commodityKind from the the given player and put it back to bank
-	public void takeCommodity (Player player, CommodityKind commodityKind, int num)
-	{
-		List<CommodityCard> cards = player.getCardInventory().removeCommodityCard(commodityKind, num);
-		cardInventory.addCommodityCards(commodityKind, cards);
-	}
-
 
 
 
