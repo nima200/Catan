@@ -58,6 +58,8 @@ public class BoardTrimmer : MonoBehaviour {
         cells[55] = null;
 
         grid.assignTokens();
+        grid.createPossibleEdges();
+        grid.HidePossibleEdges();
     }
 
 }
