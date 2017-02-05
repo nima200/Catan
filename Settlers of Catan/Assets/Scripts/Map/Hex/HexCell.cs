@@ -94,13 +94,13 @@ public class HexCell : MonoBehaviour {
         // Opposite cell's reference to same edge.
         if (index < 3)
         {
-            if (this.neighbors[index].GetEdge(index + 3) == null)
+            if (this.neighbors[index].GetEdge(index + 3) == null && this.neighbors[index] != null)
             {
                 this.neighbors[index].SetEdge(index + 3, edge);
             }
         } else
         {
-            if (this.neighbors[index].GetEdge(index - 3) == null)
+            if (this.neighbors[index].GetEdge(index - 3) == null && this.neighbors[index] != null)
             {
                 this.neighbors[index].SetEdge(index - 3, edge);
             }
