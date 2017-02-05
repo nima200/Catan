@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settlers of Catan.Plugins", "Settlers of Catan.Plugins.csproj", "{AB24246D-1D11-5DCA-BB32-2657224FECE1}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settlers of Catan", "Settlers of Catan.csproj", "{7A33E52C-A26E-7EB1-75E0-CA96CC260396}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settlers of Catan.Editor.Plugins", "Settlers of Catan.Editor.Plugins.csproj", "{117C7BDA-4154-4525-6F0D-89FDFE30E0DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settlers of Catan.Editor", "Settlers of Catan.Editor.csproj", "{0711151D-115E-A8E6-40E5-8C5CE6F8A638}"
 EndProject
@@ -11,10 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB24246D-1D11-5DCA-BB32-2657224FECE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB24246D-1D11-5DCA-BB32-2657224FECE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB24246D-1D11-5DCA-BB32-2657224FECE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB24246D-1D11-5DCA-BB32-2657224FECE1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7A33E52C-A26E-7EB1-75E0-CA96CC260396}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7A33E52C-A26E-7EB1-75E0-CA96CC260396}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A33E52C-A26E-7EB1-75E0-CA96CC260396}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A33E52C-A26E-7EB1-75E0-CA96CC260396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{117C7BDA-4154-4525-6F0D-89FDFE30E0DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{117C7BDA-4154-4525-6F0D-89FDFE30E0DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{117C7BDA-4154-4525-6F0D-89FDFE30E0DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{117C7BDA-4154-4525-6F0D-89FDFE30E0DE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0711151D-115E-A8E6-40E5-8C5CE6F8A638}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0711151D-115E-A8E6-40E5-8C5CE6F8A638}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0711151D-115E-A8E6-40E5-8C5CE6F8A638}.Release|Any CPU.ActiveCfg = Release|Any CPU
