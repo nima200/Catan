@@ -2413,8 +2413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1619743adf673a459eed989c2ce4e59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 1513417332}
-  audio: {fileID: 1608950006}
+  light: {fileID: 0}
+  audio: {fileID: 0}
 --- !u!65 &525342148
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2604,8 +2604,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3021da8a354c94f8ea340216fe1eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 1608950006}
-  light: {fileID: 1426768806}
+  audio: {fileID: 0}
+  light: {fileID: 0}
   hovered: 0
 --- !u!114 &586863729
 MonoBehaviour:
@@ -6744,6 +6744,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefrab: {fileID: 114124705082406530, guid: 4ba07e069105a43f58e5bfa688c16a61,
     type: 2}
+  cardInventoryPrefab: {fileID: 114656945425425102, guid: 8a32e1f42b25145b59b96658e112c559,
+    type: 2}
 --- !u!4 &1496501395
 Transform:
   m_ObjectHideFlags: 0
@@ -6832,7 +6834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f4f9be940cd2f4589ec26abe20490f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 1513417332}
+  light: {fileID: 0}
 --- !u!1 &1522556227
 GameObject:
   m_ObjectHideFlags: 0
@@ -7942,8 +7944,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3021da8a354c94f8ea340216fe1eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 1608950006}
-  light: {fileID: 122837878}
+  audio: {fileID: 0}
+  light: {fileID: 0}
   hovered: 0
 --- !u!114 &1707974486
 MonoBehaviour:
@@ -8073,8 +8075,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3021da8a354c94f8ea340216fe1eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 1608950006}
-  light: {fileID: 934460066}
+  audio: {fileID: 0}
+  light: {fileID: 0}
   hovered: 0
 --- !u!1 &1712305403
 GameObject:
@@ -8293,8 +8295,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3021da8a354c94f8ea340216fe1eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audio: {fileID: 1608950006}
-  light: {fileID: 703948770}
+  audio: {fileID: 0}
+  light: {fileID: 0}
   hovered: 0
 --- !u!114 &1738604218
 MonoBehaviour:
@@ -8981,6 +8983,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b30572001b04bd74cafc1b90794ec8ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardInventoryPrefab: {fileID: 114656945425425102, guid: 8a32e1f42b25145b59b96658e112c559,
+    type: 2}
   resourceCardPrefab: {fileID: 114000014003085930, guid: 73e00ebd82d3b4a48b4ce44535e0fbe5,
     type: 2}
   commodityCardPrefab: {fileID: 114000012639691108, guid: 7d4c85ad0ee3845c496b3bab748a8395,

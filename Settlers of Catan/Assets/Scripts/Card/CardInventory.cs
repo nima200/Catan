@@ -5,34 +5,30 @@ using System.Collections.Generic;
 public class CardInventory : MonoBehaviour
 {
 
-	private Dictionary<ResourceKind, List<ResourceCard>> resourceCards = new Dictionary<ResourceKind, List<ResourceCard>> ();
-	private Dictionary<CommodityKind, List<CommodityCard>> commodityCards = new Dictionary<CommodityKind, List<CommodityCard>> ();
-	private List<ProgressCard> progressCards = new List<ProgressCard> ();
+	public List<ProgressCard> progressCards = new List<ProgressCard> ();
+	public Dictionary<SteableKind,  List<SteableCard>> steableCards = new Dictionary<SteableKind, List<SteableCard>>();
 
 
 	public CardInventory ()
 	{
-		for (int i = 0; i < 5; i++) {
-			resourceCards.Add ((ResourceKind)i, new List<ResourceCard> ());
-		}
-		for (int i = 0; i < 3; i++) {
-			commodityCards.Add ((CommodityKind)i, new List<CommodityCard> ());
+		for (int i = 0; i < 8; i++) {
+			steableCards.Add((SteableKind)i, new List<SteableCard> ());
 		}
 	}
 
-	public void addResoueceCard (ResourceKind kind, ResourceCard card)
+	public int countSteableCard (SteableKind kind)
 	{
-		resourceCards [kind].Add (card);
+		return steableCards [kind].Count;
 	}
 
-	public void addResoueceCards (ResourceKind kind, List<ResourceCard> cards)
+	public void addSteableCard (SteableKind kind, SteableCard card)
 	{
-		resourceCards [kind].AddRange(cards);
+		steableCards [kind].Add (card);
 	}
 
-	public void addCommodityCard (CommodityKind kind, CommodityCard card)
+	public void addSteableCards (SteableKind kind, List<SteableCard> cards)
 	{
-		commodityCards [kind].Add (card);
+		steableCards [kind].AddRange(cards);
 	}
 
 	public void addProgressCard (ProgressCard card)
@@ -40,10 +36,10 @@ public class CardInventory : MonoBehaviour
 		progressCards.Add (card);
 	}
 
-	public List<ResourceCard> removeResourceCard (ResourceKind resourceKind, int num)
+	public List<SteableCard> removeSteableCard (SteableKind steableKind, int num)
 	{
-		List<ResourceCard> list = resourceCards[resourceKind];
-		List<ResourceCard> rc = list.GetRange(0, num);
+		List<SteableCard> list = steableCards[steableKind];
+		List<SteableCard> rc = list.GetRange(0, num);
 		list.RemoveRange(0,num);
 		return rc;
 	}
@@ -53,14 +49,14 @@ public class CardInventory : MonoBehaviour
 		return progressCards;
 	}
 
-	public void iterateResourceCards ()
+	public void iterateSteableCards ()
 	{
-		for (int i = 0; i < 5; i++) {
-			int count = resourceCards[(ResourceKind)i].Count;
-			print ((ResourceKind)i + " " + count);
+		for (int i = 0; i < 8; i++) {
+			int count = steableCards[(SteableKind)i].Count;
+			print ((SteableKind)i + " " + count);
 		}
-
 	}
+
 
 	// Use this for initialization
 	void Start ()

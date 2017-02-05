@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 7111aa64b497f924092eff6a97bc5330
 folderAsset: yes
 timeCreated: 1486309867
+=======
+guid: a192dbdc08a294d68b20394d29f4ad8b
+folderAsset: yes
+timeCreated: 1486309847
+>>>>>>> charlotte
 licenseType: Free
 DefaultImporter:
   userData: 
