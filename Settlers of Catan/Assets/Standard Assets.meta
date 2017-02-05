@@ -1,5 +1,6 @@
 fileFormatVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
 guid: 496762e5454bc3941bc9cf7f00e551d4
 folderAsset: yes
 timeCreated: 1486309867
@@ -8,6 +9,11 @@ guid: 9128d240e30d84e9699ce6f50054195d
 folderAsset: yes
 timeCreated: 1486309847
 >>>>>>> charlotte
+=======
+guid: 312be286f5a0bb1409c720bf06788b46
+folderAsset: yes
+timeCreated: 1486309975
+>>>>>>> Khalil
 licenseType: Free
 DefaultImporter:
   userData: 
