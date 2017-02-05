@@ -10,7 +10,7 @@ public static class HexMetrics
     public const float innerRadius = outerRadius * 0.866025404f;
 
     // generic locations of corners according to the inner and outer radius set.
-    public static Vector3[] corners = {
+	public static Vector3[] corners = {
         // The order of these vertices determines whether we have a pointy edge of
         // the hexes on top when generated or a flat edge. 
 

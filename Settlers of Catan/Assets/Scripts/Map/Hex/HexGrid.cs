@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class HexGrid : MonoBehaviour {
 
@@ -12,12 +13,25 @@ public class HexGrid : MonoBehaviour {
 
     int[] tokens;
 
+	//this will keep track of all unique vertex positions to later create the HexVertices
+	public static HashSet<Vector3> positions = new HashSet<Vector3>();
+
+	//this will keep track of all unique hexvertex positions that will be used to create the network
+	public static List<HexVertex> vertexPositions = new List<HexVertex>();
+
     // the prefab to make the grid use as cells
     public HexCell cellPrefab;
     // making our grid know about the label prefab
     public Text cellLabelPrefab;
     // making our grid know about the canvas too
     Canvas gridCanvas;
+    Canvas UI;
+    bool roadBuild = false;
+    public Button buildButton;
+    public HexEdge edgePrefab;
+    public HexEdge possibleEdgePrefab;
+    Dropdown edgeDirectionDD;
+    
 
     public HexCell[] getCells()
     {
@@ -29,9 +43,11 @@ public class HexGrid : MonoBehaviour {
         // there's only one canvas as a child to the gameObject this script is attached to
         // hence we don't need to search for the name
         gridCanvas = GetComponentInChildren<Canvas>();
+        UI = GameObject.Find("User Interface").GetComponent<Canvas>();
         makeTokens();
-
         cells = new HexCell[height * width];
+        edgeDirectionDD = UI.GetComponentInChildren<Dropdown>();
+        edgeDirectionDD.gameObject.SetActive(false);
         // i is the index of the cell in the HexCell array.
         // i goes from 0 to (height*width);
         // i is incremented every time we create a new cell
@@ -57,10 +73,29 @@ public class HexGrid : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             HandleInput();
+
         }
 
     }
 
+    public void toggleBuild()
+    {
+        if (roadBuild == false)
+        {
+            roadBuild = true;
+            edgeDirectionDD.gameObject.SetActive(true);
+            buildButton.GetComponentInChildren<Text>().text = "End Build Road";
+            ShowPossibleEdges();
+        } else
+        {
+            roadBuild = false;
+            edgeDirectionDD.gameObject.SetActive(false);
+            buildButton.GetComponentInChildren<Text>().text = "Build Road";
+            HidePossibleEdges();
+        }
+    }
+
+    
     // Very generic mouse input handle method.
     // Check this out for more info
     // https://docs.unity3d.com/ScriptReference/Input-mousePosition.html
@@ -70,7 +105,11 @@ public class HexGrid : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit))
         {
-            EchoNeighbors(hit.point);
+            // EchoNeighbors(hit.point);
+            if (roadBuild)
+            {
+                PlaceEdge(hit.point);
+            }
         }
     }
 
@@ -95,6 +134,71 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
+    void ShowPossibleEdges()
+    {
+        for (int i = 0; i < cells.Length; i++)
+        {
+            if (cells[i] != null)
+            {
+                cells[i].transform.Find("Empty Edges").gameObject.SetActive(true);
+            }
+        }
+    }
+
+    public void HidePossibleEdges()
+    {
+        for (int i = 0; i < cells.Length; i++)
+        {
+            if (cells[i] != null)
+            {
+                cells[i].transform.Find("Empty Edges").gameObject.SetActive(false);
+            }
+        }
+    }
+
+
+	// creates HexVertex layer that will reside within the board
+	//This is called once the board has been trimmed
+	public void createHexVertices()
+	{
+		
+		HashSet<Vector3>.Enumerator iterator = positions.GetEnumerator();
+
+		List<Vector3> tempList = new List<Vector3>();
+
+		//get rid of vertices only associated with null hexes
+		do
+		{
+			// grab current vector3
+			Vector3 temp = iterator.Current;
+
+			// go through non-null cell and determine if the vector3 exists as a position
+			foreach (HexCell i in cells)
+			{
+				
+				if (i != null)
+				{
+					if (i.globalVertices.Contains(temp))
+					{
+						tempList.Add(temp);
+						break;
+					}
+				}
+			}
+		} while ((iterator.MoveNext() != false));
+
+		//convert vertex set to hexvertex set
+		foreach (Vector3 i in tempList)
+		{
+			vertexPositions.Add(new HexVertex(i));
+		}
+
+		//assign neighbors (leave for nima)????
+
+
+		
+	}
+
     // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
     // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
 
@@ -107,18 +211,22 @@ public class HexGrid : MonoBehaviour {
 
     void CreateCell(int x, int z, int i)
     {
-        Vector3 position;
-        position.x = (x + (z * 0.5f) - z / 2) * (HexMetrics.innerRadius * 2f);
-        position.y = 0f;
-        position.z = z * (HexMetrics.outerRadius * 1.5f);
+        //HexVertex position;
+        float xCoord = (x + (z * 0.5f) - z / 2) * (HexMetrics.innerRadius * 2f);
+        float yCoord = 0f;
+        float zCoord = z * (HexMetrics.outerRadius * 1.5f);
+
+		Vector3 position = new Vector3(xCoord, yCoord, zCoord);
 
         HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
 
         cell.transform.SetParent(transform, false);
-        cell.transform.localPosition = position;
+        cell.transform.position = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+		cell.centerVertex = new HexVertex(position);
 
-        ;
+        // HEX NEIGHBOR SET
+
         if (x > 0)
         {
             // adding the west neighbor of all cells
@@ -162,15 +270,82 @@ public class HexGrid : MonoBehaviour {
         // making sure the label falls under the canvas, as its child
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        //label.text = cell.cellNumber.ToString();
+    }
+
+    void PlaceEdge(Vector3 position)
+    {
+        // Converting hit point to cell reference
+        position = transform.InverseTransformPoint(position);
+        HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+        int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+        HexCell cell = cells[index];
+        // Linking with UI Dropdown menu values
         
+        if (cell.GetEdge(edgeDirectionDD.value) == null) // Null for prevent dups
+        {
+            HexEdge edge = Instantiate<HexEdge>(edgePrefab);
+            cell.SetEdge(edgeDirectionDD.value, edge);
+            Destroy(cell.possibleEdges[edgeDirectionDD.value].gameObject);
+            edge.transform.SetParent(cell.transform, false);
+            // Getting the middle point of the two vertices for that edge, placing there.
+            edge.transform.localPosition = (HexMetrics.corners[edgeDirectionDD.value] + HexMetrics.corners[(edgeDirectionDD.value + 1) % 6]) / 2;
+            edge.transform.localRotation = EdgeMetrics.rotations[edgeDirectionDD.value];
+            if (cell.GetNeighbor(edgeDirectionDD.value) != null) // Set neighbors only if another cell exists
+            {
+                edge.name = "edge between " + cell.cellNumber + " & " + cell.GetNeighbor(edgeDirectionDD.value).cellNumber;
+                edge.firstCell = cell;
+                edge.secondCell = cell.GetNeighbor(edgeDirectionDD.value);
+            }
+            else
+            {
+                edge.name = "edge between " + cell.cellNumber + " & -- ";
+            }
+        }
+    }
+
+    public void createPossibleEdges()
+    {
+        for (int x = 0; x < cells.Length; x++)
+        {
+            if (cells[x] != null)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    if (cells[x].GetEdge(i) == null)
+                    {
+                        if (cells[x].possibleEdges[i] == null)
+                        {
+                            HexEdge edge = Instantiate<HexEdge>(possibleEdgePrefab);
+                            cells[x].possibleEdges[i] = edge;
+                            edge.transform.SetParent(cells[x].transform.Find("Empty Edges").transform);
+                            edge.transform.localPosition = (HexMetrics.corners[i] + HexMetrics.corners[(i + 1) % 6]) / 2;
+                            edge.transform.localRotation = EdgeMetrics.rotations[i];
+                            if (i < 3)
+                            {
+                                if (cells[x].GetNeighbor(i) != null)
+                                {
+                                    cells[x].GetNeighbor(i).possibleEdges[i + 3] = edge;
+                                }
+                            }
+                            else
+                            {
+                                if (cells[x].GetNeighbor(i) != null)
+                                {
+                                    cells[x].GetNeighbor(i).possibleEdges[i - 3] = edge;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // Straightforward method that is meant for debugging purposes to be able
     // to echo out the neighbors of each cell and make sure that it actually sees its neighbors!
     void EchoNeighbors(Vector3 position)
     {
-        Debug.ClearDeveloperConsole();
+        
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
         int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
@@ -199,18 +374,18 @@ public class HexGrid : MonoBehaviour {
         {
             Debug.Log("My NW neighbor is: " + cells[index].GetNeighbor(HexDirection.NW).cellNumber);
         }
+        
     }
 
     // Method for triangulating all cells within the "cells" array of a grid.
-    void Triangulate(HexCell[] cells)
+    void Triangulate(HexCell[] hexCells)
     {
-        for (int i = 0; i < cells.Length; i++)
+        for (int i = 0; i < hexCells.Length; i++)
         {
-            if (cells[i] != null)
+            if (hexCells[i] != null)
             {
-                cells[i].Triangulate();
+                hexCells[i].Triangulate();
             }
-            
         }
     }
 
