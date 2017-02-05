@@ -98,3 +98,7 @@ Thumbs.db
 /[Bb]uilds/
 /Assets/AssetStoreTools*
 Settlers of Catan/Assets/Standard Assets\.meta
+
+Settlers of Catan/ProjectSettings/EditorBuildSettings\.asset
+
+Settlers of Catan/ProjectSettings/
