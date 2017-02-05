@@ -11,6 +11,8 @@ public class Player : MonoBehaviour {
     public Player()
     {
         this.greeting = "hello!!";
+        print (this.greeting);
     }
 	
+
 }
