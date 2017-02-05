@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class HexGrid : MonoBehaviour {
 
@@ -11,6 +12,12 @@ public class HexGrid : MonoBehaviour {
     public int height = 7;
 
     int[] tokens;
+
+	//this will keep track of all unique vertex positions to later create the HexVertices
+	public static HashSet<Vector3> positions = new HashSet<Vector3>();
+
+	//this will keep track of all unique hexvertex positions that will be used to create the network
+	public static List<HexVertex> vertexPositions = new List<HexVertex>();
 
     // the prefab to make the grid use as cells
     public HexCell cellPrefab;
@@ -95,6 +102,49 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
+
+	// creates HexVertex layer that will reside within the board
+	//This is called once the board has been trimmed
+	public void createHexVertices()
+	{
+		
+		HashSet<Vector3>.Enumerator iterator = positions.GetEnumerator();
+
+		List<Vector3> tempList = new List<Vector3>();
+
+		//get rid of vertices only associated with null hexes
+		do
+		{
+			// grab current vector3
+			Vector3 temp = iterator.Current;
+
+			// go through non-null cell and determine if the vector3 exists as a position
+			foreach (HexCell i in cells)
+			{
+				
+				if (i != null)
+				{
+					if (i.globalVertices.Contains(temp))
+					{
+						tempList.Add(temp);
+						break;
+					}
+				}
+			}
+		} while ((iterator.MoveNext() != false));
+
+		//convert vertex set to hexvertex set
+		foreach (Vector3 i in tempList)
+		{
+			vertexPositions.Add(new HexVertex(i));
+		}
+
+		//assign neighbors (leave for nima)????
+
+
+		
+	}
+
     // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
     // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
 
@@ -112,13 +162,14 @@ public class HexGrid : MonoBehaviour {
         float yCoord = 0f;
         float zCoord = z * (HexMetrics.outerRadius * 1.5f);
 
-		HexVertex position = new HexVertex(xCoord, yCoord, zCoord);
+		Vector3 position = new Vector3(xCoord, yCoord, zCoord);
 
         HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
 
         cell.transform.SetParent(transform, false);
-        cell.transform.localPosition = position.position;
+        cell.transform.position = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+		cell.centerVertex = new HexVertex(position);
 
         
         if (x > 0)
@@ -204,13 +255,13 @@ public class HexGrid : MonoBehaviour {
     }
 
     // Method for triangulating all cells within the "cells" array of a grid.
-    void Triangulate(HexCell[] cells)
+    void Triangulate(HexCell[] hexCells)
     {
-        for (int i = 0; i < cells.Length; i++)
+        for (int i = 0; i < hexCells.Length; i++)
         {
-            if (cells[i] != null)
+            if (hexCells[i] != null)
             {
-                cells[i].Triangulate();
+                hexCells[i].Triangulate();
             }
             
         }

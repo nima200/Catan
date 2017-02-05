@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+
 public enum HexType { Wood, Ore, Brick, Sheep, Sea, Desert };
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexCell : MonoBehaviour {
@@ -9,7 +10,7 @@ public class HexCell : MonoBehaviour {
     // The actual mesh of the cell. Followed by the list of vertices and triangle indices 
     // for each cell. These are populated in the AddTriangle() method.
     Mesh cellMesh;
-    List<Vector3> vertices;
+	public List<Vector3> vertices;
     List<int> triangles;
     // Each cell needs to know its enum hex type -> the resources that the hex generates.
     public HexType myHexType;
@@ -28,6 +29,11 @@ public class HexCell : MonoBehaviour {
     [SerializeField]
     HexCell[] neighbors;
 
+	public HexVertex centerVertex;
+	public HexVertex[] hexVertices;
+	public HashSet<Vector3> globalVertices;
+
+
     void Awake()
     {
         // Once the script wakes up we essentially want to intialize all those undeclared
@@ -36,9 +42,11 @@ public class HexCell : MonoBehaviour {
         // Linking the mesh of the MeshFilter component to be our cellMesh attribute and then initializing it.
         GetComponent<MeshFilter>().mesh = cellMesh = new Mesh();
         cellMesh.name = "Cell Mesh";
-        vertices = new List<HexVertex>();
+        vertices = new List<Vector3>();
         triangles = new List<int>();
         rend = GetComponent<Renderer>();
+		hexVertices = new HexVertex[6];
+		globalVertices = new HashSet<Vector3>();
     }
 
     void Start()
@@ -48,7 +56,7 @@ public class HexCell : MonoBehaviour {
         gameObject.AddComponent<MeshCollider>();
         // Mesh collider needs a mesh to feed into it so that it can adapt its shape/size/location/etc.
         GetComponent<MeshCollider>().sharedMesh = cellMesh;
-        
+		        
     }
 
     // Getter Method for neighbors, replies back based on the direction given.
@@ -84,11 +92,24 @@ public class HexCell : MonoBehaviour {
 
         // The center vertex of each cell aligned to the center of the game object in the scene.
         Vector3 center = gameObject.transform.parent.localPosition;
-        // 6 for 6 corners
+
+		Vector3 globalCenter = gameObject.transform.position;
+
+		Debug.Log("center: " + center + " globalcenter: " + globalCenter);
+        
+		// 6 for 6 corners
         for (int i = 0; i < 6; i++)
         {
             // Using modulus for the i+1 index to prevent outofbounds so that it jumps back to the first point.
-            AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[(i + 1) % 6]);
+			AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[(i + 1) % 6]);
+
+
+			// denote the unique positions of the cell's vertices
+			HexGrid.positions.Add(globalCenter + HexMetrics.corners[i]);
+			HexGrid.positions.Add(globalCenter + HexMetrics.corners[(i + 1) % 6]);
+
+			globalVertices.Add(globalCenter + HexMetrics.corners[i]);
+			globalVertices.Add(globalCenter + HexMetrics.corners[(i + 1) % 6]);
 
             // Converting our vertices and triangles lists that we have populated so far into arrays to assign
             // to the mesh.
@@ -96,7 +117,7 @@ public class HexCell : MonoBehaviour {
             // https://docs.unity3d.com/ScriptReference/Mesh-vertices.html
             // https://docs.unity3d.com/ScriptReference/Mesh-triangles.html
 
-            cellMesh.vertices = vertices.ToArray();
+			cellMesh.vertices = vertices.ToArray();
             cellMesh.triangles = triangles.ToArray();
         }
         // Need to recalculate surface normals so that the colors appear correct when rendered.
@@ -108,10 +129,12 @@ public class HexCell : MonoBehaviour {
     {
         // We need an index that fetches where we left off from the previous time this method was called.
         // Since you don't want to overlap the vertices previously made.
-        int vertexIndex = vertices.Count;
-        vertices.Add(v1);
-        vertices.Add(v2);
-        vertices.Add(v3);
+        int vertexIndex = vertices.Count;	
+		vertices.Add(v1);
+		vertices.Add(v2);
+		vertices.Add(v3); 
+
+
         // A mesh's "triangles" array is just an index list. It holds the indices of the
         // three vertices that it should point to for the rendering engine to create a triangle out of
         // The indices automatically points to the mesh's "triangles" array.
