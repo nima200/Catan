@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BankHarbTrade : MonoBehaviour
 {
 
-    
+    public GameObject lights;
     public GameObject bankHarbMenu;
     public GameObject mainMenu;
     public int ratio;         // TODO : ref to player's inventory + ratio
@@ -18,18 +18,21 @@ public class BankHarbTrade : MonoBehaviour
     {
         bankHarbMenu.SetActive(true);
         mainMenu.SetActive(false);
+        lights.SetActive(false);
     }
 
     public void CloseBankHarb()
     {
         bankHarbMenu.SetActive(false);
         mainMenu.SetActive(true);
+        lights.SetActive(true);
     }
 
     public void HideBankHarb()  //TODO
     {
         bankHarbMenu.SetActive(false);
         mainMenu.SetActive(true);
+        lights.SetActive(true);
     }
 }
 
