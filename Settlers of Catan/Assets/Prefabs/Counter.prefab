@@ -80,8 +80,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1976604247872368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 156.2, y: -67.8, z: 0}
+  m_LocalScale: {x: 400, y: 230, z: 1}
   m_Children:
   - {fileID: 224182627643371860}
   - {fileID: 4686255237831828}
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1.0147059, g: 0.8650069, b: 0.65657437, a: 1}
+  m_Color: {r: 0.853, g: 0.6611397, b: 0.248223, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
