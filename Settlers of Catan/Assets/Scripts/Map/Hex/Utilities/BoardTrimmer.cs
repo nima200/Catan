@@ -26,7 +26,7 @@ public class BoardTrimmer : MonoBehaviour {
 		}
         
         grid.assignTokens();
-        grid.createPossibleEdges();
+        //grid.createPossibleEdges();
         grid.HidePossibleEdges();
 		grid.createHexVertices();
 

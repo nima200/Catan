@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 public class HexGrid : MonoBehaviour {
@@ -42,7 +43,7 @@ public class HexGrid : MonoBehaviour {
     {
         // there's only one canvas as a child to the gameObject this script is attached to
         // hence we don't need to search for the name
-        gridCanvas = GetComponentInChildren<Canvas>();
+        gridCanvas = GameObject.Find("Hex Grid Canvas").GetComponent<Canvas>();
         UI = GameObject.Find("User Interface").GetComponent<Canvas>();
         makeTokens();
         cells = new HexCell[height * width];
@@ -84,7 +85,7 @@ public class HexGrid : MonoBehaviour {
         {
             roadBuild = true;
             edgeDirectionDD.gameObject.SetActive(true);
-            buildButton.GetComponentInChildren<Text>().text = "End Build Road";
+            buildButton.GetComponentInChildren<Text>().text = "End Build";
             ShowPossibleEdges();
         } else
         {
@@ -105,10 +106,9 @@ public class HexGrid : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit))
         {
-            // EchoNeighbors(hit.point);
             if (roadBuild)
             {
-                PlaceEdge(hit.point);
+                PlaceEdge(hit.point, EdgeUnitType.Road);
             }
         }
     }
@@ -272,7 +272,7 @@ public class HexGrid : MonoBehaviour {
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
 
-    void PlaceEdge(Vector3 position)
+    void PlaceEdge(Vector3 position, EdgeUnitType edgeUnitType)
     {
         // Converting hit point to cell reference
         position = transform.InverseTransformPoint(position);
@@ -283,27 +283,35 @@ public class HexGrid : MonoBehaviour {
         
         if (cell.GetEdge(edgeDirectionDD.value) == null) // Null for prevent dups
         {
-            HexEdge edge = Instantiate<HexEdge>(edgePrefab);
+            // TODO: Place unit only if followed by another unit.
+            // Instantiate prefab and set unit type (Road/Ship)
+            HexEdge edge = Instantiate<HexEdge>(edgePrefab); 
+            edge.MyEdgeUnitType = edgeUnitType;
+            // Place unit on the edge user asked for, through dropdown menu.
             cell.SetEdge(edgeDirectionDD.value, edge);
-            Destroy(cell.possibleEdges[edgeDirectionDD.value].gameObject);
+            //Destroy(cell.possibleEdges[edgeDirectionDD.value].gameObject); // Remove that edge location from possible locations
             edge.transform.SetParent(cell.transform, false);
+
             // Getting the middle point of the two vertices for that edge, placing there.
             edge.transform.localPosition = (HexMetrics.corners[edgeDirectionDD.value] + HexMetrics.corners[(edgeDirectionDD.value + 1) % 6]) / 2;
             edge.transform.localRotation = EdgeMetrics.rotations[edgeDirectionDD.value];
+            edge.firstCell = cell;
             if (cell.GetNeighbor(edgeDirectionDD.value) != null) // Set neighbors only if another cell exists
             {
                 edge.name = "edge between " + cell.cellNumber + " & " + cell.GetNeighbor(edgeDirectionDD.value).cellNumber;
-                edge.firstCell = cell;
+                
                 edge.secondCell = cell.GetNeighbor(edgeDirectionDD.value);
             }
             else
             {
                 edge.name = "edge between " + cell.cellNumber + " & -- ";
             }
+            // After placing an edge unit on a location, update the set of possible edge units that can be placed.
+            createPossibleEdges(cell);
         }
     }
 
-    public void createPossibleEdges()
+    /*public void createPossibleEdges()
     {
         for (int x = 0; x < cells.Length; x++)
         {
@@ -334,6 +342,106 @@ public class HexGrid : MonoBehaviour {
                                     cells[x].GetNeighbor(i).possibleEdges[i - 3] = edge;
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }*/
+
+    public void createPossibleEdges(HexCell cell)
+    {
+        // For all edges around the cell
+        for (int i = 0; i < 6; i++)
+        {
+            HexEdge currentEdge = cell.GetEdge(i);
+
+            // If there is an edge placed on location i
+            if (currentEdge != null)
+            { 
+                // If the NW edge location of the placed edge unit is not already a possible location to place an edge unit
+                if (currentEdge.firstCell.possibleEdges[(i - 1 < 0) ? ((i - 1 + 6) % 6) : ((i - 1) % 6)] == null)
+                {
+                    HexEdge possibleEdge_NW = Instantiate<HexEdge>(possibleEdgePrefab);
+                    currentEdge.firstCell.possibleEdges[(i - 1 < 0) ? ((i - 1 + 6) % 6) : ((i - 1) % 6)] =
+                        possibleEdge_NW;
+                    possibleEdge_NW.transform.SetParent(cell.transform.Find("Empty Edges").transform);
+                    possibleEdge_NW.transform.localPosition =
+                    (HexMetrics.corners[(i - 1 < 0) ? (((i - 1) + 6) % 6) : ((i - 1) % 6)] +
+                     HexMetrics.corners[i]) / 2;
+                    possibleEdge_NW.transform.localRotation = EdgeMetrics.rotations[(i - 1 < 0) ? (((i - 1) + 6) % 6) : ((i - 1) % 6)];
+                }
+                // If the SW edge location of the placed edge unit is not already a possible location to place an edge unit
+                if (currentEdge.firstCell.possibleEdges[(i + 1) % 6] == null)
+                {
+                    HexEdge possibleEdge_SW = Instantiate<HexEdge>(possibleEdgePrefab);
+                    currentEdge.firstCell.possibleEdges[(i + 1) % 6] = possibleEdge_SW;
+                    possibleEdge_SW.transform.SetParent(cell.transform.Find("Empty Edges").transform);
+                    possibleEdge_SW.transform.localPosition =
+                        (HexMetrics.corners[(i + 1) % 6] + HexMetrics.corners[(i + 2) % 6]) / 2;
+                    possibleEdge_SW.transform.localRotation = EdgeMetrics.rotations[(i + 1) % 6];
+                }
+                if (currentEdge.secondCell != null)
+                {
+                    if (i < 3) // then opposite edge dir = i + 3
+                    {
+                        // If the NE edge location of the placed edge unit is not already a possible location to place an edge unit
+                        if (currentEdge.secondCell.possibleEdges[((i + 3) + 1) % 6] == null)
+                        {
+                            HexEdge possibleEdge_NE = Instantiate<HexEdge>(possibleEdgePrefab);
+                            currentEdge.secondCell.possibleEdges[((i + 3) + 1) % 6] = possibleEdge_NE;
+                            possibleEdge_NE.transform.SetParent(
+                                currentEdge.secondCell.transform.Find("Empty Edges").transform);
+                            possibleEdge_NE.transform.localPosition = (HexMetrics.corners[((i + 3) + 1) % 6] +
+                                                                       HexMetrics.corners[((i + 3) + 2) % 6]) / 2;
+                            possibleEdge_NE.transform.localRotation = EdgeMetrics.rotations[((i + 3) + 1) % 6];
+                        }
+                        // If the SE edge location of the placed edge unit is not already a possible location to place an edge unit
+                        if (
+                            currentEdge.secondCell.possibleEdges[
+                                (((i + 3) - 1) < 0) ? (((i + 3) - 1) + 6) % 6 : ((i + 3) - 1) % 6] == null)
+                        {
+                            HexEdge possibleEdge_SE = Instantiate<HexEdge>(possibleEdgePrefab);
+                            currentEdge.secondCell.possibleEdges[
+                                (((i + 3) - 1) < 0) ? (((i + 3) - 1) + 6) % 6 : ((i + 3) - 1) % 6] = possibleEdge_SE;
+                            possibleEdge_SE.transform.SetParent(
+                                currentEdge.secondCell.transform.Find("Empty Edges").transform);
+                            possibleEdge_SE.transform.localPosition =
+                            (HexMetrics.corners[((i + 3) - 1 < 0) ? (((i + 3) - 1) + 6) % 6 : ((i + 3) - 1) % 6] +
+                             HexMetrics.corners[(i + 3) % 6]) / 2;
+                            possibleEdge_SE.transform.localRotation =
+                                EdgeMetrics.rotations[((i + 3) - 1 < 0) ? (((i + 3) - 1) + 6) % 6 : ((i + 3) - 1) % 6];
+                        }
+                    }
+                    else // then the opposite edge dir = i - 3
+                    {
+                        
+                        // If the NE edge location of the placed edge unit is not already a possible location to place an edge unit
+                        if (currentEdge.secondCell.possibleEdges[((i - 3) + 1) % 6] == null)
+                        {
+                            HexEdge possibleEdge_NE = Instantiate<HexEdge>(possibleEdgePrefab);
+                            currentEdge.secondCell.possibleEdges[((i - 3) + 1) % 6] = possibleEdge_NE;
+                            possibleEdge_NE.transform.SetParent(
+                                currentEdge.secondCell.transform.Find("Empty Edges").transform);
+                            possibleEdge_NE.transform.localPosition = (HexMetrics.corners[((i - 3) + 1) % 6] +
+                                                                       HexMetrics.corners[((i - 3) + 2) % 6]) / 2;
+                            possibleEdge_NE.transform.localRotation = EdgeMetrics.rotations[((i - 3) + 1) % 6];
+                        }
+                        // If the SE edge location of the placed edge unit is not already a possible location to place an edge unit
+                        if (
+                            currentEdge.secondCell.possibleEdges[
+                                (((i - 3) - 1) < 0) ? (((i - 3) - 1) + 6) % 6 : ((i - 3) - 1) % 6] == null)
+                        {
+                            HexEdge possibleEdge_SE = Instantiate<HexEdge>(possibleEdgePrefab);
+                            currentEdge.secondCell.possibleEdges[
+                                (((i - 3) - 1) < 0) ? (((i - 3) - 1) + 6) % 6 : ((i - 3) - 1) % 6] = possibleEdge_SE;
+                            possibleEdge_SE.transform.SetParent(
+                                currentEdge.secondCell.transform.Find("Empty Edges").transform);
+                            possibleEdge_SE.transform.localPosition =
+                            (HexMetrics.corners[((i - 3) - 1 < 0) ? (((i - 3) - 1) + 6) % 6 : ((i - 3) - 1) % 6] +
+                             HexMetrics.corners[(i - 3) % 6]) / 2;
+                            possibleEdge_SE.transform.localRotation =
+                                EdgeMetrics.rotations[((i - 3) - 1 < 0) ? (((i - 3) - 1) + 6) % 6 : ((i - 3) - 1) % 6];
                         }
                     }
                 }
