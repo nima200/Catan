@@ -17,7 +17,7 @@ public class DiceRoll : MonoBehaviour {
     private int[] intRolls;
     private EventDie eventRoll;
     private bool isRolled;
-    public bool hasMerchant;
+    public bool hasAlchemist;
 
     /* ========================
      *          START
@@ -28,7 +28,7 @@ public class DiceRoll : MonoBehaviour {
         rollBtn.onClick.AddListener(RollTrigger);     // COMMENT: instead of dice roll class with reference to DiceButton, just put everything in dice button ?
         endTurnBtn.onClick.AddListener(ResetDice);
         resetBtn.onClick.AddListener(ResetDice);
-        choicePanel.submit.onClick.AddListener(RollMerchant);
+        choicePanel.submit.onClick.AddListener(RollAlchemist);
 
         isRolled = false;
         //hasMerchant = true;                          // TO REMOVE: when player hasMerchant attribute is implemented
@@ -53,32 +53,31 @@ public class DiceRoll : MonoBehaviour {
    */
     public void RollTrigger () {
         if (!isRolled){
-            if (hasMerchant){
-                //TODO : offer to choose red and yellow dice outcome
-                choicePanelObj.SetActive(true); // action will happen in RollMerchant
-                //RollEventDie();
+            if (hasAlchemist){
+                choicePanelObj.SetActive(true); // action will happen in RollAlchemist
             }
 
             else{
                 RollIntDice();
                 RollEventDie();
+                isRolled = true;
             }
-            isRolled = true;
             rollBtn.interactable = false;
         }
     }
 
     /* ===================
-     *     ROLL Merchant
+     *     ROLL Alchemist
      * ===================
      * Die 1 = red
      * Die 2 = yellow       
      */
-    void RollMerchant() {
+    void RollAlchemist() {
         intRolls[0] = choicePanel.GetRedDieValue();
-        Debug.Log("MERCHANT : Die " + 0 + " :" + intRolls[0] + "\n");
+        Debug.Log("ALCHEMIST : Red die " + 0 + " :" + intRolls[0] + "\n");
         intRolls[1] = choicePanel.GetYellowDieValue();
-        Debug.Log("MERCHANT : Die " + 1 + " :" + intRolls[1] + "\n");
+        Debug.Log("ALCHEMIST : Yellow die " + 1 + " :" + intRolls[1] + "\n");
+        choicePanelObj.SetActive(false);
         RollEventDie();
         choicePanelObj.SetActive(false);
     }

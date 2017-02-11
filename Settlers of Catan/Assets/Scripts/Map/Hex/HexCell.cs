@@ -24,10 +24,14 @@ public class HexCell : MonoBehaviour {
     // Randomly generated. 
     public int cellNumber;
     public Text label;
+    public HexEdge edge;
     // It was adviced by the tutorial I followed to serialize the neighbor connections of cells
     // so that they would survive recompiles. However I'm not entirely sure if we need this. Doesn't harm anyways.
     [SerializeField]
     HexCell[] neighbors;
+    [SerializeField]
+    public HexEdge[] myEdges;
+    public HexEdge[] possibleEdges;
 
 	public HexVertex centerVertex;
 	public HexVertex[] hexVertices;
@@ -45,6 +49,8 @@ public class HexCell : MonoBehaviour {
         vertices = new List<Vector3>();
         triangles = new List<int>();
         rend = GetComponent<Renderer>();
+        myEdges = new HexEdge[6];
+        possibleEdges = new HexEdge[6];
 		hexVertices = new HexVertex[6];
 		globalVertices = new HashSet<Vector3>();
     }
@@ -78,6 +84,35 @@ public class HexCell : MonoBehaviour {
     {
         this.neighbors[(int)direction] = cell;
         cell.neighbors[(int)direction.Opposite()] = this;
+    }
+
+    public HexEdge GetEdge(HexDirection direction)
+    {
+        return myEdges[(int)direction];
+    }
+
+    public HexEdge GetEdge(int index)
+    {
+        return myEdges[index];
+    }
+
+    public void SetEdge(int index, HexEdge edge)
+    {
+        this.myEdges[index] = edge;
+        // Opposite cell's reference to same edge.
+        if (index < 3)
+        {
+            if (this.neighbors[index].GetEdge(index + 3) == null && this.neighbors[index] != null)
+            {
+                this.neighbors[index].SetEdge(index + 3, edge);
+            }
+        } else
+        {
+            if (this.neighbors[index].GetEdge(index - 3) == null && this.neighbors[index] != null)
+            {
+                this.neighbors[index].SetEdge(index - 3, edge);
+            }
+        }
     }
 
     // Method used from outside this class. It essentially initializes/creates the mesh
@@ -142,4 +177,6 @@ public class HexCell : MonoBehaviour {
         triangles.Add(vertexIndex + 1);
         triangles.Add(vertexIndex + 2);
     }
+
+    
 }

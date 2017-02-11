@@ -5,27 +5,45 @@ using System.Collections.Generic;
 
 public class CardManager : MonoBehaviour
 {
-	private CardInventory cardInventory = new CardInventory();
+    public CardInventory cardInventoryPrefab;
 	public ResourceCard resourceCardPrefab;
 	public CommodityCard commodityCardPrefab;
 	public ProgressCard progressCardPrefab;
+	private static CardManager instance = null;
+	private CardInventory cardInventory;
 
+	//Make Card Manager Singleton
+	void Awake ()
+	{
+		if (instance == null) {
+			instance = this;
+		}
+		else if (instance != this) {
+			Destroy (gameObject);    
+		}
+		DontDestroyOnLoad (gameObject);
+	}
 
-    
+	public static CardManager getInstance ()
+	{
+		return instance;
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
-		GameObject rCards = new GameObject ("Resource Cards");
-        GameObject cCards = new GameObject("Commodity Cards");
-        GameObject pCards = new GameObject("Progress Cards");
+		cardInventory = Instantiate(cardInventoryPrefab);
+		cardInventory.transform.parent = GameObject.Find("CardManager").transform;
+		GameObject cards = new GameObject("Cards");
+		GameObject resourceCards = new GameObject ("Resource Cards");
+		resourceCards.transform.parent = cards.transform;
+		GameObject commodityCards = new GameObject("Commodity Cards");
+		commodityCards.transform.parent = cards.transform;
+		GameObject progressCards = new GameObject("Progress Cards");
+		progressCards.transform.parent = cards.transform;
         createStealableCard ();
-		GameObject Cards = new GameObject ("Cards");
-		createStealableCard ();
 		createProgressCard ();
-		List<ProgressCard> progressCards = cardInventory.getProgressCards();
-		for (int i = 0; i < progressCards.Count; i++) {
-			print(progressCards[i].GetComponent<ProgressCard>().id + " " + progressCards[i].GetComponent<ProgressCard>().progressCardKind);
-		}
+//		distributeSteable(PlayerManager.getInstance().getPlayer(0), SteableKind.BRICK, 3);
 	}
 	
 	// Update is called once per frame
@@ -42,11 +60,11 @@ public class CardManager : MonoBehaviour
 				int id = i * 19 + j;
 				string stringID = id.ToString ();
 				ResourceCard card = Instantiate(resourceCardPrefab);
-				card.name = "resourceCard" + id;
-				card.resourceKind = (ResourceKind)i;
+				card.name = "Resource Card " + id;
+				card.steableKind = (SteableKind)i;
 				card.id = stringID;
                 card.transform.parent = GameObject.Find("Resource Cards").transform;
-				cardInventory.addResoueceCard((ResourceKind)i, card);
+				cardInventory.addSteableCard((SteableKind)i,card);
 			}
 		}
 		for (int i = 0; i < 3; i++) {
@@ -54,12 +72,11 @@ public class CardManager : MonoBehaviour
 				int id = i * 12 + j;
 				string stringID = id.ToString ();
 				CommodityCard card = Instantiate(commodityCardPrefab);
-				card.name = "commodityCard" + id;
-				card.commodityKind = (CommodityKind)i;
+				card.name = "Commodity Card " + id;
+				card.steableKind = (SteableKind)(i+5);
 				card.id = stringID;
                 card.transform.parent = GameObject.Find("Commodity Cards").transform;
-                cardInventory.addCommodityCard((CommodityKind)i, card);
-				cardInventory.addCommodityCard((CommodityKind)i, card);
+				cardInventory.addSteableCard((SteableKind)(i+5), card);
 			}
 		}
 		 
@@ -77,7 +94,6 @@ public class CardManager : MonoBehaviour
 				card.progressCardKind = (ProgressCardKind)i;
 				card.id = stringID;
                 card.transform.parent = GameObject.Find("Progress Cards").transform;
-                cardInventory.addProgressCard(card);
 				cardInventory.addProgressCard(card);
 			}
 		}
@@ -97,5 +113,30 @@ public class CardManager : MonoBehaviour
 			pProgressCards [n] = value;  
 		}  
 	}
+
+	public CardInventory getCardInventory()
+	{
+		return cardInventory;
+	}
+
+	/*********************************************
+	Below are operations between the player and the bank
+	**********************************************/
+
+	//Take resource/commodity card of a given steableKind from the bank and give it to the given player
+	public void distributeSteable (Player player, SteableKind steableKind, int num)
+	{
+		List<SteableCard> cards = cardInventory.removeSteableCard(steableKind, num);
+		player.getCardInventory().addSteableCards(steableKind, cards);
+	}
+
+	//Take resource/commodity card of a given steableKind from the the given player and put it back to bank
+	public void takeSteable (Player player, SteableKind steableKind, int num)
+	{
+		List<SteableCard> cards = player.getCardInventory().removeSteableCard(steableKind, num);
+		cardInventory.addSteableCards(steableKind, cards);
+	}
+
+
 
 }

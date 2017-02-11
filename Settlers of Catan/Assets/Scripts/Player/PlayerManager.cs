@@ -1,32 +1,59 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class PlayerManager : MonoBehaviour {
+public class PlayerManager : MonoBehaviour
+{
 
-    
+	private static PlayerManager instance = null;
+	public Player playerPrefrab;
+	public CardInventory cardInventoryPrefab;
+	private List<Player> players = new List<Player> ();
 
-	void Start () {
-        PlayerMaker("player1", 1111, GameObject.Find("Players"));
-        PlayerMaker("player2", 1112, GameObject.Find("Players"));
-        PlayerMaker("player3", 1113, GameObject.Find("Players"));
-        PlayerMaker("player4", 1114, GameObject.Find("Players"));
-    }
+	//Make Player Manager Singleton
+	void Awake ()
+	{
+		if (instance == null) {
+			instance = this;
+		}
+		else if (instance != this) {
+			Destroy (gameObject);    
+		}
+		DontDestroyOnLoad (gameObject);
+	}
 
-    void PlayerMaker(string name, int ID, GameObject parent)
-    {
-        GameObject player = new GameObject("player" + ID);
-        player.AddComponent<Player>();
-        player.GetComponent<Player>().playerID = ID;
-        player.GetComponent<Player>().playerName = name;
-        setParent(player, parent);
-    }
+	public static PlayerManager getInstance()
+	{
+		return instance;
+	}
 
-    void setParent(GameObject child, GameObject parent)
-    {
-        child.transform.parent = parent.transform;
-    }
-	
-	void Update () {
+	void Start ()
+	{
+		createPlayer ();
+	}
+
+	private void createPlayer ()
+	{
+		for (int i = 0; i < 4; i++) {
+			Player player = Instantiate (playerPrefrab);
+			player.instantiate(i,cardInventoryPrefab);
+			player.transform.parent = GameObject.Find ("Players").transform;
+			players.Add (player);
+		}
+	}
+
+	public Player getPlayer (int index)
+	{
+		return players[index];
+	}
+
+	public Player getCurrentPlayer ()
+	{
+		return players[0];
+	}
+
+	void Update ()
+	{
 	
 	}
 }

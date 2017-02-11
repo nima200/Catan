@@ -5,24 +5,30 @@ using System.Collections.Generic;
 public class CardInventory : MonoBehaviour
 {
 
-	private Dictionary<ResourceKind, List<ResourceCard>> resourceCards = new Dictionary<ResourceKind, List<ResourceCard>> ();
-	private Dictionary<CommodityKind, List<CommodityCard>> commodityCards = new Dictionary<CommodityKind, List<CommodityCard>> ();
-	private List<ProgressCard> progressCards = new List<ProgressCard> ();
+	public List<ProgressCard> progressCards = new List<ProgressCard> ();
+	public Dictionary<SteableKind,  List<SteableCard>> steableCards = new Dictionary<SteableKind, List<SteableCard>>();
 
-	public void addResoueceCard (ResourceKind kind, ResourceCard card)
+
+	public CardInventory ()
 	{
-		if (!resourceCards.ContainsKey (kind)) {
-			resourceCards.Add (kind, new List<ResourceCard> ());
+		for (int i = 0; i < 8; i++) {
+			steableCards.Add((SteableKind)i, new List<SteableCard> ());
 		}
-		resourceCards [kind].Add (card);
 	}
 
-	public void addCommodityCard (CommodityKind kind, CommodityCard card)
+	public int countSteableCard (SteableKind kind)
 	{
-		if (!commodityCards.ContainsKey (kind)) {
-			commodityCards.Add (kind, new List<CommodityCard> ());
-		}
-		commodityCards [kind].Add (card);
+		return steableCards [kind].Count;
+	}
+
+	public void addSteableCard (SteableKind kind, SteableCard card)
+	{
+		steableCards [kind].Add (card);
+	}
+
+	public void addSteableCards (SteableKind kind, List<SteableCard> cards)
+	{
+		steableCards [kind].AddRange(cards);
 	}
 
 	public void addProgressCard (ProgressCard card)
@@ -30,10 +36,27 @@ public class CardInventory : MonoBehaviour
 		progressCards.Add (card);
 	}
 
+	public List<SteableCard> removeSteableCard (SteableKind steableKind, int num)
+	{
+		List<SteableCard> list = steableCards[steableKind];
+		List<SteableCard> rc = list.GetRange(0, num);
+		list.RemoveRange(0,num);
+		return rc;
+	}
+
 	public List<ProgressCard> getProgressCards ()
 	{
 		return progressCards;
 	}
+
+	public void iterateSteableCards ()
+	{
+		for (int i = 0; i < 8; i++) {
+			int count = steableCards[(SteableKind)i].Count;
+			print ((SteableKind)i + " " + count);
+		}
+	}
+
 
 	// Use this for initialization
 	void Start ()
