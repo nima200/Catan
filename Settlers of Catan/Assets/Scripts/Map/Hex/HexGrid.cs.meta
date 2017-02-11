@@ -1,15 +1,17 @@
 fileFormatVersion: 2
 guid: 176f9127713f38244bee5012573408af
-timeCreated: 1486231217
+timeCreated: 1486837310
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - cellPrefab: {fileID: 114000010447964558, guid: 94c2312396697489abc866a188f80152,
-      type: 2}
+  - cellPrefab: {instanceID: 0}
   - cellLabelPrefab: {fileID: 114000012077104526, guid: f68794ca03b6f4510b9a5bd6ee9ba2f4,
       type: 2}
+  - buildButton: {instanceID: 0}
   - edgePrefab: {fileID: 114904479224344984, guid: d95737e47c71ede4f8bba3020245cfef,
+      type: 2}
+  - possibleEdgePrefab: {fileID: 114660176733284600, guid: 40b83e37a6edcf043871a2968ea8a2f6,
       type: 2}
   executionOrder: 0
   icon: {instanceID: 0}

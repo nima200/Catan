@@ -104,5 +104,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a5e5f249561a04c88fa60ebfeba939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstCell: {fileID: 0}
-  secondCell: {fileID: 0}
+  MyEdgeUnitType: 0
+  FirstCell: {fileID: 0}
+  SecondCell: {fileID: 0}
+  NeighborEdges:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

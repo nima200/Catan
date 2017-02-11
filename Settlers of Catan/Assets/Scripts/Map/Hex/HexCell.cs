@@ -24,7 +24,6 @@ public class HexCell : MonoBehaviour {
     // Randomly generated. 
     public int cellNumber;
     public Text label;
-    public HexEdge edge;
     // It was adviced by the tutorial I followed to serialize the neighbor connections of cells
     // so that they would survive recompiles. However I'm not entirely sure if we need this. Doesn't harm anyways.
     [SerializeField]
