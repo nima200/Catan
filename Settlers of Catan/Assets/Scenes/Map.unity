@@ -976,6 +976,7 @@ MonoBehaviour:
   cells: []
   width: 8
   height: 7
+  possibleEdges: []
   cellPrefab: {fileID: 1311174376}
   cellLabelPrefab: {fileID: 1603246081}
   buildButton: {fileID: 705381316}
