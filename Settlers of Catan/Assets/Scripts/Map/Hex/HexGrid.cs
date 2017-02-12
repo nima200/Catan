@@ -20,7 +20,7 @@ public class HexGrid : MonoBehaviour {
 
 	//this will keep track of all unique hexvertex positions that will be used to create the network
 	public static List<HexVertex> vertexPositions = new List<HexVertex>();
-
+    public List<HexCell> possibleEdges;
     // the prefab to make the grid use as cells
     public HexCell cellPrefab;
     // making our grid know about the label prefab
@@ -281,14 +281,180 @@ public class HexGrid : MonoBehaviour {
         int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
         HexCell cell = cells[index];
         // Linking with UI Dropdown menu values
+
         
         if (cell.GetEdge(edgeDirectionDD.value) == null) // Null for prevent dups
         {
             // TODO: Place unit only if followed by another unit.
+            int direction = edgeDirectionDD.value;
+            if (cell.possibleEdges[direction] != null)
+            {
+                // Instantiate prefab and set unit type (Road/Ship)
+                HexEdge edge = Instantiate<HexEdge>(edgePrefab);
+                edge.MyEdgeUnitType = edgeUnitType;
+
+                Destroy(cell.possibleEdges[direction].gameObject);
+                cell.possibleEdges[direction] = null;
+
+                cell.SetEdge(direction, edge);
+                //Destroy(cell.possibleEdges[edgeDirectionDD.value].gameObject); // Remove that edge location from possible locations
+                edge.transform.SetParent(cell.transform, false);
+
+                // Getting the middle point of the two vertices for that edge, placing there.
+                edge.transform.localPosition = (HexMetrics.corners[direction] + HexMetrics.corners[(direction + 1) % 6]) / 2;
+                edge.transform.localRotation = EdgeMetrics.rotations[direction];
+                edge.FirstCell = cell;
+                if (cell.GetNeighbor(direction) != null) // Set neighbors only if another cell exists
+                {
+                    edge.name = "edge between " + cell.cellNumber + " & " + cell.GetNeighbor(direction).cellNumber;
+
+                    edge.SecondCell = cell.GetNeighbor(direction);
+                }
+                else
+                {
+                    edge.name = "edge between " + cell.cellNumber + " & -- ";
+                }
+
+                // AND BEHOLD, THE EDGE UNIT NEIGHBOR STRUCTURE SETUP
+                // Don't even try understanding this.
+                if (edge.FirstCell.GetEdge(direction - 1 < 0 ? (direction - 1 + 6) % 6 : direction - 1) != null)
+                {
+                    edge.NeighborEdges[0] =
+                        edge.FirstCell.GetEdge(direction - 1 < 0 ? (direction - 1 + 6) % 6 : direction - 1);
+
+                    if (edge.FirstCell.GetEdge(direction - 1 < 0 ? (direction - 1 + 6) % 6 : direction - 1).FirstCell ==
+                        edge.FirstCell)
+                    {
+                        edge.FirstCell.GetEdge(direction - 1 < 0 ? (direction - 1 + 6) % 6 : direction - 1)
+                            .NeighborEdges[1] = edge;
+                    }
+                    else
+                    {
+                        if (edge.FirstCell.GetEdge(direction - 1 < 0 ? (direction - 1 + 6) % 6 : direction - 1)
+                                .NeighborEdges[2] == null)
+                        {
+                            edge.FirstCell.GetEdge(direction - 1 < 0 ? (direction - 1 + 6) % 6 : direction - 1)
+                            .NeighborEdges[2] = edge;
+                        }
+
+                    }
+                }
+
+
+                if (edge.FirstCell.GetEdge((direction + 1) % 6) != null)
+                {
+                    edge.NeighborEdges[1] = edge.FirstCell.GetEdge((direction + 1) % 6);
+
+                    if (edge.FirstCell.GetEdge((direction + 1) % 6).FirstCell == edge.FirstCell)
+                    {
+                        edge.FirstCell.GetEdge((direction + 1) % 6).NeighborEdges[0] = edge;
+                    }
+                    else
+                    {
+                        if (edge.FirstCell.GetEdge((direction + 1) % 6).NeighborEdges[3] == null)
+                        {
+                            edge.FirstCell.GetEdge((direction + 1) % 6).NeighborEdges[3] = edge;
+                        }
+                    }
+                }
+
+                if (edge.SecondCell != null)
+                {
+                    if (edge.SecondCell.GetEdge(direction < 3 ? (direction + 3 + 1) % 6 : direction - 3 + 1) != null)
+                    {
+                        edge.NeighborEdges[2] =
+                            edge.SecondCell.GetEdge(direction < 3 ? (direction + 3 + 1) % 6 : direction - 3 + 1);
+                        if (edge.SecondCell.GetEdge(direction < 3 ? (direction + 3 + 1) % 6 : direction - 3 + 1).SecondCell ==
+                            edge.SecondCell)
+                        {
+                            edge.SecondCell.GetEdge(direction < 3 ? (direction + 3 + 1) % 6 : direction - 3 + 1)
+                                .NeighborEdges[3] = edge;
+                        }
+                        else
+                        {
+                            if (
+                                edge.SecondCell.GetEdge(direction < 3 ? (direction + 3 + 1) % 6 : direction - 3 + 1)
+                                    .NeighborEdges[0] == null)
+                            {
+                                edge.SecondCell.GetEdge(direction < 3 ? (direction + 3 + 1) % 6 : direction - 3 + 1)
+                                    .NeighborEdges[0] = edge;
+                            }
+                        }
+
+                    }
+                    if (
+                        edge.SecondCell.GetEdge(direction < 3
+                            ? direction + 3 - 1
+                            : (direction - 3 - 1 < 0 ? direction - 3 - 1 + 6
+                                                       : direction - 3 - 1)) != null)
+                    {
+                        edge.NeighborEdges[3] = edge.SecondCell.GetEdge(direction < 3
+                            ? direction + 3 - 1
+                            : (direction - 3 - 1 < 0
+                                ? direction - 3 - 1 + 6
+                                : direction - 3 - 1));
+                        if (edge.SecondCell.GetEdge(direction < 3
+                                ? direction + 3 - 1
+                                : (direction - 3 - 1 < 0
+                                    ? direction - 3 - 1 + 6
+                                    : direction - 3 - 1)).SecondCell == edge.SecondCell)
+                        {
+                            edge.SecondCell.GetEdge(direction < 3
+                                ? direction + 3 - 1
+                                : (direction - 3 - 1 < 0
+                                    ? direction - 3 - 1 + 6
+                                    : direction - 3 - 1)).NeighborEdges[2] = edge;
+                        }
+                        else
+                        {
+                            if (edge.SecondCell.GetEdge(direction < 3
+                                    ? direction + 3 - 1
+                                    : (direction - 3 - 1 < 0
+                                        ? direction - 3 - 1 + 6
+                                        : direction - 3 - 1)).NeighborEdges[1] == null)
+                            {
+                                edge.SecondCell.GetEdge(direction < 3
+                                    ? direction + 3 - 1
+                                    : (direction - 3 - 1 < 0
+                                        ? direction - 3 - 1 + 6
+                                        : direction - 3 - 1)).NeighborEdges[1] = edge;
+                            }
+                        }
+                    }
+                }
+                // After placing an edge unit on a location, update the set of possible edge units that can be placed.
+                createPossibleEdges(cell);
+            }
+            // Place unit on the edge user asked for, through dropdown menu.
+            
+            
+            
+        }
+    }
+
+    public void PlaceEdge_Sandbox(Vector3 position, EdgeUnitType edgeUnitType)
+    {
+        // Converting hit point to cell reference
+        //position = transform.InverseTransformPoint(position);
+        //HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+        //int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+        int index = Random.Range(0, cells.Length);
+        HexCell cell = cells[index];
+        // Linking with UI Dropdown menu values
+
+
+        if (cell.GetEdge(edgeDirectionDD.value) == null) // Null for prevent dups
+        {
+            // TODO: Place unit only if followed by another unit.
             // Instantiate prefab and set unit type (Road/Ship)
-            HexEdge edge = Instantiate<HexEdge>(edgePrefab); 
+            HexEdge edge = Instantiate<HexEdge>(edgePrefab);
             edge.MyEdgeUnitType = edgeUnitType;
             int direction = edgeDirectionDD.value;
+            if (cell.possibleEdges[direction] != null)
+            {
+                Destroy(cell.possibleEdges[direction].gameObject);
+                cell.possibleEdges[direction] = null;
+            }
             // Place unit on the edge user asked for, through dropdown menu.
             cell.SetEdge(direction, edge);
             //Destroy(cell.possibleEdges[edgeDirectionDD.value].gameObject); // Remove that edge location from possible locations
@@ -301,7 +467,7 @@ public class HexGrid : MonoBehaviour {
             if (cell.GetNeighbor(direction) != null) // Set neighbors only if another cell exists
             {
                 edge.name = "edge between " + cell.cellNumber + " & " + cell.GetNeighbor(direction).cellNumber;
-                
+
                 edge.SecondCell = cell.GetNeighbor(direction);
             }
             else
@@ -330,7 +496,7 @@ public class HexGrid : MonoBehaviour {
                         edge.FirstCell.GetEdge(direction - 1 < 0 ? (direction - 1 + 6) % 6 : direction - 1)
                         .NeighborEdges[2] = edge;
                     }
-                    
+
                 }
             }
 
@@ -348,8 +514,8 @@ public class HexGrid : MonoBehaviour {
                     if (edge.FirstCell.GetEdge((direction + 1) % 6).NeighborEdges[3] == null)
                     {
                         edge.FirstCell.GetEdge((direction + 1) % 6).NeighborEdges[3] = edge;
-                    }   
-                }   
+                    }
+                }
             }
 
             if (edge.SecondCell != null)
@@ -374,12 +540,12 @@ public class HexGrid : MonoBehaviour {
                                 .NeighborEdges[0] = edge;
                         }
                     }
-                    
+
                 }
                 if (
                     edge.SecondCell.GetEdge(direction < 3
                         ? direction + 3 - 1
-                        : (direction - 3 - 1 < 0 ? direction - 3 - 1 + 6 
+                        : (direction - 3 - 1 < 0 ? direction - 3 - 1 + 6
                                                    : direction - 3 - 1)) != null)
                 {
                     edge.NeighborEdges[3] = edge.SecondCell.GetEdge(direction < 3
@@ -414,53 +580,15 @@ public class HexGrid : MonoBehaviour {
                                     : direction - 3 - 1)).NeighborEdges[1] = edge;
                         }
                     }
-                    
+
                 }
             }
             // After placing an edge unit on a location, update the set of possible edge units that can be placed.
-            //createPossibleEdges(cell);
+            createPossibleEdges(cell);
         }
     }
 
-    /*public void createPossibleEdges()
-    {
-        for (int x = 0; x < cells.Length; x++)
-        {
-            if (cells[x] != null)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    if (cells[x].GetEdge(i) == null)
-                    {
-                        if (cells[x].possibleEdges[i] == null)
-                        {
-                            HexEdge edge = Instantiate<HexEdge>(possibleEdgePrefab);
-                            cells[x].possibleEdges[i] = edge;
-                            edge.transform.SetParent(cells[x].transform.Find("Empty Edges").transform);
-                            edge.transform.localPosition = (HexMetrics.corners[i] + HexMetrics.corners[(i + 1) % 6]) / 2;
-                            edge.transform.localRotation = EdgeMetrics.rotations[i];
-                            if (i < 3)
-                            {
-                                if (cells[x].GetNeighbor(i) != null)
-                                {
-                                    cells[x].GetNeighbor(i).possibleEdges[i + 3] = edge;
-                                }
-                            }
-                            else
-                            {
-                                if (cells[x].GetNeighbor(i) != null)
-                                {
-                                    cells[x].GetNeighbor(i).possibleEdges[i - 3] = edge;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }*/
-
-    public void createPossibleEdges(HexCell cell)
+    private void createPossibleEdges(HexCell cell)
     {
         // For all edges around the cell
         for (int i = 0; i < 6; i++)
@@ -471,7 +599,8 @@ public class HexGrid : MonoBehaviour {
             if (currentEdge != null)
             { 
                 // If the NW edge location of the placed edge unit is not already a possible location to place an edge unit
-                if (currentEdge.FirstCell.possibleEdges[i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6] == null)
+                if (currentEdge.FirstCell.possibleEdges[i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6] == null
+                    && currentEdge.FirstCell.GetEdge(i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6) == null)
                 {
                     HexEdge possibleEdge_NW = Instantiate<HexEdge>(possibleEdgePrefab);
                     currentEdge.FirstCell.possibleEdges[i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6] =
@@ -483,7 +612,8 @@ public class HexGrid : MonoBehaviour {
                     possibleEdge_NW.transform.localRotation = EdgeMetrics.rotations[i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6];
                 }
                 // If the SW edge location of the placed edge unit is not already a possible location to place an edge unit
-                if (currentEdge.FirstCell.possibleEdges[(i + 1) % 6] == null)
+                if (currentEdge.FirstCell.possibleEdges[(i + 1) % 6] == null &&
+                    currentEdge.FirstCell.GetEdge((i + 1) % 6) == null) 
                 {
                     HexEdge possibleEdge_SW = Instantiate<HexEdge>(possibleEdgePrefab);
                     currentEdge.FirstCell.possibleEdges[(i + 1) % 6] = possibleEdge_SW;
@@ -497,7 +627,8 @@ public class HexGrid : MonoBehaviour {
                     if (i < 3) // then opposite edge dir = i + 3
                     {
                         // If the NE edge location of the placed edge unit is not already a possible location to place an edge unit
-                        if (currentEdge.SecondCell.possibleEdges[(i + 3 + 1) % 6] == null)
+                        if (currentEdge.SecondCell.possibleEdges[(i + 3 + 1) % 6] == null &&
+                            currentEdge.SecondCell.GetEdge((i + 3 + 1) % 6) == null) 
                         {
                             HexEdge possibleEdge_NE = Instantiate<HexEdge>(possibleEdgePrefab);
                             currentEdge.SecondCell.possibleEdges[(i + 3 + 1) % 6] = possibleEdge_NE;
@@ -510,7 +641,9 @@ public class HexGrid : MonoBehaviour {
                         // If the SE edge location of the placed edge unit is not already a possible location to place an edge unit
                         if (
                             currentEdge.SecondCell.possibleEdges[
-                                i + 3 - 1 < 0 ? (i + 3 - 1 + 6) % 6 : (i + 3 - 1) % 6] == null)
+                                i + 3 - 1 < 0 ? (i + 3 - 1 + 6) % 6 : (i + 3 - 1) % 6] == null &&
+                            currentEdge.SecondCell.GetEdge(
+                                i + 3 - 1 < 0 ? (i + 3 - 1 + 6) % 6 : (i + 3 - 1) % 6) == null) 
                         {
                             HexEdge possibleEdge_SE = Instantiate<HexEdge>(possibleEdgePrefab);
                             currentEdge.SecondCell.possibleEdges[
@@ -528,7 +661,8 @@ public class HexGrid : MonoBehaviour {
                     {
                         
                         // If the NE edge location of the placed edge unit is not already a possible location to place an edge unit
-                        if (currentEdge.SecondCell.possibleEdges[(i - 3 + 1) % 6] == null)
+                        if (currentEdge.SecondCell.possibleEdges[(i - 3 + 1) % 6] == null &&
+                            currentEdge.SecondCell.GetEdge((i - 3 + 1) % 6) == null) 
                         {
                             HexEdge possibleEdge_NE = Instantiate<HexEdge>(possibleEdgePrefab);
                             currentEdge.SecondCell.possibleEdges[(i - 3 + 1) % 6] = possibleEdge_NE;
@@ -541,7 +675,9 @@ public class HexGrid : MonoBehaviour {
                         // If the SE edge location of the placed edge unit is not already a possible location to place an edge unit
                         if (
                             currentEdge.SecondCell.possibleEdges[
-                                i - 3 - 1 < 0 ? (i - 3 - 1 + 6) % 6 : (i - 3 - 1) % 6] == null)
+                                i - 3 - 1 < 0 ? (i - 3 - 1 + 6) % 6 : (i - 3 - 1) % 6] == null &&
+                            currentEdge.SecondCell.GetEdge(
+                                i - 3 - 1 < 0 ? (i - 3 - 1 + 6) % 6 : (i - 3 - 1) % 6) == null)
                         {
                             HexEdge possibleEdge_SE = Instantiate<HexEdge>(possibleEdgePrefab);
                             currentEdge.SecondCell.possibleEdges[
