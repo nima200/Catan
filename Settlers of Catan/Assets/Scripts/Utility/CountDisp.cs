@@ -9,6 +9,7 @@ public class CountDisp : MonoBehaviour {
     public int[] minMax;  // <--- TODO : have a reference to a GAMEOBJECT holding a min and max val, (implement a getMin() and getMax() methods)
     public Button minus;
     public Button plus;
+    public SteableKind steableKind;
 
 
     /*==========================

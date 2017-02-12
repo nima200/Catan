@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,18 +8,19 @@ public class CardInventory : MonoBehaviour
 
 	public List<ProgressCard> progressCards = new List<ProgressCard> ();
 	public Dictionary<SteableKind,  List<SteableCard>> steableCards = new Dictionary<SteableKind, List<SteableCard>>();
-
+	int STEABLE_KIND_TOTAL = 9;
 
 	public CardInventory ()
 	{
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < STEABLE_KIND_TOTAL; i++) {
 			steableCards.Add((SteableKind)i, new List<SteableCard> ());
 		}
+
 	}
 
 	public int countSteableCard (SteableKind kind)
 	{
-		return steableCards [kind].Count;
+		return steableCards[kind].Count;
 	}
 
 	public void addSteableCard (SteableKind kind, SteableCard card)
@@ -51,7 +53,7 @@ public class CardInventory : MonoBehaviour
 
 	public void iterateSteableCards ()
 	{
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < STEABLE_KIND_TOTAL; i++) {
 			int count = steableCards[(SteableKind)i].Count;
 			print ((SteableKind)i + " " + count);
 		}
@@ -61,7 +63,6 @@ public class CardInventory : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-	
 	}
 	
 	// Update is called once per frame

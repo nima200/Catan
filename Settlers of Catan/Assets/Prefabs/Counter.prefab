@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 224182627643371860}
   - component: {fileID: 222368446586364302}
   - component: {fileID: 114766853817077652}
+  - component: {fileID: 114088542426127906}
   m_Layer: 5
   m_Name: Count
   m_TagString: Untagged
@@ -80,8 +81,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1976604247872368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 156.2, y: -67.8, z: 0}
+  m_LocalScale: {x: 400, y: 230, z: 1}
   m_Children:
   - {fileID: 224182627643371860}
   - {fileID: 4686255237831828}
@@ -126,6 +127,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1058693958313016}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114088542426127906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086090366052848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227be27b5b7ac4f1d8860ac2d3597b9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sk: 0
+  textPrefab: {fileID: 114766853817077652}
 --- !u!114 &114766853817077652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -138,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1.0147059, g: 0.8650069, b: 0.65657437, a: 1}
+  m_Color: {r: 0.853, g: 0.6611397, b: 0.248223, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
