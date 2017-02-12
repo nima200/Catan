@@ -11,6 +11,11 @@ public class CardManager : MonoBehaviour
 	public ProgressCard progressCardPrefab;
 	private static CardManager instance = null;
 	private CardInventory cardInventory;
+	int STEABLE_KIND_TOTAL = 9;
+	int RESOURCE_KIND_TOTAL = 6;
+	int RESOURCE_CARD_NUM = 19;
+	int COMMODITY_CARD_NUM = 12;
+	int COMMODITY_KIND_TOTAL = 3;
 
 	//Make Card Manager Singleton
 	void Awake ()
@@ -32,18 +37,24 @@ public class CardManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		cardInventory = Instantiate(cardInventoryPrefab);
-		cardInventory.transform.parent = GameObject.Find("CardManager").transform;
-		GameObject cards = new GameObject("Cards");
+		cardInventory = Instantiate (cardInventoryPrefab);
+		cardInventory.transform.parent = GameObject.Find ("CardManager").transform;
+		GameObject cards = new GameObject ("Cards");
 		GameObject resourceCards = new GameObject ("Resource Cards");
 		resourceCards.transform.parent = cards.transform;
-		GameObject commodityCards = new GameObject("Commodity Cards");
+		GameObject commodityCards = new GameObject ("Commodity Cards");
 		commodityCards.transform.parent = cards.transform;
-		GameObject progressCards = new GameObject("Progress Cards");
+		GameObject progressCards = new GameObject ("Progress Cards");
 		progressCards.transform.parent = cards.transform;
-        createStealableCard ();
+		createStealableCard ();
 		createProgressCard ();
-//		distributeSteable(PlayerManager.getInstance().getPlayer(0), SteableKind.BRICK, 3);
+		for (int i = 0; i < 4; i++) {
+			distributeSteable(PlayerManager.getInstance().getPlayer(i), SteableKind.GOLD,2);
+		}
+
+		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.ORE, 3);
+		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.CLOTH, 1);
+		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.LUMBER, 2);
 	}
 	
 	// Update is called once per frame
@@ -55,9 +66,9 @@ public class CardManager : MonoBehaviour
 	private void createStealableCard ()
 	{
 		
-		for (int i = 0; i < 5; i++) {
-			for (int j = 1; j < 20; j++) {
-				int id = i * 19 + j;
+		for (int i = 0; i < RESOURCE_KIND_TOTAL; i++) {
+			for (int j = 1; j <= RESOURCE_CARD_NUM; j++) {
+				int id = i * RESOURCE_CARD_NUM + j;
 				string stringID = id.ToString ();
 				ResourceCard card = Instantiate(resourceCardPrefab);
 				card.name = "Resource Card " + id;
@@ -67,19 +78,18 @@ public class CardManager : MonoBehaviour
 				cardInventory.addSteableCard((SteableKind)i,card);
 			}
 		}
-		for (int i = 0; i < 3; i++) {
-			for (int j = 1; j < 13; j++) {
-				int id = i * 12 + j;
+		for (int i = 0; i < COMMODITY_KIND_TOTAL; i++) {
+			for (int j = 1; j <= COMMODITY_CARD_NUM; j++) {
+				int id = i * COMMODITY_CARD_NUM + j;
 				string stringID = id.ToString ();
 				CommodityCard card = Instantiate(commodityCardPrefab);
 				card.name = "Commodity Card " + id;
-				card.steableKind = (SteableKind)(i+5);
+				card.steableKind = (SteableKind)(i+RESOURCE_KIND_TOTAL);
 				card.id = stringID;
                 card.transform.parent = GameObject.Find("Commodity Cards").transform;
-				cardInventory.addSteableCard((SteableKind)(i+5), card);
+				cardInventory.addSteableCard((SteableKind)(i+RESOURCE_KIND_TOTAL), card);
 			}
 		}
-		 
 	}
 
 	//Create a deck of progress cards in random order

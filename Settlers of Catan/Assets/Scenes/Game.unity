@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -358,6 +358,22 @@ Prefab:
     - target: {fileID: 1942765970186600, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
       propertyPath: m_Name
       value: Counter ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973741003470028, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: Counter wool
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417482791511662, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: woolChip (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339696955548584, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: lumberChip (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1878852192819146, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: Counter lumber
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
@@ -855,6 +871,22 @@ Prefab:
     - target: {fileID: 1942765970186600, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
       propertyPath: m_Name
       value: Counter ore
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973741003470028, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: Counter wool
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417482791511662, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: woolChip (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339696955548584, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: lumberChip (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1878852192819146, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: Counter lumber
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
@@ -2044,7 +2076,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 279736748}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 436690989}
+        m_MethodName: BankTrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &279736748
@@ -2256,6 +2299,52 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224561149825058636, guid: 289b3c09ea571c1499425bf846827bb7,
     type: 2}
   m_PrefabInternal: {fileID: 780609730}
+--- !u!1 &436690988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 436690990}
+  - component: {fileID: 436690989}
+  m_Layer: 0
+  m_Name: TradeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &436690989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 436690988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4aa235feb5f643be86feff9ea885f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specialHarbourPrefab: {fileID: 114662208211766030, guid: f507a50c738e9469fbd14fdf3dd29071,
+    type: 2}
+  genericHarbourPrefab: {fileID: 114703450466718210, guid: 99af62a83ae184841b718962fd546f8b,
+    type: 2}
+  BankCountDisplay: []
+  PlayerCountDisplay: []
+--- !u!4 &436690990
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 436690988}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.356234, y: 72.92453, z: -59.29474}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &454652437
 GameObject:
   m_ObjectHideFlags: 0
@@ -2268,7 +2357,7 @@ GameObject:
   - component: {fileID: 454652440}
   - component: {fileID: 454652439}
   m_Layer: 0
-  m_Name: Wood Background
+  m_Name: Lumber Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2391,6 +2480,25 @@ Prefab:
     - target: {fileID: 1976604247872368, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
       propertyPath: m_Name
       value: Grain Counter
+      objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086090366052848, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
+      propertyPath: m_Name
+      value: GrainCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: sk
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: steableKind
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
@@ -2849,6 +2957,25 @@ Prefab:
       propertyPath: m_Name
       value: Brick Counter
       objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086090366052848, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
+      propertyPath: m_Name
+      value: BrickCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: sk
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: steableKind
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
   m_IsPrefabParent: 0
@@ -3011,7 +3138,7 @@ GameObject:
   - component: {fileID: 529588115}
   - component: {fileID: 529588114}
   m_Layer: 5
-  m_Name: sheepChip
+  m_Name: woolChip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3216,7 +3343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &552617128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3286,6 +3413,30 @@ Prefab:
     - target: {fileID: 1976604247872368, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
       propertyPath: m_Name
       value: Ore Counter
+      objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086090366052848, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
+      propertyPath: m_Name
+      value: OreCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: sk
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: steableKind
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
@@ -3557,7 +3708,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 594043472}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: b4aa235feb5f643be86feff9ea885f60, type: 3}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &594043472
@@ -3582,7 +3744,7 @@ MonoBehaviour:
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
-  m_FillCenter: 1
+  m_FillCenter: 0
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
@@ -3667,7 +3829,7 @@ GameObject:
   - component: {fileID: 609742870}
   - component: {fileID: 609742869}
   m_Layer: 5
-  m_Name: woodChip
+  m_Name: lumberChip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4089,6 +4251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 683032240}
   - component: {fileID: 683032241}
+  - component: {fileID: 683032242}
   m_Layer: 5
   m_Name: Card Menu
   m_TagString: Untagged
@@ -4132,6 +4295,18 @@ MonoBehaviour:
   resourceCommodityDecks: {fileID: 1541580848}
   progressCardDecks: {fileID: 1612236024}
   resourceCommodityShown: 0
+--- !u!114 &683032242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 683032239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c906f4b3deb345c58d8d45d8be86940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counters: []
 --- !u!1001 &687164868
 Prefab:
   m_ObjectHideFlags: 0
@@ -4525,6 +4700,25 @@ Prefab:
       propertyPath: m_Name
       value: Paper Counter
       objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086090366052848, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
+      propertyPath: m_Name
+      value: PaperCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: sk
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: steableKind
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
   m_IsPrefabParent: 0
@@ -4581,7 +4775,26 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1976604247872368, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
       propertyPath: m_Name
-      value: Wood Counter
+      value: Lumber Counter
+      objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086090366052848, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
+      propertyPath: m_Name
+      value: LumberCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: sk
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: steableKind
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
@@ -4987,7 +5200,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1282200336056642, guid: 289b3c09ea571c1499425bf846827bb7, type: 2}
       propertyPath: m_Name
-      value: sheepCountBar
+      value: woolCountBar
       objectReference: {fileID: 0}
     - target: {fileID: 224561149825058636, guid: 289b3c09ea571c1499425bf846827bb7,
         type: 2}
@@ -6178,6 +6391,22 @@ Prefab:
       propertyPath: m_Name
       value: Counter ore
       objectReference: {fileID: 0}
+    - target: {fileID: 1973741003470028, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: Counter wool
+      objectReference: {fileID: 0}
+    - target: {fileID: 1417482791511662, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: woolChip (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1339696955548584, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: lumberChip (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1878852192819146, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
+      propertyPath: m_Name
+      value: Counter lumber
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 96a4624f9960d474eb001a56465db9cf, type: 2}
   m_IsPrefabParent: 0
@@ -6216,125 +6445,129 @@ Transform:
   m_Father: {fileID: 1258318718}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1064801094
-Prefab:
+--- !u!1 &1054956502
+GameObject:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1612236025}
-    m_Modifications:
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: -350
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 22.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114009441392519694, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: otherLights
-      value: 
-      objectReference: {fileID: 1258318717}
-    - target: {fileID: 114009441392519694, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: cardLight
-      value: 
-      objectReference: {fileID: 833099405}
-    - target: {fileID: 114009441392519694, guid: a2d97ae2793773d4a87f18ffa113dcc1,
-        type: 2}
-      propertyPath: cardInfo
-      value: 
-      objectReference: {fileID: 1488515584}
-    - target: {fileID: 1020054650633842, guid: a2d97ae2793773d4a87f18ffa113dcc1, type: 2}
-      propertyPath: m_Name
-      value: ProgCard 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: a2d97ae2793773d4a87f18ffa113dcc1, type: 2}
-  m_IsPrefabParent: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1054956503}
+  - component: {fileID: 1054956506}
+  - component: {fileID: 1054956505}
+  - component: {fileID: 1054956504}
+  m_Layer: 5
+  m_Name: End Turn Button (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1054956503
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1054956502}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: 0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 350.0001}
+  m_LocalScale: {x: 0.86643153, y: 0.8664333, z: 0.86643314}
+  m_Children:
+  - {fileID: 2101042191}
+  - {fileID: 1270610395}
+  m_Father: {fileID: 525342144}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -540.70013, y: 19.000023}
+  m_SizeDelta: {x: 216.7, y: 44.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1054956504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1054956502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_HighlightedColor: {r: 0.7647059, g: 0.7647059, b: 0.7647059, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_DisabledColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1054956505}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11500000, guid: b4aa235feb5f643be86feff9ea885f60, type: 3}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &1054956505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1054956502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 0
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1054956506
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1054956502}
 --- !u!1 &1067056130
 GameObject:
   m_ObjectHideFlags: 0
@@ -7153,7 +7386,7 @@ GameObject:
   - component: {fileID: 1132725218}
   - component: {fileID: 1132725217}
   m_Layer: 5
-  m_Name: Sheep Card
+  m_Name: Wool Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8048,6 +8281,25 @@ Prefab:
       propertyPath: m_Name
       value: Coin Counter
       objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086090366052848, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
+      propertyPath: m_Name
+      value: CoinCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: sk
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: steableKind
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
   m_IsPrefabParent: 0
@@ -8227,12 +8479,105 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1267397398}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1270610394
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1270610395}
+  - component: {fileID: 1270610399}
+  - component: {fileID: 1270610398}
+  - component: {fileID: 1270610397}
+  - component: {fileID: 1270610396}
+  m_Layer: 0
+  m_Name: End Turn Button Box
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1270610395
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1270610394}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 12.4}
+  m_LocalScale: {x: 216.57968, y: 43.846687, z: 22.681204}
+  m_Children: []
+  m_Father: {fileID: 1054956503}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.0000036508, y: -0.000016093}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1270610396
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1270610394}
+--- !u!23 &1270610397
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1270610394}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &1270610398
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1270610394}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1270610399
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1270610394}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1270982397
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 1020054650633842, guid: a2d97ae2793773d4a87f18ffa113dcc1,
     type: 2}
-  m_PrefabInternal: {fileID: 1064801094}
+  m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1270982398}
@@ -8252,7 +8597,7 @@ RectTransform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 224508138248141276, guid: a2d97ae2793773d4a87f18ffa113dcc1,
     type: 2}
-  m_PrefabInternal: {fileID: 1064801094}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1270982397}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -8271,7 +8616,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 114379939776945328, guid: a2d97ae2793773d4a87f18ffa113dcc1,
     type: 2}
-  m_PrefabInternal: {fileID: 1064801094}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1270982397}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -8298,14 +8643,14 @@ CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 222174447686710714, guid: a2d97ae2793773d4a87f18ffa113dcc1,
     type: 2}
-  m_PrefabInternal: {fileID: 1064801094}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1270982397}
 --- !u!114 &1270982401
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 114009441392519694, guid: a2d97ae2793773d4a87f18ffa113dcc1,
     type: 2}
-  m_PrefabInternal: {fileID: 1064801094}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1270982397}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -8321,7 +8666,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 114987711700158052, guid: a2d97ae2793773d4a87f18ffa113dcc1,
     type: 2}
-  m_PrefabInternal: {fileID: 1064801094}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1270982397}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -9503,7 +9848,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1541580849
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10070,7 +10415,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1612236025
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10481,7 +10826,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1282200336056642, guid: 289b3c09ea571c1499425bf846827bb7, type: 2}
       propertyPath: m_Name
-      value: woodCountBar
+      value: lumberCountBar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 289b3c09ea571c1499425bf846827bb7, type: 2}
@@ -11342,6 +11687,57 @@ Prefab:
       propertyPath: m_Name
       value: ore Chip
       objectReference: {fileID: 0}
+    - target: {fileID: 1882201959902166, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
+      propertyPath: m_Name
+      value: woolChip
+      objectReference: {fileID: 0}
+    - target: {fileID: 1690586275823980, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
+      propertyPath: m_Name
+      value: woolCountBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407320122476416, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
+      propertyPath: m_Name
+      value: lumberCountBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522937315613102, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
+      propertyPath: m_Name
+      value: lumberChip
+      objectReference: {fileID: 0}
+    - target: {fileID: 114120094323467506, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114608338430643052, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114474170835853882, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114287060125723500, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114255741860947404, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114666480918811274, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114664233921195736, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
   m_IsPrefabParent: 0
@@ -11834,7 +12230,21 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1976604247872368, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
       propertyPath: m_Name
-      value: Coin Counter
+      value: Gold Counter
+      objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Text
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086090366052848, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
+      propertyPath: m_Name
+      value: GoldCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: sk
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
@@ -11993,7 +12403,7 @@ GameObject:
   - component: {fileID: 1900690633}
   - component: {fileID: 1900690632}
   m_Layer: 5
-  m_Name: Wood Card
+  m_Name: Lumber Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12219,7 +12629,16 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1976604247872368, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
       propertyPath: m_Name
-      value: Sheep Counter
+      value: Wool Counter
+      objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086090366052848, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
+      propertyPath: m_Name
+      value: WoolCount
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
@@ -12344,6 +12763,99 @@ Prefab:
     - target: {fileID: 1487540645842848, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
       propertyPath: m_Name
       value: oreChip
+      objectReference: {fileID: 0}
+    - target: {fileID: 1882201959902166, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
+      propertyPath: m_Name
+      value: woolChip
+      objectReference: {fileID: 0}
+    - target: {fileID: 1690586275823980, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
+      propertyPath: m_Name
+      value: woolCountBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1407320122476416, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
+      propertyPath: m_Name
+      value: lumberCountBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522937315613102, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
+      propertyPath: m_Name
+      value: lumberChip
+      objectReference: {fileID: 0}
+    - target: {fileID: 114079042639089482, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114346217620396522, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114371838445977486, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114576311703899262, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114843179023669554, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114508452039764270, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114649353061120192, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114242045800709072, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: '0
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114120094323467506, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114608338430643052, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114474170835853882, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114287060125723500, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114255741860947404, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114666480918811274, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114664233921195736, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: steableKind
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
@@ -12702,6 +13214,25 @@ Prefab:
       propertyPath: m_Name
       value: Cloth Counter
       objectReference: {fileID: 0}
+    - target: {fileID: 114766853817077652, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1086090366052848, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
+      propertyPath: m_Name
+      value: ClothCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: sk
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114088542426127906, guid: 331d54aaa4db1c041b2401760a473387,
+        type: 2}
+      propertyPath: steableKind
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 331d54aaa4db1c041b2401760a473387, type: 2}
   m_IsPrefabParent: 0
@@ -12999,7 +13530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2083828803
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13271,6 +13802,96 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224561149825058636, guid: 289b3c09ea571c1499425bf846827bb7,
     type: 2}
   m_PrefabInternal: {fileID: 95830911}
+--- !u!1 &2098203209 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1983152977737854, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1954549072}
+--- !u!114 &2098203210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2098203209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ebadae8a3997420ba6cc7e11cf23e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &2101042190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2101042191}
+  - component: {fileID: 2101042193}
+  - component: {fileID: 2101042192}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2101042191
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2101042190}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1054956503}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0.4}
+  m_SizeDelta: {x: 0, y: -3.6}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2101042192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2101042190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: a82b8ae38a9267f468a560d7b1e59edf, type: 3}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: End Turn
+--- !u!222 &2101042193
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2101042190}
 --- !u!224 &2113517914 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224561149825058636, guid: 289b3c09ea571c1499425bf846827bb7,

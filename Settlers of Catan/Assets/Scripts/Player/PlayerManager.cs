@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviour
 			Destroy (gameObject);    
 		}
 		DontDestroyOnLoad (gameObject);
+		createPlayer ();
 	}
 
 	public static PlayerManager getInstance()
@@ -29,7 +30,7 @@ public class PlayerManager : MonoBehaviour
 
 	void Start ()
 	{
-		createPlayer ();
+		
 	}
 
 	private void createPlayer ()

@@ -7,6 +7,8 @@ public class TradeManager : MonoBehaviour {
 	private static TradeManager instance = null;
 	public SpecialHarbour specialHarbourPrefab;
 	public GenericHarbour genericHarbourPrefab;
+	public CountDisp[] BankCountDisplay;
+	public CountDisp[] PlayerCountDisplay;
 
 	//Make Trade Manager Singleton
 	void Awake ()
@@ -20,6 +22,14 @@ public class TradeManager : MonoBehaviour {
 		DontDestroyOnLoad (gameObject);
 	}
 
+	public void BankTrade ()
+	{
+		
+		foreach (CountDisp counter in BankCountDisplay) {
+			Debug.Log (counter.name);
+			Debug.Log ("value is:"+counter.GetValue ());
+		}
+	}
 
 	public static TradeManager getInstance ()
 	{
@@ -45,6 +55,11 @@ public class TradeManager : MonoBehaviour {
 			harbour.name = "Habour " + i;
 			harbour.transform.parent = genericHarbours.transform;
 		}
+		GameObject bankHarBox = GameObject.Find ("BankHarb box");
+		BankCountDisplay = bankHarBox.GetComponentsInChildren<CountDisp> ();
+		GameObject playerBox = GameObject.Find ("Player box");
+		PlayerCountDisplay = playerBox.GetComponentsInChildren<CountDisp> ();
+
 	}
 
 	public bool canDoMaritimeTrade (Player player, SteableKind give, SteableKind take, int ratio)
@@ -96,8 +111,21 @@ public class TradeManager : MonoBehaviour {
 
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+	{
+		CardInventory bankInventory = CardManager.getInstance ().getCardInventory ();
+		Player player = PlayerManager.getInstance ().getCurrentPlayer ();
+		CardInventory playerInventory = player.getCardInventory ();
+		foreach (CountDisp counter in BankCountDisplay) {
+			Debug.Log (counter.name);
+			Debug.Log ("value is:" + counter.GetValue ());
+			int n = bankInventory.countSteableCard (counter.steableKind);
+			counter.minMax = new int[2] { 0, n };
+		}
+		foreach (CountDisp counter in PlayerCountDisplay) {
+			int n = playerInventory.countSteableCard (counter.steableKind);
+			counter.minMax = new int[2] { 0, n };
+		}
 	}
 
 

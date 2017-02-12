@@ -16,7 +16,7 @@ public class VPBar : MonoBehaviour {
         VP = new Transform[13];
         for (int i = 0; i < 13; i++) {
             VP[i] = gameObject.transform.GetChild(i);
-            Debug.Log(VP[i].transform.name);
+//            Debug.Log(VP[i].transform.name);
         }
         VPCount = 0;
         VPActive = (Material)Resources.Load("VPActive");

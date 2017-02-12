@@ -16,6 +16,7 @@ public class BankHarbTrade : MonoBehaviour
 
     public void OpenBankHarb()
     {
+    	Time.timeScale = 0;
         bankHarbMenu.SetActive(true);
         mainMenu.SetActive(false);
         lights.SetActive(false);
