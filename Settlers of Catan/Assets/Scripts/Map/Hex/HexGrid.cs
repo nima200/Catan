@@ -33,7 +33,6 @@ public class HexGrid : MonoBehaviour {
     public HexEdge edgePrefab;
     public HexEdge possibleEdgePrefab;
     Dropdown edgeDirectionDD;
-    
 
     public HexCell[] getCells()
     {
@@ -75,7 +74,6 @@ public class HexGrid : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             HandleInput();
-
         }
 
     }
@@ -293,8 +291,11 @@ public class HexGrid : MonoBehaviour {
                 HexEdge edge = Instantiate<HexEdge>(edgePrefab);
                 edge.MyEdgeUnitType = edgeUnitType;
 
+                Debug.Log(cell.possibleEdges[direction].ToString());
                 Destroy(cell.possibleEdges[direction].gameObject);
+                Destroy(cell.GetNeighbor(direction).possibleEdges[direction < 3 ? direction + 3 : direction - 3]);
                 cell.possibleEdges[direction] = null;
+                cell.GetNeighbor(direction).possibleEdges[direction < 3 ? direction + 3 : direction - 3] = null;
 
                 cell.SetEdge(direction, edge);
                 //Destroy(cell.possibleEdges[edgeDirectionDD.value].gameObject); // Remove that edge location from possible locations
@@ -432,24 +433,25 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
-    public void PlaceEdge_Sandbox(Vector3 position, EdgeUnitType edgeUnitType)
+    public void PlaceEdge_Sandbox(EdgeUnitType edgeUnitType)
     {
         // Converting hit point to cell reference
         //position = transform.InverseTransformPoint(position);
         //HexCoordinates coordinates = HexCoordinates.FromPosition(position);
         //int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
-        int index = Random.Range(0, cells.Length);
+        int index = RandomCell.giveCell();
         HexCell cell = cells[index];
+        int randomEdgeDirection = RandomCell.giveDir(cells[index]);
         // Linking with UI Dropdown menu values
 
 
-        if (cell.GetEdge(edgeDirectionDD.value) == null) // Null for prevent dups
+        if (cell.GetEdge(randomEdgeDirection) == null) // Null for prevent dups
         {
             // TODO: Place unit only if followed by another unit.
             // Instantiate prefab and set unit type (Road/Ship)
             HexEdge edge = Instantiate<HexEdge>(edgePrefab);
             edge.MyEdgeUnitType = edgeUnitType;
-            int direction = edgeDirectionDD.value;
+            int direction = randomEdgeDirection;
             if (cell.possibleEdges[direction] != null)
             {
                 Destroy(cell.possibleEdges[direction].gameObject);
@@ -597,14 +599,24 @@ public class HexGrid : MonoBehaviour {
 
             // If there is an edge placed on location i
             if (currentEdge != null)
-            { 
+            {
+                int firstCell_previousIndex = i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6;
+                int firstCell_nextIndex = (i + 1) % 6;
                 // If the NW edge location of the placed edge unit is not already a possible location to place an edge unit
-                if (currentEdge.FirstCell.possibleEdges[i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6] == null
-                    && currentEdge.FirstCell.GetEdge(i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6) == null)
+                if (currentEdge.FirstCell.possibleEdges[firstCell_previousIndex] == null // If there's no 
+                    && currentEdge.FirstCell.GetEdge(firstCell_previousIndex) == null)
                 {
                     HexEdge possibleEdge_NW = Instantiate<HexEdge>(possibleEdgePrefab);
-                    currentEdge.FirstCell.possibleEdges[i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6] =
+                    currentEdge.FirstCell.possibleEdges[firstCell_previousIndex] =
                         possibleEdge_NW;
+
+                    if (currentEdge.FirstCell.GetNeighbor(firstCell_previousIndex) != null &&
+                        currentEdge.FirstCell.GetNeighbor(firstCell_previousIndex).possibleEdges[
+                            (firstCell_previousIndex < 3) ? firstCell_previousIndex + 3 : firstCell_previousIndex - 3] == null)
+                    {
+                        currentEdge.FirstCell.GetNeighbor(firstCell_previousIndex).possibleEdges[
+                            (firstCell_previousIndex < 3) ? firstCell_previousIndex + 3 : firstCell_previousIndex - 3] = possibleEdge_NW;
+                    }
                     possibleEdge_NW.transform.SetParent(cell.transform.Find("Empty Edges").transform);
                     possibleEdge_NW.transform.localPosition =
                     (HexMetrics.corners[i - 1 < 0 ? (i - 1 + 6) % 6 : (i - 1) % 6] +
@@ -616,7 +628,14 @@ public class HexGrid : MonoBehaviour {
                     currentEdge.FirstCell.GetEdge((i + 1) % 6) == null) 
                 {
                     HexEdge possibleEdge_SW = Instantiate<HexEdge>(possibleEdgePrefab);
-                    currentEdge.FirstCell.possibleEdges[(i + 1) % 6] = possibleEdge_SW;
+                    currentEdge.FirstCell.possibleEdges[firstCell_nextIndex] = possibleEdge_SW;
+                    if (currentEdge.FirstCell.GetNeighbor(firstCell_nextIndex) != null &&
+                        currentEdge.FirstCell.GetNeighbor(firstCell_nextIndex).possibleEdges[
+                            (firstCell_nextIndex < 3) ? firstCell_nextIndex + 3 : firstCell_nextIndex - 3] == null)
+                    {
+                        currentEdge.FirstCell.GetNeighbor(firstCell_nextIndex).possibleEdges[
+                            (firstCell_nextIndex < 3) ? firstCell_nextIndex + 3 : firstCell_nextIndex - 3] = possibleEdge_SW;
+                    }
                     possibleEdge_SW.transform.SetParent(cell.transform.Find("Empty Edges").transform);
                     possibleEdge_SW.transform.localPosition =
                         (HexMetrics.corners[(i + 1) % 6] + HexMetrics.corners[(i + 2) % 6]) / 2;
@@ -628,10 +647,20 @@ public class HexGrid : MonoBehaviour {
                     {
                         // If the NE edge location of the placed edge unit is not already a possible location to place an edge unit
                         if (currentEdge.SecondCell.possibleEdges[(i + 3 + 1) % 6] == null &&
-                            currentEdge.SecondCell.GetEdge((i + 3 + 1) % 6) == null) 
+                            currentEdge.SecondCell.GetEdge((i + 3 + 1) % 6) == null)
                         {
                             HexEdge possibleEdge_NE = Instantiate<HexEdge>(possibleEdgePrefab);
-                            currentEdge.SecondCell.possibleEdges[(i + 3 + 1) % 6] = possibleEdge_NE;
+                            int secondCell_nextIndex = (i + 3 + 1) % 6;
+                            currentEdge.SecondCell.possibleEdges[secondCell_nextIndex] = possibleEdge_NE;
+                            if (currentEdge.SecondCell.GetNeighbor(secondCell_nextIndex) != null &&
+                                currentEdge.SecondCell.GetNeighbor(secondCell_nextIndex).possibleEdges[
+                                    (secondCell_nextIndex < 3) ? secondCell_nextIndex + 3 : secondCell_nextIndex - 3] ==
+                                null)
+                            {
+                                currentEdge.SecondCell.GetNeighbor(secondCell_nextIndex).possibleEdges[
+                                        (secondCell_nextIndex < 3) ? secondCell_nextIndex + 3 : secondCell_nextIndex - 3] =
+                                    possibleEdge_NE;
+                            }
                             possibleEdge_NE.transform.SetParent(
                                 currentEdge.SecondCell.transform.Find("Empty Edges").transform);
                             possibleEdge_NE.transform.localPosition = (HexMetrics.corners[(i + 3 + 1) % 6] +
@@ -646,8 +675,19 @@ public class HexGrid : MonoBehaviour {
                                 i + 3 - 1 < 0 ? (i + 3 - 1 + 6) % 6 : (i + 3 - 1) % 6) == null) 
                         {
                             HexEdge possibleEdge_SE = Instantiate<HexEdge>(possibleEdgePrefab);
-                            currentEdge.SecondCell.possibleEdges[
-                                i + 3 - 1 < 0 ? (i + 3 - 1 + 6) % 6 : (i + 3 - 1) % 6] = possibleEdge_SE;
+                            int secondCell_previousIndex = i + 3 - 1 < 0 ? (i + 3 - 1 + 6) % 6 : (i + 3 - 1) % 6;
+                            currentEdge.SecondCell.possibleEdges[secondCell_previousIndex] = possibleEdge_SE;
+                            if (currentEdge.SecondCell.GetNeighbor(secondCell_previousIndex) != null &&
+                                currentEdge.SecondCell.GetNeighbor(secondCell_previousIndex).possibleEdges[
+                                    (secondCell_previousIndex < 3)
+                                        ? secondCell_previousIndex + 3
+                                        : secondCell_previousIndex - 3] == null)
+                            {
+                                currentEdge.SecondCell.GetNeighbor(secondCell_previousIndex).possibleEdges[
+                                    (secondCell_previousIndex < 3)
+                                        ? secondCell_previousIndex + 3
+                                        : secondCell_previousIndex - 3] = possibleEdge_SE;
+                            }
                             possibleEdge_SE.transform.SetParent(
                                 currentEdge.SecondCell.transform.Find("Empty Edges").transform);
                             possibleEdge_SE.transform.localPosition =
@@ -665,7 +705,17 @@ public class HexGrid : MonoBehaviour {
                             currentEdge.SecondCell.GetEdge((i - 3 + 1) % 6) == null) 
                         {
                             HexEdge possibleEdge_NE = Instantiate<HexEdge>(possibleEdgePrefab);
-                            currentEdge.SecondCell.possibleEdges[(i - 3 + 1) % 6] = possibleEdge_NE;
+                            int secondCell_nextIndex = (i - 3 + 1) % 6;
+                            currentEdge.SecondCell.possibleEdges[secondCell_nextIndex] = possibleEdge_NE;
+                            if (currentEdge.SecondCell.GetNeighbor(secondCell_nextIndex) != null &&
+                                currentEdge.SecondCell.GetNeighbor(secondCell_nextIndex).possibleEdges[
+                                    (secondCell_nextIndex < 3) ? secondCell_nextIndex + 3 : secondCell_nextIndex - 3] ==
+                                null)
+                            {
+                                currentEdge.SecondCell.GetNeighbor(secondCell_nextIndex).possibleEdges[
+                                        (secondCell_nextIndex < 3) ? secondCell_nextIndex + 3 : secondCell_nextIndex - 3] =
+                                    possibleEdge_NE;
+                            }
                             possibleEdge_NE.transform.SetParent(
                                 currentEdge.SecondCell.transform.Find("Empty Edges").transform);
                             possibleEdge_NE.transform.localPosition = (HexMetrics.corners[(i - 3 + 1) % 6] +
@@ -679,9 +729,20 @@ public class HexGrid : MonoBehaviour {
                             currentEdge.SecondCell.GetEdge(
                                 i - 3 - 1 < 0 ? (i - 3 - 1 + 6) % 6 : (i - 3 - 1) % 6) == null)
                         {
+                            int secondCell_previousIndex = i - 3 - 1 < 0 ? (i - 3 - 1 + 6) % 6 : (i - 3 - 1) % 6;
                             HexEdge possibleEdge_SE = Instantiate<HexEdge>(possibleEdgePrefab);
-                            currentEdge.SecondCell.possibleEdges[
-                                i - 3 - 1 < 0 ? (i - 3 - 1 + 6) % 6 : (i - 3 - 1) % 6] = possibleEdge_SE;
+                            currentEdge.SecondCell.possibleEdges[secondCell_previousIndex] = possibleEdge_SE;
+                            if (currentEdge.SecondCell.GetNeighbor(secondCell_previousIndex) != null &&
+                                currentEdge.SecondCell.GetNeighbor(secondCell_previousIndex).possibleEdges[
+                                    (secondCell_previousIndex < 3)
+                                        ? secondCell_previousIndex + 3
+                                        : secondCell_previousIndex - 3] == null)
+                            {
+                                currentEdge.SecondCell.GetNeighbor(secondCell_previousIndex).possibleEdges[
+                                    (secondCell_previousIndex < 3)
+                                        ? secondCell_previousIndex + 3
+                                        : secondCell_previousIndex - 3] = possibleEdge_SE;
+                            }
                             possibleEdge_SE.transform.SetParent(
                                 currentEdge.SecondCell.transform.Find("Empty Edges").transform);
                             possibleEdge_SE.transform.localPosition =
