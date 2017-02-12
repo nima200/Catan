@@ -8117,7 +8117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1229204662
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11672,7 +11672,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1983152977737854, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
       propertyPath: m_Name
-      value: 'Player box '
+      value: Player box
       objectReference: {fileID: 0}
     - target: {fileID: 23383203250554620, guid: 3334d945bf606bc4aafbeb7c8428e69c,
         type: 2}
@@ -11737,6 +11737,46 @@ Prefab:
         type: 2}
       propertyPath: steableKind
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114079042639089482, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114346217620396522, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114371838445977486, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114576311703899262, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114843179023669554, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114508452039764270, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114649353061120192, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114242045800709072, guid: 3334d945bf606bc4aafbeb7c8428e69c,
+        type: 2}
+      propertyPath: m_Text
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3334d945bf606bc4aafbeb7c8428e69c, type: 2}
@@ -13530,7 +13570,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2083828803
 RectTransform:
   m_ObjectHideFlags: 0

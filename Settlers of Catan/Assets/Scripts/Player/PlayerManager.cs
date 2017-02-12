@@ -48,6 +48,12 @@ public class PlayerManager : MonoBehaviour
 		return players[index];
 	}
 
+	public Player getMainPlayer ()
+
+	{
+		return players[0];
+	}
+
 	public Player getCurrentPlayer ()
 	{
 		return players[0];
