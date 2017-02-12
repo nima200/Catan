@@ -24,7 +24,6 @@ public class HexCell : MonoBehaviour {
     // Randomly generated. 
     public int cellNumber;
     public Text label;
-    public HexEdge edge;
     // It was adviced by the tutorial I followed to serialize the neighbor connections of cells
     // so that they would survive recompiles. However I'm not entirely sure if we need this. Doesn't harm anyways.
     [SerializeField]
@@ -102,13 +101,13 @@ public class HexCell : MonoBehaviour {
         // Opposite cell's reference to same edge.
         if (index < 3)
         {
-            if (this.neighbors[index].GetEdge(index + 3) == null && this.neighbors[index] != null)
+            if (this.neighbors[index] != null && this.neighbors[index].GetEdge(index + 3) == null)
             {
                 this.neighbors[index].SetEdge(index + 3, edge);
             }
         } else
         {
-            if (this.neighbors[index].GetEdge(index - 3) == null && this.neighbors[index] != null)
+            if (this.neighbors[index] != null && this.neighbors[index].GetEdge(index - 3) == null)
             {
                 this.neighbors[index].SetEdge(index - 3, edge);
             }
@@ -130,7 +129,8 @@ public class HexCell : MonoBehaviour {
 
 		Vector3 globalCenter = gameObject.transform.position;
 
-		Debug.Log("center: " + center + " globalcenter: " + globalCenter);
+        // Please don't spam my console log Jimmy.
+		// Debug.Log("center: " + center + " globalcenter: " + globalCenter);
         
 		// 6 for 6 corners
         for (int i = 0; i < 6; i++)

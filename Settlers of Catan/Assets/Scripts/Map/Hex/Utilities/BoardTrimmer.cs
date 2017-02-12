@@ -26,10 +26,10 @@ public class BoardTrimmer : MonoBehaviour {
 		}
         
         grid.assignTokens();
-        grid.createPossibleEdges();
         grid.HidePossibleEdges();
 		grid.createHexVertices();
-
+        grid.PlaceEdge_Sandbox(EdgeUnitType.Road);
+        grid.PlaceEdge_Sandbox(EdgeUnitType.Road);
 		//create playable vertices
     }
 
