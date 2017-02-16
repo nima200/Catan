@@ -11,7 +11,6 @@ public class CardManager : MonoBehaviour
 	public ProgressCard progressCardPrefab;
 	private static CardManager instance = null;
 	private CardInventory cardInventory;
-	int STEABLE_KIND_TOTAL = 9;
 	int RESOURCE_KIND_TOTAL = 6;
 	int RESOURCE_CARD_NUM = 19;
 	int COMMODITY_CARD_NUM = 12;
@@ -53,8 +52,8 @@ public class CardManager : MonoBehaviour
 		}
 
 		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.ORE, 3);
-		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.CLOTH, 1);
-		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.LUMBER, 2);
+		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.CLOTH, 6);
+		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.LUMBER, 9);
 	}
 	
 	// Update is called once per frame

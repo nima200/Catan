@@ -200,6 +200,8 @@ MonoBehaviour:
   minMax: 
   minus: {fileID: 114723078619121252}
   plus: {fileID: 114859753312590314}
+  steableKind: 0
+  incrementFactor: 1
 --- !u!114 &114382196943293894
 MonoBehaviour:
   m_ObjectHideFlags: 1

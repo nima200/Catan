@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
 	public int playerID;
 	public CardInventory cardInventory;
 	public List<Harbour> myHarbour = new List<Harbour>();
+	public int ratio;
 
     public Player()
     {
@@ -32,6 +33,25 @@ public class Player : MonoBehaviour {
 	public List<Harbour> getHarbours ()
 	{
 		return myHarbour;
+	}
+
+	public int getMaritimTradeRatio (SteableKind resource)
+	{	
+		ratio = 4;
+		for (int i = 0; i < myHarbour.Count; i++) {
+			if (myHarbour [i].GetType () == typeof(GenericHarbour)) {
+				ratio = 3;
+			}
+			if (myHarbour [i].GetType () == typeof(SpecialHarbour) && ((SpecialHarbour)myHarbour [i]).steableKind == resource) {
+				return 2;
+			}
+		}
+		return ratio;
+	}
+
+
+	void Update ()
+	{
 	}
 	
 

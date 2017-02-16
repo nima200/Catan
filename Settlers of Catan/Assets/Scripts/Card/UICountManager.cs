@@ -12,18 +12,22 @@ public class UICountManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-		currentPlayer = PlayerManager.getInstance ().getCurrentPlayer ();
+		currentPlayer = PlayerManager.getInstance ().getMainPlayer();
 		cardInventory = currentPlayer.getCardInventory ();
 
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		GameObject steableChips = GameObject.Find ("Resource Commodities");
-		counters = steableChips.GetComponentsInChildren<CounterDummy> ();
-		for (int i = 0; i < counters.Length; i++) {
-			SteableKind myKind = counters[i].steableKind;
-			counters[i].gameObject.GetComponent<Text>().text = cardInventory.countSteableCard(myKind).ToString();
-     }
+		if (steableChips != null) {
+			counters = steableChips.GetComponentsInChildren<CounterDummy> ();
+			for (int i = 0; i < counters.Length; i++) {
+				SteableKind myKind = counters[i].steableKind;
+				counters[i].gameObject.GetComponent<Text>().text = cardInventory.countSteableCard(myKind).ToString();
+	     }
+		}
+
 	}
 }

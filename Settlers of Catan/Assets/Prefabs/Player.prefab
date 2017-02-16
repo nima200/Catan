@@ -53,4 +53,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerName: player
   playerID: 0
-  greeting: hello!!
+  cardInventory: {fileID: 0}
+  myHarbour: []
+  ratio: 4
