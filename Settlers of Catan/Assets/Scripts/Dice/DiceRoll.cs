@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-[RequireComponent(typeof(Button))]
+
 public class DiceRoll : MonoBehaviour {
 
     //TODO: Player curPlayer reference (-> bool isTurn)
     private enum EventDie {BarbMove, Market,Politics, Science};
 
-    public Button rollBtn;                // WARNING: public attribute does not look wellformed...
-    public Button endTurnBtn;
-    public Button resetBtn;
-    public GameObject choicePanelObj;
-    public ChoicePanel choicePanel;
+    public Button RollBtn;                // WARNING: public attribute does not look wellformed...
+//    public Button EndTurnBtn;
+//    public Button ResetBtn;
+//    public GameObject choicePanelObj;
+    public AlchemistMenu AlchemistMenu;
 
-    private int[] intRolls;
-    private EventDie eventRoll;
-    private bool isRolled;
-    public bool hasAlchemist;
+    private int[] _intRolls;
+    private EventDie _eventRoll;
+    private bool _isRolled;
+    public bool HasAlchemist;
 
     /* ========================
      *          START
@@ -25,14 +25,14 @@ public class DiceRoll : MonoBehaviour {
      * called at the beginning of the game
      */
     void Start() {
-        rollBtn.onClick.AddListener(RollTrigger);     // COMMENT: instead of dice roll class with reference to DiceButton, just put everything in dice button ?
-        endTurnBtn.onClick.AddListener(ResetDice);
-        resetBtn.onClick.AddListener(ResetDice);
-        choicePanel.submit.onClick.AddListener(RollAlchemist);
+//        RollBtn.onClick.AddListener(RollTrigger);     // COMMENT: instead of dice roll class with reference to DiceButton, just put everything in dice button ?
+//        EndTurnBtn.onClick.AddListener(ResetDice);
+//        ResetBtn.onClick.AddListener(ResetDice);
+//        AlchemistMenu.submit.onClick.AddListener(RollAlchemist);
 
-        isRolled = false;
+        _isRolled = false;
         //hasMerchant = true;                          // TO REMOVE: when player hasMerchant attribute is implemented
-        intRolls = new int[2];
+        _intRolls = new int[2];
     }
 
     /* ========================
@@ -42,8 +42,8 @@ public class DiceRoll : MonoBehaviour {
      * called when it is this player's turn (eventlistener ?)
      * TODO: link to player's activation
      */
-    public void initDice() {
-        rollBtn.interactable = true;
+    public void InitDice() {
+        RollBtn.interactable = true;
     }
 
     /* ========================
@@ -52,17 +52,17 @@ public class DiceRoll : MonoBehaviour {
    *    TODO: link this method with ResourceSolver?
    */
     public void RollTrigger () {
-        if (!isRolled){
-            if (hasAlchemist){
-                choicePanelObj.SetActive(true); // action will happen in RollAlchemist
+        if (!_isRolled){
+            if (HasAlchemist){
+                AlchemistMenu.gameObject.SetActive(true); // action will happen in RollAlchemist
             }
 
             else{
                 RollIntDice();
                 RollEventDie();
-                isRolled = true;
+                _isRolled = true;
             }
-            rollBtn.interactable = false;
+            RollBtn.interactable = false;
         }
     }
 
@@ -72,14 +72,13 @@ public class DiceRoll : MonoBehaviour {
      * Die 1 = red
      * Die 2 = yellow       
      */
-    void RollAlchemist() {
-        intRolls[0] = choicePanel.GetRedDieValue();
-        Debug.Log("ALCHEMIST : Red die " + 0 + " :" + intRolls[0] + "\n");
-        intRolls[1] = choicePanel.GetYellowDieValue();
-        Debug.Log("ALCHEMIST : Yellow die " + 1 + " :" + intRolls[1] + "\n");
-        choicePanelObj.SetActive(false);
+    public void RollAlchemist() {
+        _intRolls[0] = AlchemistMenu.GetRedDieValue();
+        Debug.Log("ALCHEMIST : Red die " + 0 + " :" + _intRolls[0] + "\n");
+        _intRolls[1] = AlchemistMenu.GetYellowDieValue();
+        Debug.Log("ALCHEMIST : Yellow die " + 1 + " :" + _intRolls[1] + "\n");
+        AlchemistMenu.gameObject.SetActive(false);
         RollEventDie();
-        choicePanelObj.SetActive(false);
     }
 
 
@@ -91,8 +90,8 @@ public class DiceRoll : MonoBehaviour {
      */
     private void RollIntDice() {
         for (int i = 0; i < 2; i++) {
-            intRolls[i] = Random.Range(1, 7);
-            Debug.Log("Die " + i + " :" + intRolls[i] + "\n");
+            _intRolls[i] = Random.Range(1, 7);
+            Debug.Log("Die " + i + " :" + _intRolls[i] + "\n");
         }
     }
     /* ==================
@@ -106,20 +105,20 @@ public class DiceRoll : MonoBehaviour {
     private void RollEventDie() {
         int roll = Random.Range(1, 7);
         if (roll == 1 || roll == 2 || roll == 3) {
-            eventRoll = EventDie.BarbMove;
-            Debug.Log("Event Die: " + eventRoll.ToString() + "\n");
+            _eventRoll = EventDie.BarbMove;
+            Debug.Log("Event Die: " + _eventRoll.ToString() + "\n");
         }
         else if (roll == 4) {
-            eventRoll = EventDie.Market;
-            Debug.Log("Event Die: " + eventRoll.ToString() + "\n");
+            _eventRoll = EventDie.Market;
+            Debug.Log("Event Die: " + _eventRoll.ToString() + "\n");
         }
         else if (roll == 5) {
-            eventRoll = EventDie.Politics;
-            Debug.Log("Event Die: " + eventRoll.ToString() + "\n");
+            _eventRoll = EventDie.Politics;
+            Debug.Log("Event Die: " + _eventRoll.ToString() + "\n");
         }
         else if (roll == 6) {
-            eventRoll = EventDie.Science;
-            Debug.Log("Event Die: " + eventRoll.ToString() + "\n");
+            _eventRoll = EventDie.Science;
+            Debug.Log("Event Die: " + _eventRoll.ToString() + "\n");
         }
     }
 
@@ -128,8 +127,8 @@ public class DiceRoll : MonoBehaviour {
      *==========================
      */
     public void ResetDice() {
-        isRolled = false;
-        rollBtn.interactable = true; // TO REMOVE: when player ready/unready behaviour is implemented
+        _isRolled = false;
+        RollBtn.interactable = true; // TO REMOVE: when player ready/unready behaviour is implemented
         // COMMENT: don't have to reset values, since next roll will update them
     }
 }

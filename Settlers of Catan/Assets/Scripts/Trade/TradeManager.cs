@@ -8,7 +8,9 @@ public class TradeManager : MonoBehaviour {
 	private static TradeManager instance = null;
 	public SpecialHarbour specialHarbourPrefab;
 	public GenericHarbour genericHarbourPrefab;
-	public CountDisp[] BankCountDisplay;
+    public GameObject bankHarBox;
+    public GameObject playerBox;
+    public CountDisp[] BankCountDisplay;
 	public CountDisp[] PlayerCountDisplay;
 	CardInventory bankInv;
 	CardInventory playerInv;
@@ -59,13 +61,16 @@ public class TradeManager : MonoBehaviour {
 			}
 		}
 		if (numWanted != numTakable) {
+            Debug.Log("Insufficient resources");
 			return;
 		}
 		foreach (SteableKind r in cardsToTake.Keys) {
 			CardManager.getInstance ().distributeSteable (mainPlayer, r, cardsToTake [r]);
+            Debug.Log("Took " + cardsToTake[r] + " " + r.ToString());
 		}
 		foreach (SteableKind r in cardsToGive.Keys) {
 			CardManager.getInstance().takeSteable(mainPlayer, r, cardsToGive[r]);
+            Debug.Log("Gave " + cardsToGive[r] + " " + r.ToString());
 		}
 		resetCounter();
 	}
@@ -80,18 +85,17 @@ public class TradeManager : MonoBehaviour {
 	{
 		foreach (CountDisp counter in BankCountDisplay) {
 			counter.value=0;
-			counter.UpdateVal();
+			counter.SetValue();
 		}
 		foreach (CountDisp counter in PlayerCountDisplay) {
 			counter.value=0;
-			counter.UpdateVal();
+			counter.SetValue();
 		}
 	}
 
 	// Initiazed harbours
 	void Start ()
 	{
-		
 		bankInv = CardManager.getInstance ().getCardInventory();
 		mainPlayer = PlayerManager.getInstance ().getMainPlayer ();
 		playerInv = mainPlayer.getCardInventory ();
@@ -113,9 +117,7 @@ public class TradeManager : MonoBehaviour {
 			harbour.transform.parent = genericHarbours.transform;
 		}
 
-		GameObject bankHarBox = GameObject.Find ("BankHarb box");
 		BankCountDisplay = bankHarBox.GetComponentsInChildren<CountDisp> ();
-		GameObject playerBox = GameObject.Find ("Player box");
 		PlayerCountDisplay = playerBox.GetComponentsInChildren<CountDisp> ();
 		resetCounter();
 	}
@@ -130,7 +132,7 @@ public class TradeManager : MonoBehaviour {
 			//Give and take cannot be of the same resource kind
 			if (counter.value > 0) {
 				PlayerCountDisplay[i].value = 0;
-				PlayerCountDisplay[i].UpdateVal();
+				PlayerCountDisplay[i].SetValue();
 			}
 			int n = bankInv.countSteableCard (counter.steableKind);
 			counter.minMax = new int[2] { 0, n };
@@ -141,7 +143,7 @@ public class TradeManager : MonoBehaviour {
 			//Give and take cannot be of the same resource kind
 			if (counter.value > 0) {
 				BankCountDisplay[i].value = 0;
-				BankCountDisplay[i].UpdateVal();
+				BankCountDisplay[i].SetValue();
 			}
 			int n = playerInv.countSteableCard (counter.steableKind);
 			counter.minMax = new int[2] { 0, n };

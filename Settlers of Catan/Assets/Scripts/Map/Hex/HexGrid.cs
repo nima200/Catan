@@ -19,7 +19,7 @@ public class HexGrid : MonoBehaviour {
 	public static HashSet<Vector3> positions = new HashSet<Vector3>();
 
 	//this will keep track of all unique hexvertex positions that will be used to create the network
-	public static List<HexVertex> vertexPositions = new List<HexVertex>();
+//	public static List<HexVertex> vertexPositions = new List<HexVertex>();
     public List<HexCell> possibleEdges;
     // the prefab to make the grid use as cells
     public HexCell cellPrefab;
@@ -189,7 +189,7 @@ public class HexGrid : MonoBehaviour {
 		//convert vertex set to hexvertex set
 		foreach (Vector3 i in tempList)
 		{
-			vertexPositions.Add(new HexVertex(i));
+//			vertexPositions.Add(new HexVertex(i));
 		}
 
 		//assign neighbors (leave for nima)????
@@ -222,7 +222,7 @@ public class HexGrid : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.position = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-		cell.centerVertex = new HexVertex(position);
+//		cell.centerVertex = new HexVertex(position);
 
         // HEX NEIGHBOR SET
 
