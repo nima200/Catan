@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class BankUI : MonoBehaviour {
 
-	public CountDisp[] countDisplays;
+	public BankCountDisp[] countDisplays;
 
 	// Use this for initialization
 	void Start ()
 	{
-		countDisplays = gameObject.GetComponentsInChildren<CountDisp> ();
+		countDisplays = gameObject.GetComponentsInChildren<BankCountDisp> ();
 	}
 	
 	// Update is called once per frame

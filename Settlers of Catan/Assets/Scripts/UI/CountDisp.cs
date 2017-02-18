@@ -9,15 +9,14 @@ public class CountDisp : MonoBehaviour
     private Text display;
     public int value;
     public int[] minMax;  // <--- TODO : have a reference to a GAMEOBJECT holding a min and max val, (implement a getMin() and getMax() methods)
-    public SteableKind steableKind;
     public int incrementFactor;
 
     private void Awake()
     {
         display = gameObject.GetComponentInChildren<Text>();
         display.text = value.ToString();
-        incrementFactor = 1;
     }
+
 
     public int GetValue()
     {
@@ -38,7 +37,7 @@ public class CountDisp : MonoBehaviour
         SetValue();
     }
 
-    public void Increase()
+    public virtual void Increase()
     {
         if (value + incrementFactor <= minMax[1])
         {

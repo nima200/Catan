@@ -10,8 +10,8 @@ public class TradeManager : MonoBehaviour {
 	public GenericHarbour genericHarbourPrefab;
     public GameObject bankHarBox;
     public GameObject playerBox;
-    public CountDisp[] BankCountDisplay;
-	public CountDisp[] PlayerCountDisplay;
+    public BankCountDisp[] BankCountDisplay;
+	public PlayerCountDisp[] PlayerCountDisplay;
 	CardInventory bankInv;
 	CardInventory playerInv;
 	Player mainPlayer;
@@ -30,6 +30,7 @@ public class TradeManager : MonoBehaviour {
 
 	public void BankTrade ()
 	{
+		bankInv = CardManager.getInstance ().getCardInventory();
 		//Check whether the trade is initiated by the current player
 		if (mainPlayer != PlayerManager.getInstance ().getCurrentPlayer ()) {
 			return;
@@ -37,7 +38,7 @@ public class TradeManager : MonoBehaviour {
 		Dictionary<SteableKind,  int> cardsToTake = new Dictionary<SteableKind,  int> ();
 		Dictionary<SteableKind,  int> cardsToGive = new Dictionary<SteableKind,  int> ();
 		int numWanted = 0;
-		foreach (CountDisp counter in BankCountDisplay) {
+		foreach (BankCountDisp counter in BankCountDisplay) {
 			if (counter.value > 0) {
 				//Check if bank has enough resourec cards to trade
 				if (bankInv.countSteableCard (counter.steableKind) >= counter.value) {
@@ -49,7 +50,7 @@ public class TradeManager : MonoBehaviour {
 			}
 		}
 		int numTakable = 0;
-		foreach (CountDisp counter in PlayerCountDisplay) {
+		foreach (PlayerCountDisp counter in PlayerCountDisplay) {
 			if (counter.value > 0) {
 				//Check if the player has enough resourec cards to trade
 				if (playerInv.countSteableCard (counter.steableKind) >= counter.value) {
@@ -117,40 +118,12 @@ public class TradeManager : MonoBehaviour {
 			harbour.transform.parent = genericHarbours.transform;
 		}
 
-		BankCountDisplay = bankHarBox.GetComponentsInChildren<CountDisp> ();
-		PlayerCountDisplay = playerBox.GetComponentsInChildren<CountDisp> ();
+		BankCountDisplay = bankHarBox.GetComponentsInChildren<BankCountDisp> ();
+		PlayerCountDisplay = playerBox.GetComponentsInChildren<PlayerCountDisp> ();
 		resetCounter();
 	}
 
 	
-	// Update is called once per frame
-	void Update ()
-	{
-		bankInv = CardManager.getInstance ().getCardInventory();
-		for (int i = 0; i < BankCountDisplay.Length; i++) {
-			CountDisp counter = BankCountDisplay [i];
-			//Give and take cannot be of the same resource kind
-			if (counter.value > 0) {
-				PlayerCountDisplay[i].value = 0;
-				PlayerCountDisplay[i].SetValue();
-			}
-			int n = bankInv.countSteableCard (counter.steableKind);
-			counter.minMax = new int[2] { 0, n };
-		}
-
-		for (int i = 0; i < PlayerCountDisplay.Length; i++) {
-			CountDisp counter = PlayerCountDisplay [i];
-			//Give and take cannot be of the same resource kind
-			if (counter.value > 0) {
-				BankCountDisplay[i].value = 0;
-				BankCountDisplay[i].SetValue();
-			}
-			int n = playerInv.countSteableCard (counter.steableKind);
-			counter.minMax = new int[2] { 0, n };
-			counter.incrementFactor = mainPlayer.getMaritimTradeRatio(counter.steableKind);
-		}
-	}
-
 
 
 
