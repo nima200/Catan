@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class TradeManager : MonoBehaviour {
@@ -8,10 +9,17 @@ public class TradeManager : MonoBehaviour {
 	private static TradeManager instance = null;
 	public SpecialHarbour specialHarbourPrefab;
 	public GenericHarbour genericHarbourPrefab;
+
+    public BankMenu bankMenuPrefab;
+    private BankMenu bankMenu;
+
+    public Canvas userInterface;
     public GameObject bankHarBox;
     public GameObject playerBox;
+
     public CountDisp[] BankCountDisplay;
 	public CountDisp[] PlayerCountDisplay;
+
 	CardInventory bankInv;
 	CardInventory playerInv;
 	Player mainPlayer;
@@ -96,6 +104,7 @@ public class TradeManager : MonoBehaviour {
 	// Initiazed harbours
 	void Start ()
 	{
+
 		bankInv = CardManager.getInstance ().getCardInventory();
 		mainPlayer = PlayerManager.getInstance ().getMainPlayer ();
 		playerInv = mainPlayer.getCardInventory ();
@@ -108,48 +117,114 @@ public class TradeManager : MonoBehaviour {
 		for (int i = 0; i < 5; i++) {
 			SpecialHarbour harbour = Instantiate (specialHarbourPrefab);
 			harbour.steableKind = (SteableKind)i;
-			harbour.name = "Habour " + harbour.steableKind;
+			harbour.name = "Harbour " + harbour.steableKind;
 			harbour.transform.parent = specialHarbours.transform;
 		}	
 		for (int i = 0; i < 4; i++) {
 			GenericHarbour harbour = Instantiate (genericHarbourPrefab);
-			harbour.name = "Habour " + i;
+			harbour.name = "Harbour " + i;
 			harbour.transform.parent = genericHarbours.transform;
 		}
-
-		BankCountDisplay = bankHarBox.GetComponentsInChildren<CountDisp> ();
-		PlayerCountDisplay = playerBox.GetComponentsInChildren<CountDisp> ();
-		resetCounter();
 	}
 
+
+    // attached to "Bank trade"
+    // 2 functions :
+    //  (1) initiate trade session : call CreateBankInstance
+    //  (2) show trade menu again if it got hidden
+    public void ShowBankInstance()
+    {
+        if (!bankMenu)
+        {
+            CreateBankInstance();
+            Debug.Log("Bank trade session instance created.");
+        }
+        else bankMenu.gameObject.SetActive(true);
+    }
+
+
+    // 
+    void CreateBankInstance() {
+
+        bankMenu = Instantiate(bankMenuPrefab, bankMenuPrefab.transform);
+        bankMenu.gameObject.transform.SetParent(userInterface.transform);
+        bankMenu.gameObject.SetActive(true);
+
+        bankHarBox = bankMenu.gameObject.GetComponentInChildren<BankUI>().gameObject;
+        playerBox = bankMenu.gameObject.GetComponentInChildren<PlayerUI>().gameObject;
+
+        BankCountDisplay = bankHarBox.GetComponentsInChildren<CountDisp>();
+        PlayerCountDisplay = playerBox.GetComponentsInChildren<CountDisp>();
+        resetCounter();
+
+        bankInv = CardManager.getInstance().getCardInventory();
+
+        foreach (CountDisp cd in BankCountDisplay)
+        {
+            Button[] allButtons = cd.gameObject.GetComponentsInChildren<Button>();
+            foreach (Button b in allButtons) {
+                Debug.Log("Bank button found");
+                b.onClick.AddListener(UpdateBound);
+            }
+        }
+        foreach (CountDisp cd in PlayerCountDisplay)
+        {
+            Button[] allButtons = cd.gameObject.GetComponentsInChildren<Button>();
+            foreach (Button b in allButtons)
+            {
+                Debug.Log("Player button found");
+                b.onClick.AddListener(UpdateBound);
+            }
+        }
+    }
+
+    public void DestroyBankInstance()
+    {
+        Debug.Log("Bank trade session instance destroyed.");
+        Destroy(bankMenu.gameObject);
+    }
+
+    public void HideBankInstance() {
+
+        Debug.Log("Bank trade session instance hidden.");
+        bankMenu.gameObject.SetActive(false);
+    }
 	
-	// Update is called once per frame
-	void Update ()
-	{
-		bankInv = CardManager.getInstance ().getCardInventory();
-		for (int i = 0; i < BankCountDisplay.Length; i++) {
-			CountDisp counter = BankCountDisplay [i];
-			//Give and take cannot be of the same resource kind
-			if (counter.value > 0) {
-				PlayerCountDisplay[i].value = 0;
-				PlayerCountDisplay[i].SetValue();
-			}
-			int n = bankInv.countSteableCard (counter.steableKind);
-			counter.minMax = new int[2] { 0, n };
-		}
 
-		for (int i = 0; i < PlayerCountDisplay.Length; i++) {
-			CountDisp counter = PlayerCountDisplay [i];
-			//Give and take cannot be of the same resource kind
-			if (counter.value > 0) {
-				BankCountDisplay[i].value = 0;
-				BankCountDisplay[i].SetValue();
-			}
-			int n = playerInv.countSteableCard (counter.steableKind);
-			counter.minMax = new int[2] { 0, n };
-			counter.incrementFactor = mainPlayer.getMaritimTradeRatio(counter.steableKind);
-		}
-	}
+    //TODO : create another method that is called at any click (eventListener ?)
+
+
+	// Update is called once per frame (ie 30 times per sec!!!!!!!!)
+	void UpdateBound ()
+	{
+        Debug.Log("Oui you called me ?");
+        for (int i = 0; i < BankCountDisplay.Length; i++)
+        {
+            CountDisp counter = BankCountDisplay[i];
+            //Give and take cannot be of the same resource kind
+            if (counter.value > 0)
+            {
+                PlayerCountDisplay[i].value = 0;
+                PlayerCountDisplay[i].SetValue();
+            }
+            int n = bankInv.countSteableCard(counter.steableKind);
+            counter.minMax = new int[2] { 0, n };
+        }
+
+        for (int i = 0; i < PlayerCountDisplay.Length; i++)
+        {
+            CountDisp counter = PlayerCountDisplay[i];
+            //Give and take cannot be of the same resource kind
+            if (counter.value > 0)
+            {
+                BankCountDisplay[i].value = 0;
+                BankCountDisplay[i].SetValue();
+            }
+            int n = playerInv.countSteableCard(counter.steableKind);
+            counter.minMax = new int[2] { 0, n };
+            counter.incrementFactor = mainPlayer.getMaritimTradeRatio(counter.steableKind);
+        }
+    }
 
 
 
