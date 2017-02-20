@@ -9,6 +9,9 @@ public class PlayerManager : MonoBehaviour
 	public Player playerPrefrab;
 	public CardInventory cardInventoryPrefab;
 	private List<Player> players = new List<Player> ();
+    private int mainPlayerIndex;                            // --> the player running this instance of the game
+    private int currentPlayerIndex;                         // --> the player currently PLAYING
+    private int nbOfPlayer;
 
 	//Make Player Manager Singleton
 	void Awake ()
@@ -21,17 +24,15 @@ public class PlayerManager : MonoBehaviour
 		}
 		DontDestroyOnLoad (gameObject);
 		createPlayer ();
+        currentPlayerIndex = 0;
+        nbOfPlayer = 4;                         // Set to 4 for now
 	}
 
 	public static PlayerManager getInstance()
 	{
 		return instance;
 	}
-
-	void Start ()
-	{
-		
-	}
+    
 
 	private void createPlayer ()
 	{
@@ -49,18 +50,16 @@ public class PlayerManager : MonoBehaviour
 	}
 
 	public Player getMainPlayer ()
-
 	{
-		return players[0];
+		return players[mainPlayerIndex];
 	}
 
 	public Player getCurrentPlayer ()
 	{
-		return players[0];
+		return players[currentPlayerIndex];
 	}
 
-	void Update ()
-	{
-	
-	}
+    public void setCurrentToNextPlayer() {
+        currentPlayerIndex = (currentPlayerIndex + 1) % nbOfPlayer;
+    }
 }

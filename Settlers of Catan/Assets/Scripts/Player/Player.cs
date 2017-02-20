@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Player : MonoBehaviour {
 
     public string playerName;
-	public int playerID;
+	public int playerID;                                   // TODO : make it private
 	public CardInventory cardInventory;
 	public List<Harbour> myHarbour = new List<Harbour>();
 	public int ratio;
@@ -49,10 +49,13 @@ public class Player : MonoBehaviour {
 		return ratio;
 	}
 
+    public bool equals(Player otherPlayer) {
+        if (playerID == otherPlayer.getPlayerID()) return true;
+        else return false;
+    }
 
-	void Update ()
-	{
-	}
-	
+    public int getPlayerID() {
+        return playerID;
+    }
 
 }
