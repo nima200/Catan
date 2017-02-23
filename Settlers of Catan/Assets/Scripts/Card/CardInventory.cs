@@ -10,13 +10,13 @@ public class CardInventory : MonoBehaviour
 	public Dictionary<SteableKind,  List<SteableCard>> steableCards = new Dictionary<SteableKind, List<SteableCard>>();
 	int STEABLE_KIND_TOTAL = 9;
 
-	public CardInventory ()
+	void Awake ()
 	{
 		for (int i = 0; i < STEABLE_KIND_TOTAL; i++) {
 			steableCards.Add((SteableKind)i, new List<SteableCard> ());
-		}
+        }
 
-	}
+    }
 
 	public int countSteableCard (SteableKind kind)
 	{
@@ -60,14 +60,4 @@ public class CardInventory : MonoBehaviour
 	}
 
 
-	// Use this for initialization
-	void Start ()
-	{
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	
-	}
 }

@@ -95,7 +95,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 1
   minMax: 0100000006000000
-  steableKind: 0
   incrementFactor: 0
 --- !u!114 &114113466936230536
 MonoBehaviour:

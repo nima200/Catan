@@ -15,12 +15,13 @@ public class Player : MonoBehaviour {
 		
     }
 
-	public void instantiate (int i, CardInventory cardInventoryPrefab)
+	public void Initialize (int i, CardInventory cardInventoryPrefab)
 	{
 		name = "Player" + i;
 		playerID = i;
 		playerName = "Player" + i;
 		cardInventory = Instantiate(cardInventoryPrefab);
+        cardInventory.gameObject.SetActive(true);
 		cardInventory.transform.parent = this.transform;
 	}
 

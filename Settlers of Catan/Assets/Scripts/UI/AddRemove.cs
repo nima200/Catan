@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CountDisp : MonoBehaviour
+public class AddRemove : MonoBehaviour
 {
 
-    private Text display;
+    public Text display;
     public int value;
     public int[] minMax;  // <--- TODO : have a reference to a GAMEOBJECT holding a min and max val, (implement a getMin() and getMax() methods)
-    public SteableKind steableKind;
     public int incrementFactor;
 
-    private void Awake()
+    public virtual void Awake()
     {
         display = gameObject.GetComponentInChildren<Text>();
+        Debug.Log(display.text);
         display.text = value.ToString();
-        incrementFactor = 1;
     }
 
     public int GetValue()
@@ -38,7 +37,7 @@ public class CountDisp : MonoBehaviour
         SetValue();
     }
 
-    public void Increase()
+    public virtual void Increase()
     {
         if (value + incrementFactor <= minMax[1])
         {
@@ -47,5 +46,5 @@ public class CountDisp : MonoBehaviour
         SetValue();
     }
 
-    
+
 }

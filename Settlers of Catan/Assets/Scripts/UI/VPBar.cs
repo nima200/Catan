@@ -15,10 +15,6 @@ public class VPBar : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         VP = vpBar.GetComponentsInChildren<RawImage>();
-        for (int i = 0; i < 13; i++) {
-            Debug.Log(VP[i].name);
-//            Debug.Log(VP[i].transform.name);
-        }
         VPCount = 0;
     }
 	

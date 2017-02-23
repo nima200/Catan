@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AlchemistMenu: MonoBehaviour {
-    public CountDisp Ydie;
-    public CountDisp Rdie;
+    public AddRemove Ydie;
+    public AddRemove Rdie;
 
     public int GetRedDieValue() {
         return Rdie.GetValue();

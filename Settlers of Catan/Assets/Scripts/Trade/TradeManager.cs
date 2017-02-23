@@ -17,10 +17,10 @@ public class TradeManager : MonoBehaviour {
     public GameObject bankHarBox;
     public GameObject playerBox;
 
-    public CountDisp[] BankCountDisplay;
-	public CountDisp[] PlayerCountDisplay;
+    public BankAddRemove[] bankAddRemove;
+    public PlayerAddRemove[] playerAddRemove;
 
-	CardInventory bankInv;
+    CardInventory bankInv;
 	CardInventory playerInv;
 	Player mainPlayer;
 
@@ -39,13 +39,13 @@ public class TradeManager : MonoBehaviour {
 	public void BankTrade ()
 	{
 		//Check whether the trade is initiated by the current player
-		if (mainPlayer != PlayerManager.getInstance ().getCurrentPlayer ()) {
+		if (mainPlayer != TurnManager.getInstance ().getCurrentPlayer ()) {
 			return;
 		}
 		Dictionary<SteableKind,  int> cardsToTake = new Dictionary<SteableKind,  int> ();
 		Dictionary<SteableKind,  int> cardsToGive = new Dictionary<SteableKind,  int> ();
 		int numWanted = 0;
-		foreach (CountDisp counter in BankCountDisplay) {
+		foreach (BankAddRemove counter in bankAddRemove) {
 			if (counter.value > 0) {
 				//Check if bank has enough resourec cards to trade
 				if (bankInv.countSteableCard (counter.steableKind) >= counter.value) {
@@ -57,7 +57,7 @@ public class TradeManager : MonoBehaviour {
 			}
 		}
 		int numTakable = 0;
-		foreach (CountDisp counter in PlayerCountDisplay) {
+		foreach (PlayerAddRemove counter in playerAddRemove) {
 			if (counter.value > 0) {
 				//Check if the player has enough resourec cards to trade
 				if (playerInv.countSteableCard (counter.steableKind) >= counter.value) {
@@ -91,11 +91,11 @@ public class TradeManager : MonoBehaviour {
 
 	void resetCounter()
 	{
-		foreach (CountDisp counter in BankCountDisplay) {
+		foreach (AddRemove counter in bankAddRemove) {
 			counter.value=0;
 			counter.SetValue();
 		}
-		foreach (CountDisp counter in PlayerCountDisplay) {
+		foreach (AddRemove counter in playerAddRemove) {
 			counter.value=0;
 			counter.SetValue();
 		}
@@ -106,7 +106,7 @@ public class TradeManager : MonoBehaviour {
 	{
 
 		bankInv = CardManager.getInstance ().getCardInventory();
-		mainPlayer = PlayerManager.getInstance ().getMainPlayer ();
+		mainPlayer = TurnManager.getInstance ().getMainPlayer ();
 		playerInv = mainPlayer.getCardInventory ();
 
 		GameObject harbours = new GameObject ("Harbours");
@@ -146,20 +146,19 @@ public class TradeManager : MonoBehaviour {
     // 
     void CreateBankInstance() {
 
-        bankMenu = Instantiate(bankMenuPrefab, bankMenuPrefab.transform);
-        bankMenu.gameObject.transform.SetParent(userInterface.transform);
+        bankMenu = Instantiate(bankMenuPrefab, userInterface.transform);
         bankMenu.gameObject.SetActive(true);
 
         bankHarBox = bankMenu.gameObject.GetComponentInChildren<BankUI>().gameObject;
         playerBox = bankMenu.gameObject.GetComponentInChildren<PlayerUI>().gameObject;
 
-        BankCountDisplay = bankHarBox.GetComponentsInChildren<CountDisp>();
-        PlayerCountDisplay = playerBox.GetComponentsInChildren<CountDisp>();
+        bankAddRemove = bankHarBox.GetComponentsInChildren<BankAddRemove>();
+        playerAddRemove = playerBox.GetComponentsInChildren<PlayerAddRemove>();
         resetCounter();
 
         bankInv = CardManager.getInstance().getCardInventory();
 
-        foreach (CountDisp cd in BankCountDisplay)
+        foreach (AddRemove cd in bankAddRemove)
         {
             Button[] allButtons = cd.gameObject.GetComponentsInChildren<Button>();
             foreach (Button b in allButtons) {
@@ -167,7 +166,7 @@ public class TradeManager : MonoBehaviour {
                 b.onClick.AddListener(UpdateBound);
             }
         }
-        foreach (CountDisp cd in PlayerCountDisplay)
+        foreach (AddRemove cd in playerAddRemove)
         {
             Button[] allButtons = cd.gameObject.GetComponentsInChildren<Button>();
             foreach (Button b in allButtons)
@@ -189,36 +188,33 @@ public class TradeManager : MonoBehaviour {
         Debug.Log("Bank trade session instance hidden.");
         bankMenu.gameObject.SetActive(false);
     }
-	
-
-    //TODO : create another method that is called at any click (eventListener ?)
 
 
 	// Update is called once per frame (ie 30 times per sec!!!!!!!!)
 	void UpdateBound ()
 	{
         Debug.Log("Oui you called me ?");
-        for (int i = 0; i < BankCountDisplay.Length; i++)
+        for (int i = 0; i < bankAddRemove.Length; i++)
         {
-            CountDisp counter = BankCountDisplay[i];
+            BankAddRemove counter = bankAddRemove[i];
             //Give and take cannot be of the same resource kind
             if (counter.value > 0)
             {
-                PlayerCountDisplay[i].value = 0;
-                PlayerCountDisplay[i].SetValue();
+                playerAddRemove[i].value = 0;
+                playerAddRemove[i].SetValue();
             }
             int n = bankInv.countSteableCard(counter.steableKind);
             counter.minMax = new int[2] { 0, n };
         }
 
-        for (int i = 0; i < PlayerCountDisplay.Length; i++)
+        for (int i = 0; i < playerAddRemove.Length; i++)
         {
-            CountDisp counter = PlayerCountDisplay[i];
+            PlayerAddRemove counter = playerAddRemove[i];
             //Give and take cannot be of the same resource kind
             if (counter.value > 0)
             {
-                BankCountDisplay[i].value = 0;
-                BankCountDisplay[i].SetValue();
+                bankAddRemove[i].value = 0;
+                bankAddRemove[i].SetValue();
             }
             int n = playerInv.countSteableCard(counter.steableKind);
             counter.minMax = new int[2] { 0, n };

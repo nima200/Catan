@@ -2,16 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class PlayerManager : MonoBehaviour
 {
 
 	private static PlayerManager instance = null;
+    public GameObject Players;
 	public Player playerPrefrab;
 	public CardInventory cardInventoryPrefab;
-	private List<Player> players = new List<Player> ();
-    private int mainPlayerIndex;                            // --> the player running this instance of the game
-    private int currentPlayerIndex;                         // --> the player currently PLAYING
-    private int nbOfPlayer;
+	public List<Player> myPlayers = new List<Player> ();
+    private int nbOfPlayers;
+    private int pointer;
 
 	//Make Player Manager Singleton
 	void Awake ()
@@ -23,9 +24,9 @@ public class PlayerManager : MonoBehaviour
 			Destroy (gameObject);    
 		}
 		DontDestroyOnLoad (gameObject);
-		createPlayer ();
-        currentPlayerIndex = 0;
-        nbOfPlayer = 4;                         // Set to 4 for now
+        nbOfPlayers = 4;                    // Set to 4 for now
+        createPlayer ();
+        pointer = 0;                       
 	}
 
 	public static PlayerManager getInstance()
@@ -36,30 +37,30 @@ public class PlayerManager : MonoBehaviour
 
 	private void createPlayer ()
 	{
-		for (int i = 0; i < 4; i++) {
-			Player player = Instantiate (playerPrefrab);
-			player.instantiate(i,cardInventoryPrefab);
-			player.transform.parent = GameObject.Find ("Players").transform;
-			players.Add (player);
+        Player player;
+		for (int i = 0; i < nbOfPlayers; i++) {
+			player = Instantiate (playerPrefrab, Players.transform);
+            player.gameObject.SetActive(true);
+			player.Initialize(i,cardInventoryPrefab);
+            bool e = player.enabled;
+			myPlayers.Add(player);
 		}
 	}
 
-	public Player getPlayer (int index)
+    
+
+    public Player getPlayer (int index)
 	{
-		return players[index];
+		return myPlayers[index];
 	}
 
-	public Player getMainPlayer ()
-	{
-		return players[mainPlayerIndex];
-	}
+    public int getNbOfPlayer() {
+        return nbOfPlayers;
+    }
 
-	public Player getCurrentPlayer ()
-	{
-		return players[currentPlayerIndex];
-	}
-
-    public void setCurrentToNextPlayer() {
-        currentPlayerIndex = (currentPlayerIndex + 1) % nbOfPlayer;
+    public Player getNextPlayer()
+    {
+        pointer = (pointer + 1) % nbOfPlayers;
+        return getPlayer(pointer);
     }
 }

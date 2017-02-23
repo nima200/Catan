@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurnManager : MonoBehaviour {
+public class TurnManager : MonoBehaviour
+{
 
     private static TurnManager instance = null;
     public GameObject UtilityMenu;
     public GameObject DiceMenu;
+    private Player mainPlayer;                            // --> the player running this instance of the game
+    private Player currentPlayer;                         // --> the player currently PLAYING
 
     // Use this for initialization
-    void Awake () {
+    void Awake()
+    {
         if (instance == null)
         {
             instance = this;
@@ -18,6 +22,12 @@ public class TurnManager : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        mainPlayer = PlayerManager.getInstance().getPlayer(0);      // Player 0 is the one playing on this instance of the game for now
+        currentPlayer = PlayerManager.getInstance().getPlayer(0);
         DontDestroyOnLoad(gameObject);
     }
 
@@ -26,20 +36,35 @@ public class TurnManager : MonoBehaviour {
         return instance;
     }
 
-    public void NextTurn() {
-        Player previousMainPlayer = PlayerManager.getInstance().getMainPlayer();
-        Debug.Log("Previous main player : " + previousMainPlayer.getPlayerID());
-        PlayerManager.getInstance().setCurrentToNextPlayer();
-        Player currentPlayer = PlayerManager.getInstance().getCurrentPlayer();
-        Player newMainPlayer = PlayerManager.getInstance().getMainPlayer();
-        Debug.Log("New main player : " + newMainPlayer.getPlayerID());
-        if (currentPlayer.equals(newMainPlayer))
+    public void NextTurn()
+    {
+        Player previousCurrentPlayer = mainPlayer;
+        Debug.Log("Previous  player : " + previousCurrentPlayer.getPlayerID());
+        setCurrentToNextPlayer();
+        Debug.Log("New current player : " + currentPlayer.getPlayerID());
+        if (currentPlayer.equals(mainPlayer))
         {
-            Debug.Log("I am the new main player");
+            Debug.Log("ACTIVATED: I am the new current player");
         }
-        else if (currentPlayer.equals(previousMainPlayer))
+        else if (previousCurrentPlayer.equals(mainPlayer))
         {
-            Debug.Log("I am the previous main player");
+            Debug.Log("DEACTIVATED: I am the previous player");
         }
+        else Debug.Log("UNCHANGED.");
+    }
+
+    public Player getMainPlayer()
+    {
+        return mainPlayer;
+    }
+
+    public Player getCurrentPlayer()
+    {
+        return currentPlayer;
+    }
+
+    public void setCurrentToNextPlayer()
+    {
+        currentPlayer = PlayerManager.getInstance().getNextPlayer();
     }
 }
