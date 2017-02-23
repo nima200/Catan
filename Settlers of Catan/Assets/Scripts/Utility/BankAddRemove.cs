@@ -11,6 +11,7 @@ public class BankAddRemove : AddRemove {
 	{
         base.Awake();
         Debug.Log("BANK AR text:"+ display.text);
+        incrementFactor = 1;
         //Update min and max so that the number of card the player wants does not exceed the number of card the bank has
         CardInventory bankInv = CardManager.getInstance ().getCardInventory ();
 		CardInventory playerInv = TurnManager.getInstance().getMainPlayer().getCardInventory();

@@ -38,9 +38,10 @@ public class PlayerManager : MonoBehaviour
 	private void createPlayer ()
 	{
         Player player;
+        int offset = 100;
 		for (int i = 0; i < nbOfPlayers; i++) {
 			player = Instantiate (playerPrefrab, Players.transform);
-            player.gameObject.SetActive(true);
+            player.transform.position = new Vector3(200+(offset*i),200,0);
 			player.Initialize(i,cardInventoryPrefab);
             bool e = player.enabled;
 			myPlayers.Add(player);

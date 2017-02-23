@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurnManager : MonoBehaviour
 {
@@ -37,17 +38,37 @@ public class TurnManager : MonoBehaviour
     }
 
     public void NextTurn()
-    {
-        Player previousCurrentPlayer = mainPlayer;
+    {                                                                                   // TODO : Broadcast over network
+        Player previousCurrentPlayer = currentPlayer;                                   // TODO : assigning players? 
         Debug.Log("Previous  player : " + previousCurrentPlayer.getPlayerID());
         setCurrentToNextPlayer();
         Debug.Log("New current player : " + currentPlayer.getPlayerID());
         if (currentPlayer.equals(mainPlayer))
         {
+            Selectable[] allUtilitySelectable = UtilityMenu.GetComponentsInChildren<Selectable>();
+            foreach (Selectable s in allUtilitySelectable)
+            {
+                s.interactable = true;
+            }
+            Button[] allDiceButtons = DiceMenu.GetComponentsInChildren<Button>();
+            foreach (Button b in allDiceButtons)
+            {
+                b.interactable = true;
+            }
             Debug.Log("ACTIVATED: I am the new current player");
         }
         else if (previousCurrentPlayer.equals(mainPlayer))
         {
+            Selectable[] allUtilitySelectable = UtilityMenu.GetComponentsInChildren<Selectable>();
+            foreach (Selectable s in allUtilitySelectable)
+            {
+                s.interactable = false;
+            }
+            Button[] allDiceButtons = DiceMenu.GetComponentsInChildren<Button>();
+            foreach (Button b in allDiceButtons)
+            {
+                b.interactable = false;
+            }
             Debug.Log("DEACTIVATED: I am the previous player");
         }
         else Debug.Log("UNCHANGED.");

@@ -162,7 +162,7 @@ public class TradeManager : MonoBehaviour {
         {
             Button[] allButtons = cd.gameObject.GetComponentsInChildren<Button>();
             foreach (Button b in allButtons) {
-                Debug.Log("Bank button found");
+                //Debug.Log("Bank button found");
                 b.onClick.AddListener(UpdateBound);
             }
         }
@@ -171,7 +171,7 @@ public class TradeManager : MonoBehaviour {
             Button[] allButtons = cd.gameObject.GetComponentsInChildren<Button>();
             foreach (Button b in allButtons)
             {
-                Debug.Log("Player button found");
+               // Debug.Log("Player button found");
                 b.onClick.AddListener(UpdateBound);
             }
         }
