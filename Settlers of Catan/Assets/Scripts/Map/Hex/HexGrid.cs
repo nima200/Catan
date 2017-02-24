@@ -20,7 +20,6 @@ public class HexGrid : MonoBehaviour {
 
 	//this will keep track of all unique hexvertex positions that will be used to create the network
 //	public static List<HexVertex> vertexPositions = new List<HexVertex>();
-    public List<HexCell> possibleEdges;
     // the prefab to make the grid use as cells
     public HexCell cellPrefab;
     // making our grid know about the label prefab

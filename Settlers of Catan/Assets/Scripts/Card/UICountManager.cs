@@ -14,7 +14,6 @@ public class UICountManager : MonoBehaviour {
 	{
 		currentPlayer = PlayerManager.getInstance ().getMainPlayer();
 		cardInventory = currentPlayer.getCardInventory ();
-
 	}
 	
 	// Update is called once per frame
