@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 	public CardInventory cardInventory;
 	public List<Harbour> myHarbour = new List<Harbour>();
 	public int ratio;
+    public bool hasAlchemist;                             // TODO : find it in inventory
 
     public Player()
     {
@@ -59,4 +60,7 @@ public class Player : MonoBehaviour {
         return playerID;
     }
 
+    public bool HasAlchemist() {
+        return hasAlchemist;                        // TODO : find alchemist in inventory
+    }
 }

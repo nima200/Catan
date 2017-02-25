@@ -4,17 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class VPBar : MonoBehaviour {
-
-    public GameObject vpBar;
-    public RawImage[] VP;
-    public int VPCount;
+    
+    RawImage[] VP;
+    int VPCount; // get from player
     public Color VPActive;
     public Color VPInactive;
 
 
 	// Use this for initialization
 	void Start () {
-        VP = vpBar.GetComponentsInChildren<RawImage>();
+        VP = gameObject.GetComponentsInChildren<RawImage>();
         VPCount = 0;
     }
 	
