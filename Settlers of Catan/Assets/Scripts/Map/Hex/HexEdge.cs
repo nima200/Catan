@@ -9,9 +9,22 @@ public class HexEdge : MonoBehaviour
     public HexCell FirstCell, SecondCell;
     public HexEdge[] NeighborEdges;
     public List<HexEdge> Neighbors = new List<HexEdge>();
+    public List<HexEdge> PossibleNeighbors = new List<HexEdge>();
     private Vector3 _positionFc;
     private Vector3 _positionSc;
-    public List<HexEdge> PossibleNeighbors = new List<HexEdge>();
+    private bool _isActual = true;
+    public bool IsActual
+    {
+        get
+        {
+            return _isActual;
+        }
+
+        set
+        {
+            _isActual = value;
+        }
+    }
 
     public void SetNeighbor(EdgeDirection direction, HexEdge edge)
     {

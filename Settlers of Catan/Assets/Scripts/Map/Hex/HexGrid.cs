@@ -289,30 +289,37 @@ public class HexGrid : MonoBehaviour {
         int directionOppositeInt = (int)directionOpposite;
 
         // If there isn't a possible edge at the location we want to place our edge, prevent placing an edge
-        if (cell.PossibleEdges[(int) direction] == null ||
+        if (cell.PossibleEdges[(int)direction] == null ||
             (cell.GetNeighbor(direction) != null &&
-             cell.GetNeighbor(direction).PossibleEdges[(int) direction.Opposite()] == null)) return;
+             cell.GetNeighbor(direction).PossibleEdges[(int)direction.Opposite()] == null)) return;
 
         // Create the edge
         var edge = Instantiate(EdgePrefab);
         edge.MyEdgeUnitType = edgeUnitType;
 
         // Take a reference to the possible edge so that we can destroy it
-        var possibleEdge = cell.PossibleEdges[(int) direction];
+        var possibleEdge = cell.PossibleEdges[(int)direction];
 
         // Remove the references from the cell to the possible edge location
-        cell.PossibleEdges[(int) direction] = null;
+        cell.PossibleEdges[(int)direction] = null;
         if (cell.GetNeighbor(direction) != null)
         {
-            cell.GetNeighbor(direction).PossibleEdges[(int) direction.Opposite()] = null;
+            cell.GetNeighbor(direction).PossibleEdges[(int)direction.Opposite()] = null;
         }
         // Destroy the possible edge
         Destroy(possibleEdge.gameObject);
+        // From this point onward this function and placeedge_sandbox share the rest
+        // So best to have them both call a third helper function to basically not
+        // have to edit everything twice.
+        PlaceEdge_Continue(cell, directionInt, direction, directionOppositeInt, edge);
+    }
 
+    private void PlaceEdge_Continue(HexCell cell, int directionInt, HexDirection direction, int directionOppositeInt, HexEdge edge)
+    {
         // Create edge-cell references
         cell.SetEdge(direction, edge);
         edge.transform.SetParent(cell.transform);
-        
+
         // Find the mid-point between the two corner vertices that the edge will go to
         var midpoint_FC = (HexMetrics.corners[directionInt] + HexMetrics.corners[(directionInt + 1) % 6]) / 2;
         var midpoint_SC = (HexMetrics.corners[directionOppositeInt] + HexMetrics.corners[(directionOppositeInt + 1) % 6]) /
@@ -352,7 +359,7 @@ public class HexGrid : MonoBehaviour {
         // (direction + 5) % 6 is essentially direction - 1 (prevents 0 - 1 = -1 index)
         int nwEdgeIndex = ((int)direction + 5) % 6;
         var nwEdge = cell.MyEdges[nwEdgeIndex];
-        
+
         if (nwEdge != null)
         {
             edge.Neighbors.Add(nwEdge);
@@ -360,7 +367,7 @@ public class HexGrid : MonoBehaviour {
         }
 
         // Next edge location on the cell
-        int swEdgeIndex = ((int) direction + 1) % 6;
+        int swEdgeIndex = ((int)direction + 1) % 6;
         var swEdge = cell.MyEdges[swEdgeIndex];
 
         if (swEdge != null)
@@ -377,7 +384,7 @@ public class HexGrid : MonoBehaviour {
             var oppositeEdgeDirection = direction.Opposite();
 
             // Opposite cell, previous edge location
-            int seEdgeIndex = ((int) oppositeEdgeDirection + 5) % 6;
+            int seEdgeIndex = ((int)oppositeEdgeDirection + 5) % 6;
             var seEdge = cell.MyEdges[seEdgeIndex];
 
             if (seEdge != null)
@@ -387,7 +394,7 @@ public class HexGrid : MonoBehaviour {
             }
 
             // Opposite cell, next edge location
-            int neEdgeIndex = ((int) oppositeEdgeDirection + 1) % 6;
+            int neEdgeIndex = ((int)oppositeEdgeDirection + 1) % 6;
             var neEdge = cell.MyEdges[neEdgeIndex];
 
             if (neEdge != null)
@@ -428,89 +435,10 @@ public class HexGrid : MonoBehaviour {
             }
             Destroy(possibleEdge.gameObject);
         }
-
-        cell.SetEdge(direction, edge);
-        edge.transform.SetParent(cell.transform);
-
-        var midpoint_FC = (HexMetrics.corners[directionInt] + HexMetrics.corners[(directionInt + 1) % 6]) / 2;
-        var midpoint_SC = (HexMetrics.corners[directionOppositeInt] + HexMetrics.corners[(directionOppositeInt + 1) % 6]) /
-                          2;
-        // Getting the middle point of the two vertices for that edge, placing there.
-        edge.transform.localPosition = midpoint_FC;
-        edge.transform.localRotation = EdgeMetrics.rotations[directionInt];
-
-        edge.SetPosition_FC(midpoint_FC);
-        edge.FirstCell = cell;
-
-        if (cell.GetNeighbor(direction) != null) // Set neighbors only if another cell exists
-        {
-            edge.name = "edge between " + cell.CellNumber + " & " + cell.GetNeighbor(direction).CellNumber;
-            edge.SecondCell = cell.GetNeighbor(direction);
-            edge.SetPosition_SC(midpoint_SC);
-        }
-        else
-        {
-            edge.name = "edge between " + cell.CellNumber + " & --";
-            edge.SecondCell = null;
-        }
-
-        // ==================================================================
-        // +                                                                +
-        // +                  Edge neighboring structure                    +
-        // +                                                                +
-        // ==================================================================
-
-        // Try to find neighboring edges and add them to edge's neighbor list.
-
-        // Previous edge location on the cell
-        // (direction + 5) % 6 is essentially direction - 1 (prevents 0 - 1 = -1 index)
-        int nwEdgeIndex = ((int)direction + 5) % 6;
-        var nwEdge = cell.MyEdges[nwEdgeIndex];
-
-        if (nwEdge != null)
-        {
-            edge.Neighbors.Add(nwEdge);
-            nwEdge.Neighbors.Add(edge);
-        }
-
-        // Next edge location on the cell
-        int swEdgeIndex = ((int)direction + 1) % 6;
-        var swEdge = cell.MyEdges[swEdgeIndex];
-
-        if (nwEdge != null)
-        {
-            edge.Neighbors.Add(swEdge);
-            swEdge.Neighbors.Add(edge);
-        }
-
-        // The other two edge neighbors will only exist if there is a neighboring cell for that edge
-        if (edge.SecondCell != null)
-        {
-            // Consider this edge, but in the eyes of the neighboring cell.
-            // That cell will consider it at an opposite direction.
-            var oppositeEdgeDirection = direction.Opposite();
-
-            // Opposite cell, previous edge location
-            int seEdgeIndex = ((int)oppositeEdgeDirection + 5) % 6;
-            var seEdge = cell.MyEdges[seEdgeIndex];
-
-            if (seEdge != null)
-            {
-                edge.Neighbors.Add(seEdge);
-                seEdge.Neighbors.Add(edge);
-            }
-
-            // Opposite cell, next edge location
-            int neEdgeIndex = ((int)oppositeEdgeDirection + 1) % 6;
-            var neEdge = cell.MyEdges[neEdgeIndex];
-
-            if (neEdge != null)
-            {
-                edge.Neighbors.Add(neEdge);
-                neEdge.Neighbors.Add(edge);
-            }
-        }
-        CreatePossibleEdges(cell);
+        // From this point onward this function and placeedge_sandbox share the rest
+        // So best to have them both call a third helper function to basically not
+        // have to edit everything twice.
+        PlaceEdge_Continue(cell, directionInt, direction, directionOppositeInt, edge);
     }
 
     private void CreatePossibleEdges(HexCell cell)
@@ -522,15 +450,15 @@ public class HexGrid : MonoBehaviour {
             var currentEdge = cell.GetEdge(i);
 
             // If there is no edge, skip.
-            if (currentEdge == null) continue;
+            if (currentEdge == null || currentEdge.IsActual == false) continue;
 
             // Just some casting that is useful.
             var direction = (HexDirection) i;
 
             // Edge directions for the 4 neighboring edges that an edge can have
-            int fcPreviousDirection = ((int) direction + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1*/
+            int fcPreviousDirection = ((int) direction + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1 */
             int fcNextDirection = ((int) direction + 1) % 6; 
-            int scPreviousDirection = ((int) direction.Opposite() + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1*/
+            int scPreviousDirection = ((int) direction.Opposite() + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1 */
             int scNextDirection = ((int) direction.Opposite() + 1) % 6;
 
             // Midpoints between the two vertices where the possible edges would fall.
@@ -543,29 +471,25 @@ public class HexGrid : MonoBehaviour {
                                       HexMetrics.corners[(scPreviousDirection + 1) % 6]) / 2;
             var scNextPosition = (HexMetrics.corners[scNextDirection] +
                                   HexMetrics.corners[(scNextDirection + 1) % 6]) / 2;
-
-            /*var fcPreviousPositionOpposite =
-            (HexMetrics.corners[(int) ((HexDirection) fcPreviousDirection).Opposite()] +
-             HexMetrics.corners[(int) ((HexDirection) ((fcPreviousDirection + 1) % 6)).Opposite()]) / 2;
-            var fcNextPositionOpposite =
-            (HexMetrics.corners[(int)((HexDirection)fcNextDirection).Opposite()] +
-             HexMetrics.corners[(int)((HexDirection)((fcNextDirection + 1) % 6)).Opposite()]) / 2;
-            var scPreviousPositionOpposite =
-            (HexMetrics.corners[(int)((HexDirection)scPreviousDirection).Opposite()] +
-             HexMetrics.corners[(int)((HexDirection)((scPreviousDirection + 1) % 6)).Opposite()]) / 2;
-            var scNextPositionOpposite =
-            (HexMetrics.corners[(int)((HexDirection)scNextDirection).Opposite()] +
-             HexMetrics.corners[(int)((HexDirection)((scNextDirection + 1) % 6)).Opposite()]) / 2;*/
+            // fcPD --> \ / 
+            //  fc       |
+            // fcND --> / \ 
 
 
-            // --> \ / 
-            //  fc  |
-            // --> / \ 
             // Checking to see if it's possible for us to extend our possible edges
-            if (CanPlacePossibleEdge(currentEdge.FirstCell, fcPreviousPosition, fcPreviousDirection))
+            // This check includes making sure that we only create a possible edge at a location that is followed
+            // by a fully placed edge, and not followed by another possible edge.
+
+            // This check is a fix to issue SETTLERS-10 and is applied to all 4 possible edge placements, below.
+            // https://knightsofharambe.myjetbrains.com/youtrack/issue/SETTLERS-10
+
+            if (CanPlacePossibleEdge(currentEdge.FirstCell, fcPreviousDirection) &&
+                currentEdge.FirstCell.GetEdge((fcPreviousDirection + 1) % 6) != null &&
+                currentEdge.FirstCell.GetEdge((fcPreviousDirection + 1) % 6).IsActual) 
             {
                 // First Cell Previous Possible Edge
                 var fcPPE = Instantiate(PossibleEdgePrefab);
+                fcPPE.IsActual = false;
                 if (currentEdge.SecondCell != null)
                 {
                     fcPPE.name = "fcP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
@@ -594,16 +518,17 @@ public class HexGrid : MonoBehaviour {
                 fcPPE.transform.localPosition = fcPreviousPosition;
                 fcPPE.transform.localRotation = EdgeMetrics.rotations[fcPreviousDirection];
                 fcPPE.SetPosition_FC(fcPreviousPosition);
-//                fcPPE.SetPosition_SC(fcPreviousPositionOpposite);
                 currentEdge.PossibleNeighbors.Add(fcPPE);
             }
-
             // Same idea as above, different location
-            if (CanPlacePossibleEdge(currentEdge.FirstCell, fcNextPosition, fcNextDirection))
+            if (CanPlacePossibleEdge(currentEdge.FirstCell, fcNextDirection) &&
+                currentEdge.FirstCell.GetEdge((fcNextDirection + 5) % 6) != null &&
+                currentEdge.FirstCell.GetEdge((fcNextDirection + 5) % 6).IsActual) 
             {
                 // First Cell Next Possible Edge
                 var fcNPE = Instantiate(PossibleEdgePrefab);
                 currentEdge.FirstCell.PossibleEdges[fcNextDirection] = fcNPE;
+                fcNPE.IsActual = false;
                 if (currentEdge.SecondCell != null)
                 {
                     fcNPE.name = "fcN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
@@ -624,24 +549,26 @@ public class HexGrid : MonoBehaviour {
                 fcNPE.transform.localPosition = fcNextPosition;
                 fcNPE.transform.localRotation = EdgeMetrics.rotations[fcNextDirection];
                 fcNPE.SetPosition_FC(fcNextPosition);
-//                fcNPE.SetPosition_SC(fcNextPositionOpposite);
                 currentEdge.PossibleNeighbors.Add(fcNPE);
             }
 
-            // We can continue if there's no second cell, because the next two possible edges
+            // We can't continue if there's no second cell, because the next two possible edges
             // Would only exist if there's a second cell to place them on
-            //     \ / <--
+
+            //     \ / <-- scND
             //      |   sc
-            //     / \ <--
+            //     / \ <-- scPD
             if (currentEdge.SecondCell == null) continue;
 
             // Same concept as those for the first cell
-            if (CanPlacePossibleEdge(currentEdge.SecondCell, scPreviousPosition, scPreviousDirection))
+            if (CanPlacePossibleEdge(currentEdge.SecondCell, scPreviousDirection) &&
+                currentEdge.SecondCell.GetEdge((scPreviousDirection + 1) % 6) != null &&
+                currentEdge.SecondCell.GetEdge((scPreviousDirection + 1) % 6).IsActual) 
             {
                 // Second Cell Previous Possible Edge
                 var scPPE = Instantiate(PossibleEdgePrefab);
                 currentEdge.SecondCell.PossibleEdges[scPreviousDirection] = scPPE;
-
+                scPPE.IsActual = false;
                 if (currentEdge.SecondCell != null)
                 {
                     scPPE.name = "scP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
@@ -663,17 +590,18 @@ public class HexGrid : MonoBehaviour {
                 scPPE.transform.localPosition = scPreviousPosition;
                 scPPE.transform.localRotation = EdgeMetrics.rotations[scPreviousDirection];
                 scPPE.SetPosition_FC(scPreviousPosition);
-//                scPPE.SetPosition_SC(scPreviousPositionOpposite);
                 currentEdge.PossibleNeighbors.Add(scPPE);
             }
 
             // And again
-            if (CanPlacePossibleEdge(currentEdge.SecondCell, scNextPosition, scNextDirection))
+            if (CanPlacePossibleEdge(currentEdge.SecondCell, scNextDirection) &&
+                currentEdge.SecondCell.GetEdge((scNextDirection + 5) % 6) != null &&
+                currentEdge.SecondCell.GetEdge((scNextDirection + 5) % 6).IsActual)
             {
                 // Second Cell Next Possible Edge
                 var scNPE = Instantiate(PossibleEdgePrefab);
                 currentEdge.SecondCell.PossibleEdges[scNextDirection] = scNPE;
-
+                scNPE.IsActual = false; 
                 if (currentEdge.SecondCell != null)
                 {
                     scNPE.name = "scN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
@@ -695,19 +623,17 @@ public class HexGrid : MonoBehaviour {
                 scNPE.transform.localPosition = scNextPosition;
                 scNPE.transform.localRotation = EdgeMetrics.rotations[scNextDirection];
                 scNPE.SetPosition_FC(scNextPosition);
-//                scNPE.SetPosition_SC(scNextPositionOpposite);
                 currentEdge.PossibleNeighbors.Add(scNPE);
             }
         }
     }
 
-    private static bool CanPlacePossibleEdge(HexCell cell, Vector3 position, int direction)
+    private static bool CanPlacePossibleEdge(HexCell cell, int direction)
     {
         // Return false if there's ANY possible edge in the list of possible edges
         // that has the same position as the one you're trying to place.
         // Essentially the method I prevent dups for possible edges.
         return !cell.HasEdgeAtDirection(direction) && !cell.HasPossibleEdgeAtDirection(direction);
-//        return !cell.HasEdgeAtPosition(position) && !cell.HasPossibleEdgeAtPosition(position);
     }
 
     // Straightforward method that is meant for debugging purposes to be able
@@ -757,5 +683,4 @@ public class HexGrid : MonoBehaviour {
             }
         }
     }
-
 }
