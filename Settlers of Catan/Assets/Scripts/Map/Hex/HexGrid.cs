@@ -31,6 +31,11 @@ public class HexGrid : MonoBehaviour {
     public HexEdge edgePrefab;
     public HexEdge possibleEdgePrefab;
     Dropdown edgeDirectionDD;
+
+
+	//vertex prefab
+	public HexVertex settlementPrefab;
+
     
 
     public HexCell[] getCells()
@@ -175,7 +180,7 @@ public class HexGrid : MonoBehaviour {
 			// go through non-null cell and determine if the vector3 exists as a position
 			foreach (HexCell i in cells)
 			{
-				
+
 				if (i != null)
 				{
 					if (i.globalVertices.Contains(temp))
@@ -190,8 +195,27 @@ public class HexGrid : MonoBehaviour {
 		//convert vertex set to hexvertex set
 		foreach (Vector3 i in tempList)
 		{
-			vertexPositions.Add(new HexVertex(i));
+			Debug.Log("vertex: " + i);
+			HexVertex v = Instantiate(settlementPrefab, i, Quaternion.identity);
+			vertexPositions.Add(v);
+
+			//here you want to add the appropriate HexVertex references within the cell and add as child
+			foreach (HexCell cell in cells)
+			{
+
+				if (cell != null)
+				{
+					if (cell.globalVertices.Contains(i))
+					{
+						cell.hexVertices.Add(v);
+						v.transform.SetParent(cell.transform.Find("Active Vertices").transform);
+
+					}
+				}
+			}
 		}
+
+
 
 		//assign neighbors (leave for nima)????
 
@@ -223,7 +247,12 @@ public class HexGrid : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.position = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-		cell.centerVertex = new HexVertex(position);
+
+		//Create new HexVertex
+		//HexVertex v = Instantiate(settlementPrefab, position, Quaternion.identity);
+
+		//v.isCenter = true;
+		//cell.centerVertex = v;
 
         // HEX NEIGHBOR SET
 
@@ -300,6 +329,7 @@ public class HexGrid : MonoBehaviour {
             {
                 edge.name = "edge between " + cell.cellNumber + " & -- ";
             }
+
         }
     }
 

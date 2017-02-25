@@ -19,15 +19,17 @@ public class BoardTrimmer : MonoBehaviour {
 
 		foreach (int i in numbers)
 		{
-			Destroy(cells[i].centerVertex.sphere);
+
+			Debug.Log(cells[i]);
+
 			Destroy(cells[i].gameObject);
 			Destroy(cells[i].label.gameObject);
 			cells[i] = null;
 		}
         
         grid.assignTokens();
-        grid.createPossibleEdges();
-        grid.HidePossibleEdges();
+        //grid.createPossibleEdges();
+        //grid.HidePossibleEdges();
 		grid.createHexVertices();
 
 		//create playable vertices
