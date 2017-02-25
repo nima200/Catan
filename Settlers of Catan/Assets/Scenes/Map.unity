@@ -1700,7 +1700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &334159988
 Transform:
   m_ObjectHideFlags: 0
@@ -2144,7 +2144,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &419757429
 Transform:
   m_ObjectHideFlags: 0
@@ -3609,7 +3609,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 705381314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -59}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2014022220}
@@ -3618,7 +3618,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -104.5, y: 76.1}
+  m_AnchoredPosition: {x: 57.6, y: 76.1}
   m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &705381316
@@ -3661,7 +3661,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 956983978}
-        m_MethodName: toggleBuild
+        m_MethodName: ToggleBuild
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4418,7 +4418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &849584481
 Transform:
   m_ObjectHideFlags: 0
@@ -4528,7 +4528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &905738254
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4817,7 +4817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &940394509
 Transform:
   m_ObjectHideFlags: 0
@@ -4879,16 +4879,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 176f9127713f38244bee5012573408af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cells: []
-  width: 8
-  height: 7
-  possibleEdges: []
-  cellPrefab: {fileID: 1311174376}
-  cellLabelPrefab: {fileID: 1603246081}
-  buildButton: {fileID: 705381316}
-  edgePrefab: {fileID: 114904479224344984, guid: d95737e47c71ede4f8bba3020245cfef,
+  Cells: []
+  Width: 8
+  Height: 7
+  CellPrefab: {fileID: 114565999649766270, guid: 94c2312396697489abc866a188f80152,
     type: 2}
-  possibleEdgePrefab: {fileID: 114660176733284600, guid: 40b83e37a6edcf043871a2968ea8a2f6,
+  CellLabelPrefab: {fileID: 114000012077104526, guid: f68794ca03b6f4510b9a5bd6ee9ba2f4,
+    type: 2}
+  BuildButton: {fileID: 705381316}
+  EdgePrefab: {fileID: 114904479224344984, guid: d95737e47c71ede4f8bba3020245cfef,
+    type: 2}
+  PossibleEdgePrefab: {fileID: 114660176733284600, guid: 40b83e37a6edcf043871a2968ea8a2f6,
     type: 2}
 --- !u!4 &956983979
 Transform:
@@ -6505,7 +6506,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1222362513}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -59}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1045987263}
@@ -6516,7 +6517,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -104.5, y: 46.1}
+  m_AnchoredPosition: {x: 57.6, y: 46.1}
   m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1222362515
@@ -6874,12 +6875,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94c2312396697489abc866a188f80152, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1311174376 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114565999649766270, guid: 94c2312396697489abc866a188f80152,
-    type: 2}
-  m_PrefabInternal: {fileID: 1276700001}
-  m_Script: {fileID: 11500000, guid: a22052c872b939f44be745dcfc493ebf, type: 3}
 --- !u!4 &1311174379 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000014153159354, guid: 94c2312396697489abc866a188f80152,
@@ -8177,12 +8172,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e85e6250dedf1a14a8534da71dbfe4a8, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1603246081 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114000012077104526, guid: f68794ca03b6f4510b9a5bd6ee9ba2f4,
-    type: 2}
-  m_PrefabInternal: {fileID: 907515216}
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!224 &1603246083 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224000014217767026, guid: f68794ca03b6f4510b9a5bd6ee9ba2f4,

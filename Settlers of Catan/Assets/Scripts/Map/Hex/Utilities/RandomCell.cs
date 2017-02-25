@@ -10,8 +10,8 @@ public static class RandomCell
     {
         while (true)
         {
-            int randomIndex = Random.Range(0, grid.cells.Length - 1);
-            if (grid.cells[randomIndex] != null)
+            int randomIndex = Random.Range(0, grid.Cells.Length - 1);
+            if (grid.Cells[randomIndex] != null)
             {
                 return randomIndex;
             }

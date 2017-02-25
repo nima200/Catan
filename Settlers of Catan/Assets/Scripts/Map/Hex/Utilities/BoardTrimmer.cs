@@ -12,7 +12,7 @@ public class BoardTrimmer : MonoBehaviour {
     // Since at first we have width*height many cells but we only want 44 anyways.
     void Start()
     {
-        HexCell[] cells = grid.getCells();
+        HexCell[] cells = grid.GetCells();
 
 		// desired hexes to be trimmed
 		int[] numbers = { 0, 1, 7, 8, 15, 16, 32, 40, 47, 48, 49, 55};
@@ -21,11 +21,11 @@ public class BoardTrimmer : MonoBehaviour {
 		{
 //			Destroy(cells[i].centerVertex.sphere);
 			Destroy(cells[i].gameObject);
-			Destroy(cells[i].label.gameObject);
+			Destroy(cells[i].Label.gameObject);
 			cells[i] = null;
 		}
         
-        grid.assignTokens();
+        grid.AssignTokens();
         grid.HidePossibleEdges();
 //		grid.createHexVertices();
         grid.PlaceEdge_Sandbox(EdgeUnitType.Road);
