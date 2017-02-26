@@ -5,12 +5,14 @@ using System.Collections.Generic;
 public class Player : MonoBehaviour {
 
     public string playerName;
-	public int playerID;                                   // TODO : make it private
+	public int playerID;
+    public bool isTurn;
 	public CardInventory cardInventory;
 	public List<Harbour> myHarbour = new List<Harbour>();
 	public int ratio;
     public bool hasAlchemist;                             // TODO : find it in inventory
 
+    // Khalil - Added attribute "isTurn" as a boolean to control UI. 
     public Player()
     {
 		
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour {
 		name = "Player" + i;
 		playerID = i;
 		playerName = "Player" + i;
+        isTurn = false;
 		cardInventory = Instantiate(cardInventoryPrefab);
         cardInventory.gameObject.SetActive(true);
 		cardInventory.transform.parent = this.transform;

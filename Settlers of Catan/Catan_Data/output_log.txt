@@ -1,0 +1,69 @@
+Initialize engine version: 5.4.1f1 (649f48bbbf0f)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 850M (ID=0x1391)
+    Vendor:   NVIDIA
+    VRAM:     2018 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+- Completed reload, in  0.144 seconds
+Platform assembly: C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Nima\Documents\GitHub\Catan\Settlers of Catan\Catan_Data\Managed\System.dll (this message is harmless)
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initialized touch support.
+UnloadTime: 0.727488 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 3708 -> priority: 1 
+  Thread -> id: 37e8 -> priority: 1 
+Pre Game Lobby Scene Requested
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.376929 ms
+
+Unloading 10 unused Assets to reduce memory usage. Loaded Objects now: 313.
+Total: 0.413830 ms (FindLiveObjects: 0.022990 ms CreateObjectMapping: 0.016421 ms MarkObjects: 0.291488 ms  DeleteObjects: 0.082519 ms)
+
+Game Scene Requested
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.513183 ms
+
+Unloading 16 unused Assets to reduce memory usage. Loaded Objects now: 243.
+Total: 0.250843 ms (FindLiveObjects: 0.020116 ms CreateObjectMapping: 0.011084 ms MarkObjects: 0.201578 ms  DeleteObjects: 0.017653 ms)
+
+On
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+On
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+On
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Off
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Exit requested
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
