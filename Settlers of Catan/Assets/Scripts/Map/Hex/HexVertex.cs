@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HexVertex {
+public class HexVertex : MonoBehaviour{
 
 	public bool occupied;
 
 	public Vector3 position;
 
+	public int index;
+
 	//keeps track of neighboring vertices
-	public List<HexVertex> neighbors = new List<HexVertex>();
+	public HashSet<HexVertex> neighbors; 
 
 	//all the Hexes that this vertex is associated with
 	public HexCell[] hexAssociations;
@@ -18,43 +20,37 @@ public class HexVertex {
 
 	//perhaps add reference to edge
 
-	//this sphere is purely for "glowing" purposes
-	public GameObject sphere;
 
-	//void Update(){
-	//	if(occupied) { // make sure to add check to make sure that the reference to vertex unit is not null
-	//		//determine level of settlement and display element accordingly
-	//	}
-	//}
-
-	//constructor for taking in x,y,z positions and creates vector3 
-	public HexVertex(float x, float y, float z){
-		//create the vector position
-		position = new Vector3(x,y,z);
-
-		occupied = false;
-
-		//create a sphere and assign it to the position of the vertex
-
-	}
-
-	//constructor that takes in pre-existing vector3
-	public HexVertex(Vector3 position)
+	void Awake()
 	{
-		//create the vector position
-		this.position = position;
+		neighbors = new HashSet<HexVertex>();
+		hexAssociations = new HexCell[3];
+		index = 0;
+	}
 
+	void Start()
+	{
 		occupied = false;
 
-		//create the sphere and assign to the position of the vertex
-		sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-		sphere.transform.position = position;
-		sphere.GetComponent<MeshRenderer>().enabled = true; //change back to false
+		//change to false
+		//gameObject.GetComponentsInChildren<MeshRenderer>().enabled = true;
+
+		//foreach (MeshRenderer mrenderer in gameObject.GetComponentsInChildren<MeshRenderer>())
+		//{
+		//	mrenderer.enabled = false;
+		//}
 	}
+
+	void Update(){
+		if(occupied) { // make sure to add check to make sure that the reference to vertex unit is not null
+			//determine level of settlement and display element accordingly
+		}
+	}
+
 
 	//makes sphere "glow" if vertex is available for settlement placement
 	public void displayAvailabilty(){
-		sphere.GetComponent<MeshRenderer>().enabled |= !occupied;
+		gameObject.GetComponent<MeshRenderer>().enabled |= !occupied;
 	}
 
 	public void placeSettlement(){
@@ -72,6 +68,19 @@ public class HexVertex {
 		}
 
 		return array;
+	}
+
+	public static void assignNeighbors()
+	{	
+		//look at all the unique HexVertex
+		foreach (HexVertex vertex in HexGrid.vertexPositions)
+		{
+			//grab the current vertex
+			HexVertex current = vertex;
+
+
+
+		}
 	}
 		
 

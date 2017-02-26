@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 
+
 public enum HexType { Wood, Ore, Brick, Sheep, Sea, Desert };
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class HexCell : MonoBehaviour {
+public class HexCell : MonoBehaviour
+{
 
     // The actual mesh of the cell. Followed by the list of vertices and triangle indices 
     // for each cell. These are populated in the AddTriangle() method.
@@ -33,10 +36,11 @@ public class HexCell : MonoBehaviour {
     public HexEdge[] MyEdges;
     public HexEdge[] PossibleEdges;
 
-	public HexVertex CenterVertex;
-	public HexVertex[] HexVertices;
-	public HashSet<Vector3> GlobalVertices;
+	public HexVertex centerVertex;
+	public List<HexVertex> hexVertices;
+	public HashSet<Vector3> globalVertices;
 
+	public HexVertex[] MyVertices;
 
     private void Awake()
     {
@@ -54,6 +58,7 @@ public class HexCell : MonoBehaviour {
         PossibleEdges = new HexEdge[6];
 		HexVertices = new HexVertex[6];
 		GlobalVertices = new HashSet<Vector3>();
+    	MyVertices = new HexVertex[6];
     }
 
     private void Start()
@@ -72,6 +77,10 @@ public class HexCell : MonoBehaviour {
         return _neighbors[(int)direction];
     }
 
+	public HexCell[] GetNeighbors()
+	{
+		return neighbors;
+	}
     public HexCell GetNeighbor_Opposite(HexDirection direction)
     {
         return ((int) direction < 3) ? _neighbors[(int) direction + 3] : _neighbors[(int) direction - 3];
@@ -152,13 +161,40 @@ public class HexCell : MonoBehaviour {
         Vertices.Clear();
         _triangles.Clear();
 
-        // The center vertex of each cell aligned to the center of the game object in the scene.
-        Vector3 center = gameObject.transform.parent.localPosition;
+	public void SetEdge(int index, HexEdge edge)
+	{
+		this.myEdges[index] = edge;
+		// Opposite cell's reference to same edge.
+		if (index < 3)
+		{
+			if (this.neighbors[index].GetEdge(index + 3) == null && this.neighbors[index] != null)
+			{
+				this.neighbors[index].SetEdge(index + 3, edge);
+			}
+		}
+		else
+		{
+			if (this.neighbors[index].GetEdge(index - 3) == null && this.neighbors[index] != null)
+			{
+				this.neighbors[index].SetEdge(index - 3, edge);
+			}
+		}
+	}
+
+	// Method used from outside this class. It essentially initializes/creates the mesh
+	// for the hex. 
+	public void Triangulate()
+	{
+		// Start by clearing any old info that are stored in these arrays.
+		// Adds functionality for retriangulating the cells in case needed.
+		cellMesh.Clear();
+		vertices.Clear();
+		triangles.Clear();
+
+		// The center vertex of each cell aligned to the center of the game object in the scene.
+		Vector3 center = gameObject.transform.parent.localPosition;
 
 		Vector3 globalCenter = gameObject.transform.position;
-
-        // Please don't spam my console log Jimmy.
-		// Debug.Log("center: " + center + " globalcenter: " + globalCenter);
         
 		// 6 for 6 corners
         for (int i = 0; i < 6; i++)
@@ -174,11 +210,11 @@ public class HexCell : MonoBehaviour {
 			GlobalVertices.Add(globalCenter + HexMetrics.corners[i]);
 			GlobalVertices.Add(globalCenter + HexMetrics.corners[(i + 1) % 6]);
 
-            // Converting our vertices and triangles lists that we have populated so far into arrays to assign
-            // to the mesh.
+			// Converting our vertices and triangles lists that we have populated so far into arrays to assign
+			// to the mesh.
 
-            // https://docs.unity3d.com/ScriptReference/Mesh-vertices.html
-            // https://docs.unity3d.com/ScriptReference/Mesh-triangles.html
+			// https://docs.unity3d.com/ScriptReference/Mesh-vertices.html
+			// https://docs.unity3d.com/ScriptReference/Mesh-triangles.html
 
 			_cellMesh.vertices = Vertices.ToArray();
             _cellMesh.triangles = _triangles.ToArray();
@@ -186,7 +222,7 @@ public class HexCell : MonoBehaviour {
         // Need to recalculate surface normals so that the colors appear correct when rendered.
         _cellMesh.RecalculateNormals();
 
-    }
+	}
 
     private void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
     {
@@ -205,7 +241,6 @@ public class HexCell : MonoBehaviour {
         _triangles.Add(vertexIndex + 1);
         _triangles.Add(vertexIndex + 2);
     }
-
     public bool HasEdgeAtPosition(Vector3 position)
     {
         return MyEdges.Where(edge => edge != null).Any(edge => edge.GetPosition_FC() == position);

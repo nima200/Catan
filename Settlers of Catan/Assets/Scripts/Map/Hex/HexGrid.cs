@@ -28,6 +28,7 @@ public class HexGrid : MonoBehaviour {
     public HexEdge EdgePrefab;
     public HexEdge PossibleEdgePrefab;
     private Dropdown _edgeDirectionDD;
+	public HexVertex settlementPrefab;
 
     public HexCell[] GetCells()
     {
@@ -169,7 +170,7 @@ public class HexGrid : MonoBehaviour {
 			// go through non-null cell and determine if the vector3 exists as a position
 			foreach (HexCell i in Cells)
 			{
-				
+
 				if (i != null)
 				{
 					if (i.GlobalVertices.Contains(temp))
@@ -184,10 +185,32 @@ public class HexGrid : MonoBehaviour {
 		//convert vertex set to hexvertex set
 		foreach (Vector3 i in tempList)
 		{
-//			vertexPositions.Add(new HexVertex(i));
+			Debug.Log("vertex: " + i);
+			HexVertex v = Instantiate(settlementPrefab, i, Quaternion.identity);
+			vertexPositions.Add(v);
+
+			//here you want to add the appropriate HexVertex references within the cell and add as child
+			foreach (HexCell cell in cells)
+			{
+
+				if (cell != null)
+				{
+					if (cell.globalVertices.Contains(i))
+					{
+						cell.hexVertices.Add(v);
+						v.transform.SetParent(cell.transform.Find("Active Vertices").transform);
+
+					}
+				}
+			}
 		}
 
-		//assign neighbors (leave for nima)????
+		//allow each vertex to be aware of surrounding Hex position
+
+
+
+		//assign neighbors
+
 
 
 		
@@ -217,7 +240,12 @@ public class HexGrid : MonoBehaviour {
         cell.transform.SetParent(transform, false);
         cell.transform.position = position;
         cell.Coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-//		cell.centerVertex = new HexVertex(position);
+
+		//Create new HexVertex
+		//HexVertex v = Instantiate(settlementPrefab, position, Quaternion.identity);
+
+		//v.isCenter = true;
+		//cell.centerVertex = v;
 
         // HEX NEIGHBOR SET
 
@@ -266,6 +294,36 @@ public class HexGrid : MonoBehaviour {
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
 
+    public void CreateVertices()
+	{
+		foreach (var cell in cells)
+		{
+			if (cell != null)
+			{
+				for (int i = 0; i < 6; i++)
+				{
+					if (cell.MyVertices[i] == null)
+					{
+						Debug.Log("creating vertex at location" + i + " of cell " + cell.cellNumber);
+						var vertex = Instantiate(settlementPrefab);
+						cell.MyVertices[i] = vertex;
+						vertex.transform.SetParent(cell.transform);
+						vertex.transform.localPosition = HexMetrics.corners[i];
+						if (cell.GetNeighbor(i) != null)
+						{
+							Debug.Log("vertex between " + cell.cellNumber + " and cell " + cell.GetNeighbor(i).cellNumber);
+							cell.GetNeighbor(i).MyVertices[(int)(((HexDirection)i).Opposite() + 1) % 6] = vertex;
+						}
+						if (cell.GetNeighbor((i + 5) % 6) != null)
+						{
+							Debug.Log("vertex between " + cell.cellNumber + " and cell " + cell.GetNeighbor((i + 5)%6).cellNumber);
+							cell.GetNeighbor((i + 5) % 6).MyVertices[(int)(((HexDirection)i).Opposite() + 5) % 6] = vertex;
+						}
+					}
+				}
+			}
+		}
+	}
     private void PlaceEdge(Vector3 position, EdgeUnitType edgeUnitType)
     {
         // Converting hit point to cell reference
@@ -401,6 +459,7 @@ public class HexGrid : MonoBehaviour {
                 edge.Neighbors.Add(neEdge);
                 neEdge.Neighbors.Add(edge);
             }
+
         }
         CreatePossibleEdges(cell);
     }

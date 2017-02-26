@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: fb1b3533a2de1784abda119c00a5b8de
 timeCreated: 1486835675
+=======
+guid: 7f6b86a6a5ef343719160b028346f0f9
+timeCreated: 1487471214
+>>>>>>> JAMES
 licenseType: Free
 NativeFormatImporter:
   userData: 
