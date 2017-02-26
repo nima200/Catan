@@ -24,7 +24,11 @@ public class HexGrid : MonoBehaviour {
     private Canvas _gridCanvas;
     private Canvas _ui;
     private bool _roadBuild = false;
-    public Button BuildButton;
+    private bool _settleBuild = false;
+    private bool _cityBuild = false;
+    public Button BuildRoadButton;
+    public Button BuildSettleButton;
+    public Button BuildCityButton;
     public HexEdge EdgePrefab;
     public HexEdge PossibleEdgePrefab;
     private Dropdown _edgeDirectionDD;
@@ -74,24 +78,60 @@ public class HexGrid : MonoBehaviour {
 
     }
 
-    public void ToggleBuild()
+    public void ToggleRoadBuild()
     {
         if (_roadBuild == false)
         {
             _roadBuild = true;
             _edgeDirectionDD.gameObject.SetActive(true);
-            BuildButton.GetComponentInChildren<Text>().text = "End Build";
+            BuildRoadButton.GetComponentInChildren<Text>().text = "End Build";
             ShowPossibleEdges();
         } else
         {
             _roadBuild = false;
             _edgeDirectionDD.gameObject.SetActive(false);
-            BuildButton.GetComponentInChildren<Text>().text = "Build Road";
+            BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
             HidePossibleEdges();
         }
     }
 
-    
+    public void ToggleSettleBuild()
+    {
+        if (_settleBuild == false)
+        {
+            _settleBuild = true;
+            _edgeDirectionDD.gameObject.SetActive(true);
+            BuildSettleButton.GetComponentInChildren<Text>().text = "End Build";
+            ShowPossibleCornerUnits();
+        }
+        else
+        {
+            _settleBuild = false;
+            _edgeDirectionDD.gameObject.SetActive(false);
+            BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
+            HidePossibleCornerUnits();
+        }
+    }
+
+    public void ToggleCityBuild()
+    {
+        if (_cityBuild == false)
+        {
+            _cityBuild = true;
+            _edgeDirectionDD.gameObject.SetActive(true);
+            BuildRoadButton.GetComponentInChildren<Text>().text = "End Build";
+            ShowPossibleCornerUnits();
+        }
+        else
+        {
+            _cityBuild = false;
+            _edgeDirectionDD.gameObject.SetActive(false);
+            BuildRoadButton.GetComponentInChildren<Text>().text = "Build City";
+            HidePossibleCornerUnits();
+        }
+    }
+
+
     // Very generic mouse input handle method.
     // Check this out for more info
     // https://docs.unity3d.com/ScriptReference/Input-mousePosition.html
@@ -104,6 +144,14 @@ public class HexGrid : MonoBehaviour {
             if (_roadBuild)
             {
                 PlaceEdge(hit.point, EdgeUnitType.Road);
+            }
+            if (_settleBuild)
+            {
+                BuildCorner_Sandbox(hit.point, SandboxPhase.Phase1, (HexDirection) _edgeDirectionDD.value);
+            }
+            if (_cityBuild)
+            {
+                BuildCorner_Sandbox(hit.point, SandboxPhase.Phase2, (HexDirection) _edgeDirectionDD.value);
             }
         }
     }
@@ -151,71 +199,34 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
-
-	// creates HexVertex layer that will reside within the board
-	//This is called once the board has been trimmed
-	public void CreateHexVertices()
-	{
-		
-		HashSet<Vector3>.Enumerator iterator = Positions.GetEnumerator();
-
-		List<Vector3> tempList = new List<Vector3>();
-
-		//get rid of vertices only associated with null hexes
-		do
-		{
-			// grab current vector3
-			Vector3 temp = iterator.Current;
-
-			// go through non-null cell and determine if the vector3 exists as a position
-			foreach (HexCell i in Cells)
-			{
-
-				if (i != null)
-				{
-					if (i.GlobalVertices.Contains(temp))
-					{
-						tempList.Add(temp);
-						break;
-					}
-				}
-			}
-		} while (iterator.MoveNext() != false);
-
-		//convert vertex set to hexvertex set
-		foreach (Vector3 i in tempList)
-		{
-			Debug.Log("vertex: " + i);
-			HexVertex v = Instantiate(settlementPrefab, i, Quaternion.identity);
-			vertexPositions.Add(v);
-
-			//here you want to add the appropriate HexVertex references within the cell and add as child
-			foreach (HexCell cell in cells)
-			{
-
-				if (cell != null)
-				{
-					if (cell.globalVertices.Contains(i))
-					{
-						cell.hexVertices.Add(v);
-						v.transform.SetParent(cell.transform.Find("Active Vertices").transform);
-
-					}
-				}
-			}
-		}
-
-		//allow each vertex to be aware of surrounding Hex position
-
-
-
-		//assign neighbors
-
-
-
-		
-	}
-
+    private void ShowPossibleCornerUnits()
+    {
+        foreach (var cell in Cells)
+        {
+            if (cell == null) continue;
+            foreach (var vertex in cell.MyVertices)
+            {
+                if (vertex.Type == CornerUnit.Disabled)
+                {
+                    vertex.Type = CornerUnit.Open;
+                }
+            }
+        }
+    }
+    private void HidePossibleCornerUnits()
+    {
+        foreach (var cell in Cells)
+        {
+            if (cell == null) continue;
+            foreach (var vertex in cell.MyVertices)
+            {
+                if (vertex.Type == CornerUnit.Open)
+                {
+                    vertex.Type = CornerUnit.Disabled;
+                }
+            }
+        }
+    }
     // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
     // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
 
@@ -233,9 +244,9 @@ public class HexGrid : MonoBehaviour {
         float yCoord = 0f;
         float zCoord = z * (HexMetrics.outerRadius * 1.5f);
 
-		Vector3 position = new Vector3(xCoord, yCoord, zCoord);
+		var position = new Vector3(xCoord, yCoord, zCoord);
 
-        HexCell cell = Cells[i] = Instantiate<HexCell>(CellPrefab);
+        var cell = Cells[i] = Instantiate<HexCell>(CellPrefab);
 
         cell.transform.SetParent(transform, false);
         cell.transform.position = position;
@@ -294,36 +305,88 @@ public class HexGrid : MonoBehaviour {
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
 
+    public void BuildCorner_Sandbox(Vector3 position, SandboxPhase phase, HexDirection direction)
+    {
+        position = transform.InverseTransformPoint(position);
+        var coordinates = HexCoordinates.FromPosition(position);
+        int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
+
+        if (index > Cells.Length - 1) return;
+
+        var cell = Cells[index];
+
+        int directionInt = (int) direction;
+
+        // Prevent duplicates
+        if (!cell.MyVertices[directionInt].Type.Equals(CornerUnit.Open)) return;
+
+        if (phase == SandboxPhase.Phase1)
+        {
+            if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
+            {
+                cell.MyVertices[directionInt].Type = CornerUnit.Settlement;
+            }
+        }
+        else
+        {
+            if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
+            {
+                cell.MyVertices[directionInt].Type = CornerUnit.City;
+            }
+        }
+
+    }
+
     public void CreateVertices()
 	{
-		foreach (var cell in cells)
+		foreach (var cell in Cells)
 		{
-			if (cell != null)
-			{
-				for (int i = 0; i < 6; i++)
-				{
-					if (cell.MyVertices[i] == null)
-					{
-						Debug.Log("creating vertex at location" + i + " of cell " + cell.cellNumber);
-						var vertex = Instantiate(settlementPrefab);
-						cell.MyVertices[i] = vertex;
-						vertex.transform.SetParent(cell.transform);
-						vertex.transform.localPosition = HexMetrics.corners[i];
-						if (cell.GetNeighbor(i) != null)
-						{
-							Debug.Log("vertex between " + cell.cellNumber + " and cell " + cell.GetNeighbor(i).cellNumber);
-							cell.GetNeighbor(i).MyVertices[(int)(((HexDirection)i).Opposite() + 1) % 6] = vertex;
-						}
-						if (cell.GetNeighbor((i + 5) % 6) != null)
-						{
-							Debug.Log("vertex between " + cell.cellNumber + " and cell " + cell.GetNeighbor((i + 5)%6).cellNumber);
-							cell.GetNeighbor((i + 5) % 6).MyVertices[(int)(((HexDirection)i).Opposite() + 5) % 6] = vertex;
-						}
-					}
-				}
-			}
+		    if (cell == null) continue;
+
+		    for (int i = 0; i < 6; i++)
+		    {
+		        if (cell.MyVertices[i] != null) continue;
+		        var vertex = Instantiate(settlementPrefab);
+		        cell.MyVertices[i] = vertex;
+		        vertex.transform.SetParent(cell.transform);
+		        vertex.transform.localPosition = HexMetrics.corners[i];
+		        if (cell.GetNeighbor(i) != null)
+		        {
+		            cell.GetNeighbor(i).MyVertices[(int)(((HexDirection)i).Opposite() + 1) % 6] = vertex;
+		        }
+		        if (cell.GetNeighbor((i + 5) % 6) != null)
+		        {
+		            cell.GetNeighbor((i + 5) % 6).MyVertices[(int)(((HexDirection)i).Opposite() + 5) % 6] = vertex;
+		        }
+		    }
 		}
+	    AssignVertexNeighbors();
 	}
+
+
+    private void AssignVertexNeighbors()
+    {
+        foreach (var cell in Cells)
+        {
+            if (cell == null) continue;
+
+            for (int i = 0; i < 6; i++)
+            {
+                var vertex = cell.MyVertices[i];
+                if (!vertex.Neighbors.Contains(cell.MyVertices[(i + 1) % 6]))
+                {
+                    vertex.Neighbors.Add(cell.MyVertices[(i + 1) % 6]);
+                    cell.MyVertices[(i + 1) % 6].Neighbors.Add(vertex);
+                }
+                if (vertex.Neighbors.Contains(cell.MyVertices[(i + 5) % 6])) continue;
+
+                vertex.Neighbors.Add(cell.MyVertices[(i + 5) % 6]);
+                cell.MyVertices[(i + 5) % 6].Neighbors.Add(vertex);
+            }
+        
+        }
+    }
+
     private void PlaceEdge(Vector3 position, EdgeUnitType edgeUnitType)
     {
         // Converting hit point to cell reference

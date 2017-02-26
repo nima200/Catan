@@ -2,16 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HexVertex : MonoBehaviour{
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+public class HexVertex : MonoBehaviour
+{
+    public CornerUnitType[] States;
 
-	public bool occupied;
+    public CornerUnit _type;
 
-	public Vector3 position;
+    public CornerUnit Type
+    {
+        get { return _type; }
+        set
+        {
+            _type = value;
+            foreach (var state in States)
+            {
+                if (state.Type != Type) continue;
+                var meshes = state.GetComponentsInChildren<MeshFilter>();
+                if (Type != CornerUnit.Disabled)
+                {
+                    var combine = new CombineInstance[meshes.Length];
+                    int i = 0;
+                    while (i < meshes.Length)
+                    {
+                        combine[i].mesh = meshes[i].sharedMesh;
+                        combine[i].transform = meshes[i].transform.localToWorldMatrix;
+                        i++;
+                    }
+                    gameObject.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
+                    gameObject.GetComponent<Renderer>().material = state.GetComponentsInChildren<Renderer>()[0].sharedMaterial;
+                }
+                else
+                {
+                    gameObject.GetComponent<MeshFilter>().mesh = state.GetComponent<MeshFilter>().sharedMesh;
+                }
+                break;
+            }
+        }
+    }
+
+    public List<HexEdge> MyEdges;
+
+    public Vector3 position;
 
 	public int index;
 
 	//keeps track of neighboring vertices
-	public HashSet<HexVertex> neighbors; 
+    public List<HexVertex> Neighbors;
 
 	//all the Hexes that this vertex is associated with
 	public HexCell[] hexAssociations;
@@ -23,38 +60,37 @@ public class HexVertex : MonoBehaviour{
 
 	void Awake()
 	{
-		neighbors = new HashSet<HexVertex>();
+		Neighbors = new List<HexVertex>();
 		hexAssociations = new HexCell[3];
 		index = 0;
-	}
+        transform.GetComponent<MeshFilter>().mesh = new Mesh();
+        MyEdges = new List<HexEdge>();
+        Type = CornerUnit.Disabled;
+    }
 
 	void Start()
 	{
-		occupied = false;
 
 		//change to false
 		//gameObject.GetComponentsInChildren<MeshRenderer>().enabled = true;
 
-		//foreach (MeshRenderer mrenderer in gameObject.GetComponentsInChildren<MeshRenderer>())
-		//{
-		//	mrenderer.enabled = false;
-		//}
+//		foreach (MeshRenderer mrenderer in gameObject.GetComponentsInChildren<MeshRenderer>())
+//		{
+//			mrenderer.enabled = false;
+//		}
+        
 	}
 
 	void Update(){
-		if(occupied) { // make sure to add check to make sure that the reference to vertex unit is not null
-			//determine level of settlement and display element accordingly
-		}
-	}
+
+    }
 
 
 	//makes sphere "glow" if vertex is available for settlement placement
 	public void displayAvailabilty(){
-		gameObject.GetComponent<MeshRenderer>().enabled |= !occupied;
 	}
 
 	public void placeSettlement(){
-		occupied = true;
 
 		//change player reference here
 	}
@@ -69,20 +105,4 @@ public class HexVertex : MonoBehaviour{
 
 		return array;
 	}
-
-	public static void assignNeighbors()
-	{	
-		//look at all the unique HexVertex
-		foreach (HexVertex vertex in HexGrid.vertexPositions)
-		{
-			//grab the current vertex
-			HexVertex current = vertex;
-
-
-
-		}
-	}
-		
-
-
 }

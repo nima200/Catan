@@ -26,6 +26,8 @@ public class HexEdge : MonoBehaviour
         }
     }
 
+    public HexVertex[] MyVertices = new HexVertex[2]; 
+
     public void SetNeighbor(EdgeDirection direction, HexEdge edge)
     {
         NeighborEdges[(int) direction] = edge;

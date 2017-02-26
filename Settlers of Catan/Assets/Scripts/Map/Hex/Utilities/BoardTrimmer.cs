@@ -26,7 +26,7 @@ public class BoardTrimmer : MonoBehaviour {
 				if (cells[i].GetNeighbor(j) != null)
 				{
 					
-					cells[i].neighbors[j].neighbors[(int)((HexDirection)j).Opposite()] = null;
+					cells[i].Neighbors[j].Neighbors[(int)((HexDirection)j).Opposite()] = null;
 				}
 			}
 			Destroy(cells[i].gameObject);
