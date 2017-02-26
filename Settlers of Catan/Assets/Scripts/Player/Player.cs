@@ -6,9 +6,11 @@ public class Player : MonoBehaviour {
 
     public string playerName;
 	public int playerID;
+    public bool isTurn;
 	public CardInventory cardInventory;
 	public List<Harbour> myHarbour = new List<Harbour>();
 
+    // Khalil - Added attribute "isTurn" as a boolean to control UI. 
     public Player()
     {
 		
@@ -19,6 +21,7 @@ public class Player : MonoBehaviour {
 		name = "Player" + i;
 		playerID = i;
 		playerName = "Player" + i;
+        isTurn = false;
 		cardInventory = Instantiate(cardInventoryPrefab);
 		cardInventory.transform.parent = this.transform;
 	}
