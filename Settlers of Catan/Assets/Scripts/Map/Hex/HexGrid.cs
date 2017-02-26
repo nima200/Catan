@@ -512,6 +512,9 @@ public class HexGrid : MonoBehaviour {
                 fcPPE.transform.localRotation = EdgeMetrics.rotations[fcPreviousDirection];
                 fcPPE.SetPosition_FC(fcPreviousPosition);
                 currentEdge.PossibleNeighbors.Add(fcPPE);
+
+                // FIX [SETTLERS-11] Applied to both fcP Possible edge creation and fcN Possible Edge creation
+                // https://knightsofharambe.myjetbrains.com/youtrack/issue/SETTLERS-11
                 if (currentEdge.SecondCell == null)
                 {
                     var neighbor = currentEdge.FirstCell.GetNeighbor(fcPreviousDirection);
@@ -555,6 +558,11 @@ public class HexGrid : MonoBehaviour {
                 fcNPE.transform.localRotation = EdgeMetrics.rotations[fcNextDirection];
                 fcNPE.SetPosition_FC(fcNextPosition);
                 currentEdge.PossibleNeighbors.Add(fcNPE);
+
+                // TODO: Comment code
+
+                // FIX [SETTLERS-11] Applied to both fcP Possible edge creation and fcN Possible Edge creation
+                // https://knightsofharambe.myjetbrains.com/youtrack/issue/SETTLERS-11
                 if (currentEdge.SecondCell == null)
                 {
                     var neighbor = currentEdge.FirstCell.GetNeighbor(fcNextDirection);
