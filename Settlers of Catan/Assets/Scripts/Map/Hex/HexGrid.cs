@@ -137,22 +137,20 @@ public class HexGrid : MonoBehaviour {
     // https://docs.unity3d.com/ScriptReference/Input-mousePosition.html
     private void HandleInput()
     {
-        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(inputRay, out hit))
+        if (!Physics.Raycast(inputRay, out hit)) return;
+        if (_roadBuild)
         {
-            if (_roadBuild)
-            {
-                PlaceEdge(hit.point, EdgeUnitType.Road);
-            }
-            if (_settleBuild)
-            {
-                BuildCorner_Sandbox(hit.point, SandboxPhase.Phase1, (HexDirection) _edgeDirectionDD.value);
-            }
-            if (_cityBuild)
-            {
-                BuildCorner_Sandbox(hit.point, SandboxPhase.Phase2, (HexDirection) _edgeDirectionDD.value);
-            }
+            PlaceEdge(hit.point, EdgeUnitType.Road);
+        }
+        if (_settleBuild)
+        {
+            BuildCorner_Sandbox(hit.point, SandboxPhase.Phase1, (HexDirection) _edgeDirectionDD.value);
+        }
+        if (_cityBuild)
+        {
+            BuildCorner_Sandbox(hit.point, SandboxPhase.Phase2, (HexDirection) _edgeDirectionDD.value);
         }
     }
 
@@ -165,15 +163,13 @@ public class HexGrid : MonoBehaviour {
     public void AssignTokens()
     {
         int tokenIndex = 0;
-        for (int i = 0; i < Cells.Length; i++)
+        foreach (var t in Cells)
         {
-            if (Cells[i] != null)
-            {
-                Cells[i].CellNumber = _tokens[tokenIndex];
-                Cells[i].Label.text = Cells[i].CellNumber.ToString();
-                Cells[i].gameObject.name = "Hex " + Cells[i].CellNumber.ToString();
-                tokenIndex++;
-            }
+            if (t == null) continue;
+            t.CellNumber = _tokens[tokenIndex];
+            t.Label.text = t.CellNumber.ToString();
+            t.gameObject.name = "Hex " + t.CellNumber.ToString();
+            tokenIndex++;
         }
     }
 
@@ -363,7 +359,6 @@ public class HexGrid : MonoBehaviour {
 	    AssignVertexNeighbors();
 	}
 
-
     private void AssignVertexNeighbors()
     {
         foreach (var cell in Cells)
@@ -384,6 +379,60 @@ public class HexGrid : MonoBehaviour {
                 cell.MyVertices[(i + 5) % 6].Neighbors.Add(vertex);
             }
         
+        }
+    }
+
+    public void CreateEdges()
+    {
+        foreach (var cell in Cells)
+        {
+            if (cell == null) continue;
+
+            for (int i = 0; i < 6; i++)
+            {
+                if (cell.MyEdges[i] != null) continue;
+                var edge = Instantiate(EdgePrefab);
+                cell.MyEdges[i] = edge;
+                edge.transform.SetParent(cell.transform.Find("My Edges"));
+                edge.transform.localPosition = (HexMetrics.corners[i] + HexMetrics.corners[(i + 1) % 6]) / 2;
+                edge.transform.localRotation = EdgeMetrics.rotations[i];
+                if (cell.GetNeighbor(i) != null)
+                {
+                    cell.GetNeighbor(i).MyEdges[(int) (((HexDirection) i).Opposite()) % 6] = edge;
+                }
+            }
+        }
+        AssignEdgeNeighbors();
+    }
+
+    private void AssignEdgeNeighbors()
+    {
+        foreach (var cell in Cells)
+        {
+            if (cell == null) continue;
+
+            for (int i = 0; i < 6; i++)
+            {
+                var edge = cell.MyEdges[i];
+                if (!edge.Neighbors.Contains(cell.MyEdges[(i + 1) % 6]))
+                {
+                    edge.Neighbors.Add(cell.MyEdges[(i + 1) % 6]);
+                    cell.MyEdges[(i + 1) % 6].Neighbors.Add(edge);
+                }
+                if (!edge.Neighbors.Contains(cell.MyEdges[(i + 5) % 6]))
+                {
+                    edge.Neighbors.Add(cell.MyEdges[(i + 5) % 6]);
+                    cell.MyEdges[(i + 5) % 6].Neighbors.Add(edge);
+                }
+                var directionOpposite = ((HexDirection) i).Opposite();
+                int directionOppositeInt = (int) directionOpposite;
+
+                if (cell.GetNeighbor(i) != null) continue;
+                if (cell.GetNeighbor((i + 1) % 6) == null) continue;
+                if (edge.Neighbors.Contains(cell.GetNeighbor((i + 1) % 6).MyEdges[(directionOppositeInt + 2) % 6])) continue;
+                edge.Neighbors.Add(cell.GetNeighbor((i + 1) % 6).MyEdges[(directionOppositeInt + 2) % 6]);
+                cell.GetNeighbor((i + 1) % 6).MyEdges[(directionOppositeInt + 2) % 6].Neighbors.Add(edge);
+            }
         }
     }
 

@@ -33,13 +33,14 @@ public class BoardTrimmer : MonoBehaviour {
 			Destroy(cells[i].Label.gameObject);
 			cells[i] = null;
 		}
-        
+
         grid.AssignTokens();
         grid.HidePossibleEdges();
-        grid.PlaceEdge_Sandbox(EdgeUnitType.Road);
-        grid.PlaceEdge_Sandbox(EdgeUnitType.Road);
-		grid.CreateVertices();
-		//create playable vertices
+        //        grid.PlaceEdge_Sandbox(EdgeUnitType.Road);
+        //        grid.PlaceEdge_Sandbox(EdgeUnitType.Road);
+        grid.CreateEdges();
+
+        grid.CreateVertices();
     }
 
 }

@@ -6,9 +6,7 @@ using UnityEngine;
 public class HexVertex : MonoBehaviour
 {
     public CornerUnitType[] States;
-
-    public CornerUnit _type;
-
+    private CornerUnit _type;
     public CornerUnit Type
     {
         get { return _type; }
@@ -40,69 +38,18 @@ public class HexVertex : MonoBehaviour
             }
         }
     }
-
     public List<HexEdge> MyEdges;
-
-    public Vector3 position;
-
-	public int index;
-
+    public Vector3 Position;
+	public int Index;
 	//keeps track of neighboring vertices
     public List<HexVertex> Neighbors;
 
-	//all the Hexes that this vertex is associated with
-	public HexCell[] hexAssociations;
-
-	//add reference to vertex unit here (i.e settlement)
-
-	//perhaps add reference to edge
-
-
-	void Awake()
+	private void Awake()
 	{
 		Neighbors = new List<HexVertex>();
-		hexAssociations = new HexCell[3];
-		index = 0;
+		Index = 0;
         transform.GetComponent<MeshFilter>().mesh = new Mesh();
         MyEdges = new List<HexEdge>();
         Type = CornerUnit.Disabled;
     }
-
-	void Start()
-	{
-
-		//change to false
-		//gameObject.GetComponentsInChildren<MeshRenderer>().enabled = true;
-
-//		foreach (MeshRenderer mrenderer in gameObject.GetComponentsInChildren<MeshRenderer>())
-//		{
-//			mrenderer.enabled = false;
-//		}
-        
-	}
-
-	void Update(){
-
-    }
-
-
-	//makes sphere "glow" if vertex is available for settlement placement
-	public void displayAvailabilty(){
-	}
-
-	public void placeSettlement(){
-
-		//change player reference here
-	}
-
-	//simple method to extract all Vector3's from an array of HexVertex
-	public static Vector3[] convert(HexVertex[] vertices){
-		Vector3[] array = new Vector3[vertices.Length];
-		for (int i = 0; i < array.Length; i++)
-		{
-			array[i] = vertices[i].position;
-		}
-
-		return array;
-	}
 }
