@@ -983,6 +983,8 @@ MonoBehaviour:
     type: 2}
   possibleEdgePrefab: {fileID: 114660176733284600, guid: 40b83e37a6edcf043871a2968ea8a2f6,
     type: 2}
+  settlementPrefab: {fileID: 114833499102026970, guid: 7abc31b4501334b34a931afec32600c7,
+    type: 2}
 --- !u!4 &956983979
 Transform:
   m_ObjectHideFlags: 0

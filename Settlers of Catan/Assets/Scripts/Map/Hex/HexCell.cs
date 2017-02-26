@@ -31,7 +31,7 @@ public class HexCell : MonoBehaviour
 	// It was adviced by the tutorial I followed to serialize the neighbor connections of cells
 	// so that they would survive recompiles. However I'm not entirely sure if we need this. Doesn't harm anyways.
 	[SerializeField]
-	HexCell[] neighbors;
+	public HexCell[] neighbors;
 	[SerializeField]
 	public HexEdge[] myEdges;
 	public HexEdge[] possibleEdges;
@@ -39,6 +39,8 @@ public class HexCell : MonoBehaviour
 	public HexVertex centerVertex;
 	public List<HexVertex> hexVertices;
 	public HashSet<Vector3> globalVertices;
+
+	public HexVertex[] MyVertices;
 
 
 	void Awake()
@@ -56,6 +58,7 @@ public class HexCell : MonoBehaviour
 		possibleEdges = new HexEdge[6];
 		hexVertices = new List<HexVertex>();
 		globalVertices = new HashSet<Vector3>();
+		MyVertices = new HexVertex[6];
 	}
 
 	void Start()
@@ -66,6 +69,11 @@ public class HexCell : MonoBehaviour
 		// Mesh collider needs a mesh to feed into it so that it can adapt its shape/size/location/etc.
 		GetComponent<MeshCollider>().sharedMesh = cellMesh;
 
+	}
+
+	public HexCell[] GetNeighbors()
+	{
+		return neighbors;
 	}
 
 	// Getter Method for neighbors, replies back based on the direction given.

@@ -8,9 +8,10 @@ public class HexVertex : MonoBehaviour{
 
 	public Vector3 position;
 
+	public int index;
 
 	//keeps track of neighboring vertices
-	public List<HexVertex> neighbors; 
+	public HashSet<HexVertex> neighbors; 
 
 	//all the Hexes that this vertex is associated with
 	public HexCell[] hexAssociations;
@@ -22,7 +23,9 @@ public class HexVertex : MonoBehaviour{
 
 	void Awake()
 	{
-		neighbors = new List<HexVertex>();
+		neighbors = new HashSet<HexVertex>();
+		hexAssociations = new HexCell[3];
+		index = 0;
 	}
 
 	void Start()

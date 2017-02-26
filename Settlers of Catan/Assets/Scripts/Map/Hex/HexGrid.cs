@@ -215,9 +215,12 @@ public class HexGrid : MonoBehaviour {
 			}
 		}
 
+		//allow each vertex to be aware of surrounding Hex position
 
 
-		//assign neighbors (leave for nima)????
+
+		//assign neighbors
+
 
 
 		
@@ -300,6 +303,37 @@ public class HexGrid : MonoBehaviour {
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
+
+	public void CreateVertices()
+	{
+		foreach (var cell in cells)
+		{
+			if (cell != null)
+			{
+				for (int i = 0; i < 6; i++)
+				{
+					if (cell.MyVertices[i] == null)
+					{
+						Debug.Log("creating vertex at location" + i + " of cell " + cell.cellNumber);
+						var vertex = Instantiate(settlementPrefab);
+						cell.MyVertices[i] = vertex;
+						vertex.transform.SetParent(cell.transform);
+						vertex.transform.localPosition = HexMetrics.corners[i];
+						if (cell.GetNeighbor(i) != null)
+						{
+							Debug.Log("vertex between " + cell.cellNumber + " and cell " + cell.GetNeighbor(i).cellNumber);
+							cell.GetNeighbor(i).MyVertices[(int)(((HexDirection)i).Opposite() + 1) % 6] = vertex;
+						}
+						if (cell.GetNeighbor((i + 5) % 6) != null)
+						{
+							Debug.Log("vertex between " + cell.cellNumber + " and cell " + cell.GetNeighbor((i + 5)%6).cellNumber);
+							cell.GetNeighbor((i + 5) % 6).MyVertices[(int)(((HexDirection)i).Opposite() + 5) % 6] = vertex;
+						}
+					}
+				}
+			}
+		}
+	}
 
     void PlaceEdge(Vector3 position)
     {

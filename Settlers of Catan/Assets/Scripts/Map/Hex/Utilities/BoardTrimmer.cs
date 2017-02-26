@@ -20,8 +20,15 @@ public class BoardTrimmer : MonoBehaviour {
 		foreach (int i in numbers)
 		{
 
-			Debug.Log(cells[i]);
-
+			//Debug.Log(cells[i]);
+			for (int j = 0; j < 6; j++)
+			{
+				if (cells[i].GetNeighbor(j) != null)
+				{
+					
+					cells[i].neighbors[j].neighbors[(int)((HexDirection)j).Opposite()] = null;
+				}
+			}
 			Destroy(cells[i].gameObject);
 			Destroy(cells[i].label.gameObject);
 			cells[i] = null;
@@ -30,8 +37,8 @@ public class BoardTrimmer : MonoBehaviour {
         grid.assignTokens();
         //grid.createPossibleEdges();
         //grid.HidePossibleEdges();
-		grid.createHexVertices();
-
+		//grid.createHexVertices();
+		//grid.CreateVertices();
 		//create playable vertices
     }
 
