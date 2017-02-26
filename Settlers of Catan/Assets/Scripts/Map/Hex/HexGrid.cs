@@ -1,11 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 
 public class HexGrid : MonoBehaviour {
 
@@ -277,6 +272,9 @@ public class HexGrid : MonoBehaviour {
         position = transform.InverseTransformPoint(position);
         var coordinates = HexCoordinates.FromPosition(position);
         int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
+        Debug.Log("index: " + index + " length: " + Cells.Length);
+        if (index > Cells.Length - 1) return;
+        
         var cell = Cells[index];
 
         // Prevent duplicates
@@ -307,6 +305,7 @@ public class HexGrid : MonoBehaviour {
             cell.GetNeighbor(direction).PossibleEdges[(int)direction.Opposite()] = null;
         }
         // Destroy the possible edge
+        
         Destroy(possibleEdge.gameObject);
         // From this point onward this function and placeedge_sandbox share the rest
         // So best to have them both call a third helper function to basically not
@@ -471,6 +470,7 @@ public class HexGrid : MonoBehaviour {
                                       HexMetrics.corners[(scPreviousDirection + 1) % 6]) / 2;
             var scNextPosition = (HexMetrics.corners[scNextDirection] +
                                   HexMetrics.corners[(scNextDirection + 1) % 6]) / 2;
+
             // fcPD --> \ / 
             //  fc       |
             // fcND --> / \ 
@@ -490,18 +490,11 @@ public class HexGrid : MonoBehaviour {
                 // First Cell Previous Possible Edge
                 var fcPPE = Instantiate(PossibleEdgePrefab);
                 fcPPE.IsActual = false;
-                if (currentEdge.SecondCell != null)
-                {
-                    fcPPE.name = "fcP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
-                                 currentEdge.SecondCell.CellNumber;
-                }
-                else
-                {
-                    fcPPE.name = "fcP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
-                }
-                
+                fcPPE.name = currentEdge.SecondCell != null
+                    ? "fcP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
+                      currentEdge.SecondCell.CellNumber
+                    : "fcP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
                 cell.PossibleEdges[fcPreviousDirection] = fcPPE;
-
                 // If there's a cell in that direction and if that cell already doesn't have
                 // a possible edge placed on this location
                 if (currentEdge.FirstCell.GetNeighbor(fcPreviousDirection) != null &&
@@ -519,6 +512,23 @@ public class HexGrid : MonoBehaviour {
                 fcPPE.transform.localRotation = EdgeMetrics.rotations[fcPreviousDirection];
                 fcPPE.SetPosition_FC(fcPreviousPosition);
                 currentEdge.PossibleNeighbors.Add(fcPPE);
+                if (currentEdge.SecondCell == null)
+                {
+                    var neighbor = currentEdge.FirstCell.GetNeighbor(fcPreviousDirection);
+                    int scNPEIndex = ((int)((HexDirection)fcPreviousDirection).Opposite() + 5) % 6;
+                    if (neighbor != null && CanPlacePossibleEdge(neighbor, scNPEIndex))
+                    {
+                        var scNPE = Instantiate(PossibleEdgePrefab);
+                        scNPE.IsActual = false;
+                        scNPE.name = "scP Possible Edge between "; // TODO: FIX NAMING
+                        neighbor.PossibleEdges[scNPEIndex] = scNPE;
+                        scNPE.transform.SetParent(neighbor.transform.Find("Empty Edges").transform);
+                        scNPE.transform.localPosition = (HexMetrics.corners[scNPEIndex] + HexMetrics.corners[(scNPEIndex + 1) % 6]) / 2;
+                        scNPE.transform.localRotation = EdgeMetrics.rotations[scNPEIndex];
+                        scNPE.SetPosition_FC(scNextPosition);
+                        currentEdge.PossibleNeighbors.Add(scNPE);
+                    }
+                }
             }
             // Same idea as above, different location
             if (CanPlacePossibleEdge(currentEdge.FirstCell, fcNextDirection) &&
@@ -529,15 +539,10 @@ public class HexGrid : MonoBehaviour {
                 var fcNPE = Instantiate(PossibleEdgePrefab);
                 currentEdge.FirstCell.PossibleEdges[fcNextDirection] = fcNPE;
                 fcNPE.IsActual = false;
-                if (currentEdge.SecondCell != null)
-                {
-                    fcNPE.name = "fcN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
-                                 currentEdge.SecondCell.CellNumber;
-                }
-                else
-                {
-                    fcNPE.name = "fcN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
-                }
+                fcNPE.name = currentEdge.SecondCell != null
+                    ? "fcN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
+                      currentEdge.SecondCell.CellNumber
+                    : "fcN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
                 if (currentEdge.FirstCell.GetNeighbor(fcNextDirection) != null &&
                     currentEdge.FirstCell.GetNeighbor(fcNextDirection).PossibleEdges[
                         (int) ((HexDirection)fcNextDirection).Opposite()] == null)
@@ -550,6 +555,23 @@ public class HexGrid : MonoBehaviour {
                 fcNPE.transform.localRotation = EdgeMetrics.rotations[fcNextDirection];
                 fcNPE.SetPosition_FC(fcNextPosition);
                 currentEdge.PossibleNeighbors.Add(fcNPE);
+                if (currentEdge.SecondCell == null)
+                {
+                    var neighbor = currentEdge.FirstCell.GetNeighbor(fcNextDirection);
+                    int scPPEIndex = ((int)((HexDirection)fcNextDirection).Opposite() + 1) % 6;
+                    if (neighbor != null && CanPlacePossibleEdge(neighbor, scPPEIndex))
+                    {
+                        var scPPE = Instantiate(PossibleEdgePrefab);
+                        scPPE.IsActual = false;
+                        scPPE.name = "scP Possible Edge between "; // TODO: FIX NAMING
+                        neighbor.PossibleEdges[scPPEIndex] = scPPE;
+                        scPPE.transform.SetParent(neighbor.transform.Find("Empty Edges").transform);
+                        scPPE.transform.localPosition = (HexMetrics.corners[scPPEIndex] + HexMetrics.corners[(scPPEIndex + 1) % 6]) / 2;
+                        scPPE.transform.localRotation = EdgeMetrics.rotations[scPPEIndex];
+                        scPPE.SetPosition_FC(scPreviousPosition);
+                        currentEdge.PossibleNeighbors.Add(scPPE);
+                    }
+                }
             }
 
             // We can't continue if there's no second cell, because the next two possible edges
@@ -558,6 +580,7 @@ public class HexGrid : MonoBehaviour {
             //     \ / <-- scND
             //      |   sc
             //     / \ <-- scPD
+
             if (currentEdge.SecondCell == null) continue;
 
             // Same concept as those for the first cell
@@ -569,15 +592,10 @@ public class HexGrid : MonoBehaviour {
                 var scPPE = Instantiate(PossibleEdgePrefab);
                 currentEdge.SecondCell.PossibleEdges[scPreviousDirection] = scPPE;
                 scPPE.IsActual = false;
-                if (currentEdge.SecondCell != null)
-                {
-                    scPPE.name = "scP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
-                                 currentEdge.SecondCell.CellNumber;
-                }
-                else
-                {
-                    scPPE.name = "scP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
-                }
+                scPPE.name = currentEdge.SecondCell != null
+                    ? "scP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
+                      currentEdge.SecondCell.CellNumber
+                    : "scP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
 
                 if (currentEdge.SecondCell.GetNeighbor(scPreviousDirection) != null &&
                     currentEdge.SecondCell.GetNeighbor(scPreviousDirection).PossibleEdges[
@@ -601,16 +619,11 @@ public class HexGrid : MonoBehaviour {
                 // Second Cell Next Possible Edge
                 var scNPE = Instantiate(PossibleEdgePrefab);
                 currentEdge.SecondCell.PossibleEdges[scNextDirection] = scNPE;
-                scNPE.IsActual = false; 
-                if (currentEdge.SecondCell != null)
-                {
-                    scNPE.name = "scN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
-                                 currentEdge.SecondCell.CellNumber;
-                }
-                else
-                {
-                    scNPE.name = "scN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
-                }
+                scNPE.IsActual = false;
+                scNPE.name = currentEdge.SecondCell != null
+                    ? "scN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
+                      currentEdge.SecondCell.CellNumber
+                    : "scN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
 
                 if (currentEdge.SecondCell.GetNeighbor(scNextDirection) != null &&
                     currentEdge.SecondCell.GetNeighbor(scNextDirection).PossibleEdges[
