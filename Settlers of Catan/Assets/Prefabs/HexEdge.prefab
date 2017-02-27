@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23963975145586666}
   - component: {fileID: 114752928072430280}
   m_Layer: 0
-  m_Name: HexEdge 1
+  m_Name: HexEdge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,6 +101,4 @@ MonoBehaviour:
   NeighborEdges: []
   Neighbors: []
   PossibleNeighbors: []
-  MyVertices:
-  - {fileID: 0}
-  - {fileID: 0}
+  MyVertices: []

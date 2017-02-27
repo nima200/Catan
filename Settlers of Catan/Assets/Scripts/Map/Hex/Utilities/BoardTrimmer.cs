@@ -37,9 +37,8 @@ public class BoardTrimmer : MonoBehaviour {
         grid.AssignTokens();
         //        grid.PlaceEdge_Sandbox(EdgeUnit.Road);
         //        grid.PlaceEdge_Sandbox(EdgeUnit.Road);
-        grid.CreateEdges();
-
         grid.CreateVertices();
+        grid.CreateEdges();
     }
 
 }

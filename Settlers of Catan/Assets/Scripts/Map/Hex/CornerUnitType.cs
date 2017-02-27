@@ -4,7 +4,8 @@ public enum CornerUnit
     Disabled,
     Open,
     Settlement,
-    City
+    City,
+    Hidden
 }
 
 public class CornerUnitType : MonoBehaviour

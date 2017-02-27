@@ -5,7 +5,8 @@ public enum EdgeUnit
     Disabled,
     Open,
     Road,
-    Ship
+    Ship,
+    Hidden
 };
 
 public class EdgeUnitType : MonoBehaviour

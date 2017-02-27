@@ -96,9 +96,8 @@ MonoBehaviour:
   - {fileID: 114170074607142600, guid: 7abc31b4501334b34a931afec32600c7, type: 2}
   - {fileID: 114098925257227924, guid: 899f37c7d0f39cd4a9026b2c1d3cd59a, type: 2}
   - {fileID: 114117797843997140, guid: fb1b3533a2de1784abda119c00a5b8de, type: 2}
-  _type: 0
+  - {fileID: 114255877134975436, guid: 963b17e47449d91459b9317c8b98a39e, type: 2}
   MyEdges: []
-  position: {x: 0, y: 0, z: 0}
-  index: 0
+  Position: {x: 0, y: 0, z: 0}
+  Index: 0
   Neighbors: []
-  hexAssociations: []

@@ -17,7 +17,7 @@ public class HexVertex : MonoBehaviour
             {
                 if (state.Type != Type) continue;
                 var meshes = state.GetComponentsInChildren<MeshFilter>();
-                if (Type != CornerUnit.Disabled)
+                if (Type != CornerUnit.Disabled || Type != CornerUnit.Hidden)
                 {
                     var combine = new CombineInstance[meshes.Length];
                     int i = 0;
@@ -49,6 +49,6 @@ public class HexVertex : MonoBehaviour
 		Index = 0;
         transform.GetComponent<MeshFilter>().mesh = new Mesh();
         MyEdges = new List<HexEdge>();
-        Type = CornerUnit.Disabled;
+        Type = CornerUnit.Hidden;
     }
 }

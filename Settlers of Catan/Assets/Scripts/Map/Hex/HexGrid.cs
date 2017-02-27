@@ -27,6 +27,7 @@ public class HexGrid : MonoBehaviour
     private bool _shipBuild = false;
     private bool _settleBuild = false;
     private bool _cityBuild = false;
+    public SandboxPhase phase = SandboxPhase.Phase1;
     public Button BuildRoadButton;
     public Button BuildShipButton;
     public Button BuildSettleButton;
@@ -151,6 +152,13 @@ public class HexGrid : MonoBehaviour
         }
     }
 
+    public void StartGame()
+    {
+        ShowPossibleCornerUnits();
+        _settleBuild = true;
+
+
+    }
 
     // Very generic mouse input handle method.
     // Check this out for more info
@@ -170,11 +178,11 @@ public class HexGrid : MonoBehaviour
         }
         if (_settleBuild)
         {
-            BuildCornerUnit_Sandbox(hit.point, SandboxPhase.Phase1, (HexDirection) _edgeDirectionDd.value);
+            BuildCornerUnit_Sandbox(hit.point, (HexDirection) _edgeDirectionDd.value);
         }
         if (_cityBuild)
         {
-            BuildCornerUnit_Sandbox(hit.point, SandboxPhase.Phase2, (HexDirection) _edgeDirectionDd.value);
+            BuildCornerUnit_Sandbox(hit.point, (HexDirection) _edgeDirectionDd.value);
         }
     }
 
@@ -202,15 +210,25 @@ public class HexGrid : MonoBehaviour
         foreach (var cell in Cells)
         {
             if (cell == null) continue;
-            foreach (var edge in cell.MyEdges)
+            foreach (var vertex in cell.MyVertices)
             {
-                if (edge.Type == EdgeUnit.Disabled)
+                if (vertex.Type != CornerUnit.Settlement && vertex.Type != CornerUnit.City) continue;
+                foreach (var edge in vertex.MyEdges)
                 {
-                    edge.Type = EdgeUnit.Open;
+                    if (edge.Type != EdgeUnit.Disabled) continue;
+
+                    if (phase == SandboxPhase.Phase2)
+                    {
+                        edge.Type = vertex.Type == CornerUnit.City ? EdgeUnit.Open : EdgeUnit.Disabled;
+                    }
+                    else
+                    {
+                        edge.Type = EdgeUnit.Open;
+                    }
                 }
             }
-        }
-    }
+         }
+     }
 
     public void HidePossibleEdges()
     {
@@ -234,10 +252,29 @@ public class HexGrid : MonoBehaviour
             if (cell == null) continue;
             foreach (var vertex in cell.MyVertices)
             {
-                if (vertex.Type == CornerUnit.Disabled)
+                if (phase == SandboxPhase.Phase1)
+                {
+                    if (vertex.Type == CornerUnit.Hidden)
+                    {
+                        vertex.Type = CornerUnit.Open;
+
+                    }
+                } else if (phase == SandboxPhase.Phase2 &&
+                         (vertex.Type == CornerUnit.City || vertex.Type == CornerUnit.Settlement))
+                {
+                    foreach (var neighbor in vertex.Neighbors)
+                    {
+                        neighbor.Type = CornerUnit.Disabled;
+                    }
+                } else if (phase == SandboxPhase.Phase2 && vertex.Type == CornerUnit.Hidden)
                 {
                     vertex.Type = CornerUnit.Open;
+                } else if (phase == SandboxPhase.Phase3)
+                {
+                    
                 }
+                    
+              
             }
         }
     }
@@ -250,7 +287,7 @@ public class HexGrid : MonoBehaviour
             {
                 if (vertex.Type == CornerUnit.Open)
                 {
-                    vertex.Type = CornerUnit.Disabled;
+                    vertex.Type = CornerUnit.Hidden;
                 }
             }
         }
@@ -334,7 +371,7 @@ public class HexGrid : MonoBehaviour
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
 
-    public void BuildCornerUnit_Sandbox(Vector3 position, SandboxPhase phase, HexDirection direction)
+    public void BuildCornerUnit_Sandbox(Vector3 position, HexDirection direction)
     {
         position = transform.InverseTransformPoint(position);
         var coordinates = HexCoordinates.FromPosition(position);
@@ -354,6 +391,9 @@ public class HexGrid : MonoBehaviour
             if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
             {
                 cell.MyVertices[directionInt].Type = CornerUnit.Settlement;
+                ToggleSettleBuild();
+                ToggleRoadBuild();
+
             }
         }
         else
@@ -361,9 +401,11 @@ public class HexGrid : MonoBehaviour
             if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
             {
                 cell.MyVertices[directionInt].Type = CornerUnit.City;
+                ToggleCityBuild();
+                ToggleRoadBuild();
             }
         }
-
+        
     }
 
     public void CreateVertices()
@@ -426,6 +468,26 @@ public class HexGrid : MonoBehaviour
                 if (cell.MyEdges[i] != null) continue;
                 var edge = Instantiate(EdgePrefab);
                 cell.MyEdges[i] = edge;
+
+                if (!cell.MyVertices[i].MyEdges.Contains(edge))
+                {
+                    cell.MyVertices[i].MyEdges.Add(edge);
+                }
+                if (!cell.MyVertices[(i + 1) % 6].MyEdges.Contains(edge))
+                {
+                    cell.MyVertices[(i + 1) % 6].MyEdges.Add(edge);
+                }
+
+                if (!edge.MyVertices.Contains(cell.MyVertices[i]))
+                {
+                    edge.MyVertices.Add(cell.MyVertices[i]);
+                }
+                if (!edge.MyVertices.Contains(cell.MyVertices[(i + 1) % 6]))
+                {
+                    edge.MyVertices.Add(cell.MyVertices[(i + 1) % 6]);
+                }
+
+
                 edge.transform.SetParent(cell.transform.Find("My Edges"));
                 edge.transform.localPosition = (HexMetrics.corners[i] + HexMetrics.corners[(i + 1) % 6]) / 2;
                 edge.transform.localRotation = EdgeMetrics.rotations[i];
@@ -489,436 +551,24 @@ public class HexGrid : MonoBehaviour
         {
             cell.MyEdges[directionInt].gameObject.transform.localRotation *= Quaternion.Euler(0f, 90f, 0f);
         }
-    }
 
-    /*private void PlaceEdge(Vector3 position, EdgeUnit edgeType)
-    {
-        // Converting hit point to cell reference
-        position = transform.InverseTransformPoint(position);
-        var coordinates = HexCoordinates.FromPosition(position);
-        int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
-        Debug.Log("index: " + index + " length: " + Cells.Length);
-        if (index > Cells.Length - 1) return;
-        
-        var cell = Cells[index];
-
-        // Prevent duplicates
-        if (cell.GetEdge(_edgeDirectionDd.value) != null) return;
-
-        // Just some casting that will help reduce typing
-        int directionInt = _edgeDirectionDd.value;
-        var direction = (HexDirection) directionInt;
-        var directionOpposite = direction.Opposite();
-        int directionOppositeInt = (int)directionOpposite;
-
-        // If there isn't a possible edge at the location we want to place our edge, prevent placing an edge
-        if (cell.PossibleEdges[(int)direction] == null ||
-            (cell.GetNeighbor(direction) != null &&
-             cell.GetNeighbor(direction).PossibleEdges[(int)direction.Opposite()] == null)) return;
-
-        // Create the edge
-        var edge = Instantiate(EdgePrefab);
-        edge.Type = edgeType;
-
-        // Take a reference to the possible edge so that we can destroy it
-        var possibleEdge = cell.PossibleEdges[(int)direction];
-
-        // Remove the references from the cell to the possible edge location
-        cell.PossibleEdges[(int)direction] = null;
-        if (cell.GetNeighbor(direction) != null)
+        switch (phase)
         {
-            cell.GetNeighbor(direction).PossibleEdges[(int)direction.Opposite()] = null;
-        }
-        // Destroy the possible edge
-        
-        Destroy(possibleEdge.gameObject);
-        // From this point onward this function and placeedge_sandbox share the rest
-        // So best to have them both call a third helper function to basically not
-        // have to edit everything twice.
-        PlaceEdge_Continue(cell, directionInt, direction, directionOppositeInt, edge);
-    }
+            case SandboxPhase.Phase1:
+                phase = SandboxPhase.Phase2;
+                ToggleCityBuild();
+                ToggleRoadBuild();
+                break;
 
-    private void PlaceEdge_Continue(HexCell cell, int directionInt, HexDirection direction, int directionOppositeInt, HexEdge edge)
-    {
-        // Create edge-cell references
-        cell.SetEdge(direction, edge);
-        edge.transform.SetParent(cell.transform);
-
-        // Find the mid-point between the two corner vertices that the edge will go to
-        var midpoint_FC = (HexMetrics.corners[directionInt] + HexMetrics.corners[(directionInt + 1) % 6]) / 2;
-        var midpoint_SC = (HexMetrics.corners[directionOppositeInt] + HexMetrics.corners[(directionOppositeInt + 1) % 6]) /
-                          2;
-
-        // Position and rotation respective to where it needs to go
-        edge.transform.localPosition = midpoint_FC;
-        edge.transform.localRotation = EdgeMetrics.rotations[directionInt];
-
-        // Make the edge know about it's position. 
-        // Just an attribute
-        edge.SetPosition_FC(midpoint_FC);
-        edge.FirstCell = cell;
-
-        // Set the neighbor cell to know about this edge as well, if there is a cell there.
-        if (cell.GetNeighbor(direction) != null)
-        {
-            edge.name = "Edge between " + cell.CellNumber + " & " + cell.GetNeighbor(direction).CellNumber;
-            edge.SecondCell = cell.GetNeighbor(direction);
-            edge.SetPosition_SC(midpoint_SC);
-        }
-        else
-        {
-            edge.name = "Edge between " + cell.CellNumber + " & --";
-            edge.SecondCell = null;
-        }
-
-        // ==================================================================
-        // +                                                                +
-        // +                  Edge neighboring structure                    +
-        // +                                                                +
-        // ==================================================================
-
-        // Try to find neighboring edges and add them to edge's neighbor list.
-
-        // Previous edge location on the cell
-        // (direction + 5) % 6 is essentially direction - 1 (prevents 0 - 1 = -1 index)
-        int nwEdgeIndex = ((int)direction + 5) % 6;
-        var nwEdge = cell.MyEdges[nwEdgeIndex];
-
-        if (nwEdge != null)
-        {
-            edge.Neighbors.Add(nwEdge);
-            nwEdge.Neighbors.Add(edge);
-        }
-
-        // Next edge location on the cell
-        int swEdgeIndex = ((int)direction + 1) % 6;
-        var swEdge = cell.MyEdges[swEdgeIndex];
-
-        if (swEdge != null)
-        {
-            edge.Neighbors.Add(swEdge);
-            swEdge.Neighbors.Add(edge);
-        }
-
-        // The other two edge neighbors will only exist if there is a neighboring cell for that edge
-        if (edge.SecondCell != null)
-        {
-            // Consider this edge, but in the eyes of the neighboring cell.
-            // That cell will consider it at an opposite direction.
-            var oppositeEdgeDirection = direction.Opposite();
-
-            // Opposite cell, previous edge location
-            int seEdgeIndex = ((int)oppositeEdgeDirection + 5) % 6;
-            var seEdge = cell.MyEdges[seEdgeIndex];
-
-            if (seEdge != null)
-            {
-                edge.Neighbors.Add(seEdge);
-                seEdge.Neighbors.Add(edge);
-            }
-
-            // Opposite cell, next edge location
-            int neEdgeIndex = ((int)oppositeEdgeDirection + 1) % 6;
-            var neEdge = cell.MyEdges[neEdgeIndex];
-
-            if (neEdge != null)
-            {
-                edge.Neighbors.Add(neEdge);
-                neEdge.Neighbors.Add(edge);
-            }
-
-        }
-        CreatePossibleEdges(cell);
-    }
-
-    public void PlaceEdge_Sandbox(EdgeUnit edgeType)
-    {
-        int index = RandomCell.giveCell();
-        int randomEdgeDirection = RandomCell.giveDir(Cells[index]);
-        var cell = Cells[index];
-
-        // Only place an edge if it's known to be empty
-        if (cell.GetEdge(randomEdgeDirection) != null) return;
-
-        // Some casting that will come in handy
-        int directionInt = _edgeDirectionDd.value;
-        var direction = (HexDirection)directionInt;
-        var directionOpposite = direction.Opposite();
-        int directionOppositeInt = (int) directionOpposite;
+            //delete later
+            case SandboxPhase.Phase2:
+                ToggleRoadBuild();
             
-        // Instantiate prefab and set unit type (Road/Ship)
-        var edge = Instantiate(EdgePrefab);
-        edge.Type = edgeType;
-
-        if (cell.PossibleEdges[(int) direction] != null)
-        {
-            var possibleEdge = cell.PossibleEdges[(int) direction];
-            cell.PossibleEdges[(int) direction] = null;
-            if (cell.GetNeighbor(direction) != null)
-            {
-                cell.GetNeighbor(direction).PossibleEdges[(int) direction.Opposite()] = null;
-            }
-            Destroy(possibleEdge.gameObject);
-        }
-        // From this point onward this function and placeedge_sandbox share the rest
-        // So best to have them both call a third helper function to basically not
-        // have to edit everything twice.
-        PlaceEdge_Continue(cell, directionInt, direction, directionOppositeInt, edge);
-    }
-
-    private void CreatePossibleEdges(HexCell cell)
-    {
-        // For all edges around the cell
-        for (int i = 0; i < 6; i++)
-        {
-            // Extract the edge on location i
-            var currentEdge = cell.GetEdge(i);
-
-            // If there is no edge, skip.
-            if (currentEdge == null || currentEdge.IsActual == false) continue;
-
-            // Just some casting that is useful.
-            var direction = (HexDirection) i;
-
-            // Edge directions for the 4 neighboring edges that an edge can have
-            int fcPreviousDirection = ((int) direction + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1 #1#
-            int fcNextDirection = ((int) direction + 1) % 6; 
-            int scPreviousDirection = ((int) direction.Opposite() + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1 #1#
-            int scNextDirection = ((int) direction.Opposite() + 1) % 6;
-
-            // Midpoints between the two vertices where the possible edges would fall.
-            var fcPreviousPosition = (HexMetrics.corners[fcPreviousDirection] +
-                                      HexMetrics.corners[(fcPreviousDirection
-                                                          + 1) % 6]) / 2;
-            var fcNextPosition = (HexMetrics.corners[fcNextDirection] +
-                                  HexMetrics.corners[(fcNextDirection + 1) % 6]) / 2;
-            var scPreviousPosition = (HexMetrics.corners[scPreviousDirection] +
-                                      HexMetrics.corners[(scPreviousDirection + 1) % 6]) / 2;
-            var scNextPosition = (HexMetrics.corners[scNextDirection] +
-                                  HexMetrics.corners[(scNextDirection + 1) % 6]) / 2;
-
-            // fcPD --> \ / 
-            //  fc       |
-            // fcND --> / \ 
-
-
-            // Checking to see if it's possible for us to extend our possible edges
-            // This check includes making sure that we only create a possible edge at a location that is followed
-            // by a fully placed edge, and not followed by another possible edge.
-
-            // This check is a fix to issue SETTLERS-10 and is applied to all 4 possible edge placements, below.
-            // https://knightsofharambe.myjetbrains.com/youtrack/issue/SETTLERS-10
-
-            if (CanPlacePossibleEdge(currentEdge.FirstCell, fcPreviousDirection) &&
-                currentEdge.FirstCell.GetEdge((fcPreviousDirection + 1) % 6) != null &&
-                currentEdge.FirstCell.GetEdge((fcPreviousDirection + 1) % 6).IsActual) 
-            {
-                // First Cell Previous Possible Edge
-                var fcPPE = Instantiate(PossibleEdgePrefab);
-                fcPPE.IsActual = false;
-                fcPPE.name = currentEdge.SecondCell != null
-                    ? "fcP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
-                      currentEdge.SecondCell.CellNumber
-                    : "fcP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
-                cell.PossibleEdges[fcPreviousDirection] = fcPPE;
-                // If there's a cell in that direction and if that cell already doesn't have
-                // a possible edge placed on this location
-                if (currentEdge.FirstCell.GetNeighbor(fcPreviousDirection) != null &&
-                    currentEdge.FirstCell.GetNeighbor(fcPreviousDirection).PossibleEdges[
-                        (int) ((HexDirection) fcPreviousDirection).Opposite()] == null)
-                {
-                    // Then let that cell know about this possible edge
-                    currentEdge.FirstCell.GetNeighbor(fcPreviousDirection).PossibleEdges[
-                        (int) ((HexDirection) fcPreviousDirection).Opposite()] = fcPPE;
-                }
-                // Place it in correct spot in hierarchy
-                fcPPE.transform.SetParent(currentEdge.FirstCell.transform.Find("Empty Edges").transform);
-                // Position and rotation accordingly
-                fcPPE.transform.localPosition = fcPreviousPosition;
-                fcPPE.transform.localRotation = EdgeMetrics.rotations[fcPreviousDirection];
-                fcPPE.SetPosition_FC(fcPreviousPosition);
-                currentEdge.PossibleNeighbors.Add(fcPPE);
-
-                // FIX [SETTLERS-11] Applied to both fcP Possible edge creation and fcN Possible Edge creation
-                // https://knightsofharambe.myjetbrains.com/youtrack/issue/SETTLERS-11
-                if (currentEdge.SecondCell == null)
-                {
-                    var neighbor = currentEdge.FirstCell.GetNeighbor(fcPreviousDirection);
-                    int scNPEIndex = ((int)((HexDirection)fcPreviousDirection).Opposite() + 5) % 6;
-                    if (neighbor != null && CanPlacePossibleEdge(neighbor, scNPEIndex))
-                    {
-                        var scNPE = Instantiate(PossibleEdgePrefab);
-                        scNPE.IsActual = false;
-                        scNPE.name = "scP Possible Edge between "; // TODO: FIX NAMING
-                        neighbor.PossibleEdges[scNPEIndex] = scNPE;
-                        scNPE.transform.SetParent(neighbor.transform.Find("Empty Edges").transform);
-                        scNPE.transform.localPosition = (HexMetrics.corners[scNPEIndex] + HexMetrics.corners[(scNPEIndex + 1) % 6]) / 2;
-                        scNPE.transform.localRotation = EdgeMetrics.rotations[scNPEIndex];
-                        scNPE.SetPosition_FC(scNextPosition);
-                        currentEdge.PossibleNeighbors.Add(scNPE);
-                    }
-                }
-            }
-            // Same idea as above, different location
-            if (CanPlacePossibleEdge(currentEdge.FirstCell, fcNextDirection) &&
-                currentEdge.FirstCell.GetEdge((fcNextDirection + 5) % 6) != null &&
-                currentEdge.FirstCell.GetEdge((fcNextDirection + 5) % 6).IsActual) 
-            {
-                // First Cell Next Possible Edge
-                var fcNPE = Instantiate(PossibleEdgePrefab);
-                currentEdge.FirstCell.PossibleEdges[fcNextDirection] = fcNPE;
-                fcNPE.IsActual = false;
-                fcNPE.name = currentEdge.SecondCell != null
-                    ? "fcN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
-                      currentEdge.SecondCell.CellNumber
-                    : "fcN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
-                if (currentEdge.FirstCell.GetNeighbor(fcNextDirection) != null &&
-                    currentEdge.FirstCell.GetNeighbor(fcNextDirection).PossibleEdges[
-                        (int) ((HexDirection)fcNextDirection).Opposite()] == null)
-                {
-                    currentEdge.FirstCell.GetNeighbor(fcNextDirection).PossibleEdges[
-                        (int) ((HexDirection) fcNextDirection).Opposite()] = fcNPE;
-                }
-                fcNPE.transform.SetParent(currentEdge.FirstCell.transform.Find("Empty Edges").transform);
-                fcNPE.transform.localPosition = fcNextPosition;
-                fcNPE.transform.localRotation = EdgeMetrics.rotations[fcNextDirection];
-                fcNPE.SetPosition_FC(fcNextPosition);
-                currentEdge.PossibleNeighbors.Add(fcNPE);
-
-                // TODO: Comment code
-
-                // FIX [SETTLERS-11] Applied to both fcP Possible edge creation and fcN Possible Edge creation
-                // https://knightsofharambe.myjetbrains.com/youtrack/issue/SETTLERS-11
-                if (currentEdge.SecondCell == null)
-                {
-                    var neighbor = currentEdge.FirstCell.GetNeighbor(fcNextDirection);
-                    int scPPEIndex = ((int)((HexDirection)fcNextDirection).Opposite() + 1) % 6;
-                    if (neighbor != null && CanPlacePossibleEdge(neighbor, scPPEIndex))
-                    {
-                        var scPPE = Instantiate(PossibleEdgePrefab);
-                        scPPE.IsActual = false;
-                        scPPE.name = "scP Possible Edge between "; // TODO: FIX NAMING
-                        neighbor.PossibleEdges[scPPEIndex] = scPPE;
-                        scPPE.transform.SetParent(neighbor.transform.Find("Empty Edges").transform);
-                        scPPE.transform.localPosition = (HexMetrics.corners[scPPEIndex] + HexMetrics.corners[(scPPEIndex + 1) % 6]) / 2;
-                        scPPE.transform.localRotation = EdgeMetrics.rotations[scPPEIndex];
-                        scPPE.SetPosition_FC(scPreviousPosition);
-                        currentEdge.PossibleNeighbors.Add(scPPE);
-                    }
-                }
-            }
-
-            // We can't continue if there's no second cell, because the next two possible edges
-            // Would only exist if there's a second cell to place them on
-
-            //     \ / <-- scND
-            //      |   sc
-            //     / \ <-- scPD
-
-            if (currentEdge.SecondCell == null) continue;
-
-            // Same concept as those for the first cell
-            if (CanPlacePossibleEdge(currentEdge.SecondCell, scPreviousDirection) &&
-                currentEdge.SecondCell.GetEdge((scPreviousDirection + 1) % 6) != null &&
-                currentEdge.SecondCell.GetEdge((scPreviousDirection + 1) % 6).IsActual) 
-            {
-                // Second Cell Previous Possible Edge
-                var scPPE = Instantiate(PossibleEdgePrefab);
-                currentEdge.SecondCell.PossibleEdges[scPreviousDirection] = scPPE;
-                scPPE.IsActual = false;
-                scPPE.name = currentEdge.SecondCell != null
-                    ? "scP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
-                      currentEdge.SecondCell.CellNumber
-                    : "scP Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
-
-                if (currentEdge.SecondCell.GetNeighbor(scPreviousDirection) != null &&
-                    currentEdge.SecondCell.GetNeighbor(scPreviousDirection).PossibleEdges[
-                        (int) ((HexDirection) scPreviousDirection).Opposite()] == null)
-                {
-                    currentEdge.SecondCell.GetNeighbor(scPreviousDirection).PossibleEdges[
-                        (int) ((HexDirection) scPreviousDirection).Opposite()] = scPPE;
-                }
-                scPPE.transform.SetParent(currentEdge.SecondCell.transform.Find("Empty Edges").transform);
-                scPPE.transform.localPosition = scPreviousPosition;
-                scPPE.transform.localRotation = EdgeMetrics.rotations[scPreviousDirection];
-                scPPE.SetPosition_FC(scPreviousPosition);
-                currentEdge.PossibleNeighbors.Add(scPPE);
-            }
-
-            // And again
-            if (CanPlacePossibleEdge(currentEdge.SecondCell, scNextDirection) &&
-                currentEdge.SecondCell.GetEdge((scNextDirection + 5) % 6) != null &&
-                currentEdge.SecondCell.GetEdge((scNextDirection + 5) % 6).IsActual)
-            {
-                // Second Cell Next Possible Edge
-                var scNPE = Instantiate(PossibleEdgePrefab);
-                currentEdge.SecondCell.PossibleEdges[scNextDirection] = scNPE;
-                scNPE.IsActual = false;
-                scNPE.name = currentEdge.SecondCell != null
-                    ? "scN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & " +
-                      currentEdge.SecondCell.CellNumber
-                    : "scN Possible Edge between " + currentEdge.FirstCell.CellNumber + " & --";
-
-                if (currentEdge.SecondCell.GetNeighbor(scNextDirection) != null &&
-                    currentEdge.SecondCell.GetNeighbor(scNextDirection).PossibleEdges[
-                        (int) ((HexDirection) scNextDirection).Opposite()] == null)
-                {
-                    currentEdge.SecondCell.GetNeighbor(scNextDirection).PossibleEdges[
-                        (int) ((HexDirection) scNextDirection).Opposite()] = scNPE;
-                }
-                scNPE.transform.SetParent(currentEdge.SecondCell.transform.Find("Empty Edges").transform);
-                scNPE.transform.localPosition = scNextPosition;
-                scNPE.transform.localRotation = EdgeMetrics.rotations[scNextDirection];
-                scNPE.SetPosition_FC(scNextPosition);
-                currentEdge.PossibleNeighbors.Add(scNPE);
-            }
+                //delete later
+                phase = SandboxPhase.Phase2;
+                break;
         }
     }
-
-    private static bool CanPlacePossibleEdge(HexCell cell, int direction)
-    {
-        // Return false if there's ANY possible edge in the list of possible edges
-        // that has the same position as the one you're trying to place.
-        // Essentially the method I prevent dups for possible edges.
-        return !cell.HasEdgeAtDirection(direction) && !cell.HasPossibleEdgeAtDirection(direction);
-    }*/
-
-    // Straightforward method that is meant for debugging purposes to be able
-    // to echo out the neighbors of each cell and make sure that it actually sees its neighbors!
-    private void EchoNeighbors(Vector3 position)
-    {
-        
-        position = transform.InverseTransformPoint(position);
-        HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-        int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
-        Debug.Log("My cell number is: " + Cells[index].CellNumber);
-        if (Cells[index].GetNeighbor(HexDirection.NE) != null)
-        {
-            Debug.Log("My NE neighbor is: " + Cells[index].GetNeighbor(HexDirection.NE).CellNumber);
-        }
-        if (Cells[index].GetNeighbor(HexDirection.E) != null)
-        {
-            Debug.Log("My E neighbor is: " + Cells[index].GetNeighbor(HexDirection.E).CellNumber);
-        }
-        if (Cells[index].GetNeighbor(HexDirection.SE) != null)
-        {
-            Debug.Log("My SE neighbor is: " + Cells[index].GetNeighbor(HexDirection.SE).CellNumber);
-        }
-        if (Cells[index].GetNeighbor(HexDirection.SW) != null)
-        {
-            Debug.Log("My SW neighbor is: " + Cells[index].GetNeighbor(HexDirection.SW).CellNumber);
-        }
-        if (Cells[index].GetNeighbor(HexDirection.W) != null)
-        {
-            Debug.Log("My W neighbor is: " + Cells[index].GetNeighbor(HexDirection.W).CellNumber);
-        }
-        if (Cells[index].GetNeighbor(HexDirection.NW) != null)
-        {
-            Debug.Log("My NW neighbor is: " + Cells[index].GetNeighbor(HexDirection.NW).CellNumber);
-        }
-        
-    }
-
     // Method for triangulating all cells within the "cells" array of a grid.
     private static void Triangulate(HexCell[] hexCells)
     {

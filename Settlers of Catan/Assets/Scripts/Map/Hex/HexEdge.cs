@@ -45,7 +45,7 @@ public class HexEdge : MonoBehaviour
         }
     }
 
-    public HexVertex[] MyVertices = new HexVertex[2]; 
+    public List<HexVertex> MyVertices = new List<HexVertex>(); 
 
     public void SetNeighbor(EdgeDirection direction, HexEdge edge)
     {
