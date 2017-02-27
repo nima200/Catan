@@ -7,7 +7,7 @@ public class HexColorManager : MonoBehaviour {
 
     void Start()
     {
-        HexCell[] cells = grid.GetCells();
+        HexCell[] cells = grid.Cells;
         for (int i = 0; i < cells.Length; i++)
         {
             if (cells[i] != null)

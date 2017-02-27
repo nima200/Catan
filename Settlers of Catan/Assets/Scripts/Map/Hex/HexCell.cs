@@ -170,14 +170,6 @@ public class HexCell : MonoBehaviour
             // Using modulus for the i+1 direction_int to prevent outofbounds so that it jumps back to the first point.
 			AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[(i + 1) % 6]);
 
-
-			// denote the unique positions of the cell's vertices
-			HexGrid.Positions.Add(globalCenter + HexMetrics.corners[i]);
-			HexGrid.Positions.Add(globalCenter + HexMetrics.corners[(i + 1) % 6]);
-
-			GlobalVertices.Add(globalCenter + HexMetrics.corners[i]);
-			GlobalVertices.Add(globalCenter + HexMetrics.corners[(i + 1) % 6]);
-
 			// Converting our vertices and triangles lists that we have populated so far into arrays to assign
 			// to the mesh.
 

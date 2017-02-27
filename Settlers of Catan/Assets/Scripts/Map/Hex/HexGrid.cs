@@ -1,57 +1,40 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour
 {
-    // the array of hexcells that the grid stores
-    public HexCell[] Cells;
+
     public int Width = 8;
     public int Height = 7;
+    public HexCell CellPrefab;
+    public Text CellLabelPrefab;
+    public Canvas GridCanvas;
+    public Canvas UserInterface;
+    public Toggle BuildRoadButton;
+    public Toggle BuildShipButton;
+    public Toggle BuildSettleButton;
+    public Toggle BuildCityButton;
+    public HexEdge EdgePrefab;
+    public HexVertex VertexPrefab;
+    public HexCell[] Cells { get; private set; }
+    public Dropdown DirectionDropdown;
 
     private int[] _tokens;
-
-	//this will keep track of all unique vertex positions to later create the HexVertices
-	public static HashSet<Vector3> Positions = new HashSet<Vector3>();
-
-	//this will keep track of all unique hexvertex positions that will be used to create the network
-    //public static List<HexVertex> vertexPositions = new List<HexVertex>();
-    // the prefab to make the grid use as cells
-    public HexCell CellPrefab;
-    // making our grid know about the label prefab
-    public Text CellLabelPrefab;
-    // making our grid know about the canvas too
-    private Canvas _gridCanvas;
-    private Canvas _ui;
-    private bool _roadBuild = false;
-    private bool _shipBuild = false;
-    private bool _settleBuild = false;
-    private bool _cityBuild = false;
-    public SandboxPhase phase = SandboxPhase.Phase1;
-    public Button BuildRoadButton;
-    public Button BuildShipButton;
-    public Button BuildSettleButton;
-    public Button BuildCityButton;
-    public HexEdge EdgePrefab;
-//    public HexEdge PossibleEdgePrefab;
-    private Dropdown _edgeDirectionDd;
-	public HexVertex VertexPrefab;
-
-    public HexCell[] GetCells()
-    {
-        return this.Cells;
-    }
+    
+    private bool _roadBuild;
+    private bool _shipBuild;
+    private bool _settleBuild;
+    private bool _cityBuild;
+    private SandboxPhase _phase = SandboxPhase.Phase1;
+    private BuildMode _buildMode = BuildMode.Off;
 
     private void Awake()
     {
-        // there's only one canvas as a child to the gameObject this script is attached to
-        // hence we don't need to search for the name
-        _gridCanvas = GameObject.Find("Hex Grid Canvas").GetComponent<Canvas>();
-        _ui = GameObject.Find("User Interface").GetComponent<Canvas>();
         MakeTokens();
         Cells = new HexCell[Height * Width];
-        _edgeDirectionDd = _ui.GetComponentInChildren<Dropdown>();
-        _edgeDirectionDd.gameObject.SetActive(false);
+        DirectionDropdown = UserInterface.GetComponentInChildren<Dropdown>();
+        DirectionDropdown.interactable = false;
         // i is the index of the cell in the HexCell array.
         // i goes from 0 to (height*width);
         // i is incremented every time we create a new cell
@@ -78,86 +61,94 @@ public class HexGrid : MonoBehaviour
         {
             HandleInput();
         }
-
     }
 
-    public void ToggleRoadBuild()
+
+
+    public void Build(string modeName)
     {
-        if (_roadBuild == false)
+        _buildMode = (BuildMode) Enum.Parse(typeof(BuildMode), modeName);
+        switch (_buildMode)
         {
-            _roadBuild = true;
-            _edgeDirectionDd.gameObject.SetActive(true);
-            BuildRoadButton.GetComponentInChildren<Text>().text = "End Build";
-            ShowPossibleEdges();
-        } else
-        {
-            _roadBuild = false;
-            _edgeDirectionDd.gameObject.SetActive(false);
-            BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
-            HidePossibleEdges();
+            case BuildMode.Off:
+                HidePossibleEdges();
+                HidePossibleCornerUnits();
+                BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
+                BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
+                BuildCityButton.GetComponentInChildren<Text>().text = "Build City";
+                BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
+
+                DirectionDropdown.interactable = false;
+//                BuildRoadButton.interactable = true;
+//                BuildSettleButton.interactable = true;
+//                BuildCityButton.interactable = true;
+//                BuildShipButton.interactable = true;
+                break;
+            case BuildMode.Settlement:
+                HidePossibleEdges();
+                ShowPossibleCornerUnits();
+                BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
+                BuildSettleButton.GetComponentInChildren<Text>().text = "End Build";
+                BuildCityButton.GetComponentInChildren<Text>().text = "Build City";
+                BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
+
+                DirectionDropdown.interactable = true;
+//                BuildRoadButton.interactable = false;
+//                BuildSettleButton.interactable = true;
+//                BuildCityButton.interactable = false;
+//                BuildShipButton.interactable = false;
+                break;
+            case BuildMode.City:
+                HidePossibleEdges();
+                ShowPossibleCornerUnits();
+                BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
+                BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
+                BuildCityButton.GetComponentInChildren<Text>().text = "End Build";
+                BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
+
+                DirectionDropdown.interactable = true;
+//                BuildRoadButton.interactable = false;
+//                BuildSettleButton.interactable = false;
+//                BuildCityButton.interactable = true;
+//                BuildShipButton.interactable = false;
+                break;
+            case BuildMode.Road:
+                ShowPossibleEdges();
+                HidePossibleCornerUnits();
+                BuildRoadButton.GetComponentInChildren<Text>().text = "End Build";
+                BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
+                BuildCityButton.GetComponentInChildren<Text>().text = "Build City";
+                BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
+
+                DirectionDropdown.interactable = true;
+//                BuildRoadButton.interactable = true;
+//                BuildSettleButton.interactable = false;
+//                BuildCityButton.interactable = false;
+//                BuildShipButton.interactable = false;
+                break;
+            case BuildMode.Ship:
+                ShowPossibleEdges();
+                HidePossibleCornerUnits();
+                BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
+                BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
+                BuildCityButton.GetComponentInChildren<Text>().text = "Build City";
+                BuildShipButton.GetComponentInChildren<Text>().text = "End Build";
+
+                DirectionDropdown.interactable = true;
+//                BuildRoadButton.interactable = false;
+//                BuildSettleButton.interactable = false;
+//                BuildCityButton.interactable = false;
+//                BuildShipButton.interactable = true;
+                break;
+            case BuildMode.Knight:
+                break;
         }
     }
-
-    public void ToggleSettleBuild()
-    {
-        if (_settleBuild == false)
-        {
-            _settleBuild = true;
-            _edgeDirectionDd.gameObject.SetActive(true);
-            BuildSettleButton.GetComponentInChildren<Text>().text = "End Build";
-            ShowPossibleCornerUnits();
-        }
-        else
-        {
-            _settleBuild = false;
-            _edgeDirectionDd.gameObject.SetActive(false);
-            BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
-            HidePossibleCornerUnits();
-        }
-    }
-
-    public void ToggleCityBuild()
-    {
-        if (_cityBuild == false)
-        {
-            _cityBuild = true;
-            _edgeDirectionDd.gameObject.SetActive(true);
-            BuildRoadButton.GetComponentInChildren<Text>().text = "End Build";
-            ShowPossibleCornerUnits();
-        }
-        else
-        {
-            _cityBuild = false;
-            _edgeDirectionDd.gameObject.SetActive(false);
-            BuildRoadButton.GetComponentInChildren<Text>().text = "Build City";
-            HidePossibleCornerUnits();
-        }
-    }
-
-    public void ToggleShipBuild()
-    {
-        if (_shipBuild == false)
-        {
-            _shipBuild = true;
-            _edgeDirectionDd.gameObject.SetActive(true);
-            BuildShipButton.GetComponentInChildren<Text>().text = "End Build";
-            ShowPossibleEdges();
-        }
-        else
-        {
-            _shipBuild = false;
-            _edgeDirectionDd.gameObject.SetActive(false);
-            BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
-            HidePossibleEdges();
-        }
-    }
-
+    // TODO: Call sandbox, when on phase 3, stay there and apply normal functionality of building stuff.
     public void StartGame()
     {
         ShowPossibleCornerUnits();
         _settleBuild = true;
-
-
     }
 
     // Very generic mouse input handle method.
@@ -168,21 +159,21 @@ public class HexGrid : MonoBehaviour
         var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (!Physics.Raycast(inputRay, out hit)) return;
-        if (_roadBuild)
+        if (_buildMode == BuildMode.Road)
         {
-            BuildEdgeUnit_Sandbox(hit.point, (HexDirection) _edgeDirectionDd.value, EdgeUnit.Road);
+            BuildEdgeUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value, EdgeUnit.Road);
         }
-        if (_shipBuild)
+        if (_buildMode == BuildMode.Ship)
         {
-            BuildEdgeUnit_Sandbox(hit.point, (HexDirection) _edgeDirectionDd.value, EdgeUnit.Ship);
+            BuildEdgeUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value, EdgeUnit.Ship);
         }
-        if (_settleBuild)
+        if (_buildMode == BuildMode.Settlement)
         {
-            BuildCornerUnit_Sandbox(hit.point, (HexDirection) _edgeDirectionDd.value);
+            BuildCornerUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value);
         }
-        if (_cityBuild)
+        if (_buildMode == BuildMode.City)
         {
-            BuildCornerUnit_Sandbox(hit.point, (HexDirection) _edgeDirectionDd.value);
+            BuildCornerUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value);
         }
     }
 
@@ -217,7 +208,7 @@ public class HexGrid : MonoBehaviour
                 {
                     if (edge.Type != EdgeUnit.Disabled) continue;
 
-                    if (phase == SandboxPhase.Phase2)
+                    if (_phase == SandboxPhase.Phase2)
                     {
                         edge.Type = vertex.Type == CornerUnit.City ? EdgeUnit.Open : EdgeUnit.Disabled;
                     }
@@ -252,24 +243,24 @@ public class HexGrid : MonoBehaviour
             if (cell == null) continue;
             foreach (var vertex in cell.MyVertices)
             {
-                if (phase == SandboxPhase.Phase1)
+                if (_phase == SandboxPhase.Phase1)
                 {
                     if (vertex.Type == CornerUnit.Hidden)
                     {
                         vertex.Type = CornerUnit.Open;
 
                     }
-                } else if (phase == SandboxPhase.Phase2 &&
+                } else if (_phase == SandboxPhase.Phase2 &&
                          (vertex.Type == CornerUnit.City || vertex.Type == CornerUnit.Settlement))
                 {
                     foreach (var neighbor in vertex.Neighbors)
                     {
                         neighbor.Type = CornerUnit.Disabled;
                     }
-                } else if (phase == SandboxPhase.Phase2 && vertex.Type == CornerUnit.Hidden)
+                } else if (_phase == SandboxPhase.Phase2 && vertex.Type == CornerUnit.Hidden)
                 {
                     vertex.Type = CornerUnit.Open;
-                } else if (phase == SandboxPhase.Phase3)
+                } else if (_phase == SandboxPhase.Phase3)
                 {
                     
                 }
@@ -367,7 +358,7 @@ public class HexGrid : MonoBehaviour
         // assigning the coordinates of the cell to the label prefab
         Text label = cell.Label = Instantiate<Text>(CellLabelPrefab);
         // making sure the label falls under the canvas, as its child
-        label.rectTransform.SetParent(_gridCanvas.transform, false);
+        label.rectTransform.SetParent(GridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
 
@@ -386,24 +377,24 @@ public class HexGrid : MonoBehaviour
         // Prevent duplicates
         if (!cell.MyVertices[directionInt].Type.Equals(CornerUnit.Open)) return;
 
-        if (phase == SandboxPhase.Phase1)
+        switch (_phase)
         {
-            if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
-            {
-                cell.MyVertices[directionInt].Type = CornerUnit.Settlement;
-                ToggleSettleBuild();
-                ToggleRoadBuild();
-
-            }
-        }
-        else
-        {
-            if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
-            {
-                cell.MyVertices[directionInt].Type = CornerUnit.City;
-                ToggleCityBuild();
-                ToggleRoadBuild();
-            }
+            case SandboxPhase.Phase1:
+                if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
+                {
+                    cell.MyVertices[directionInt].Type = CornerUnit.Settlement;
+                    Build("Road");
+                }
+                break;
+            case SandboxPhase.Phase2:
+                if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
+                {
+                    cell.MyVertices[directionInt].Type = CornerUnit.City;
+                    Build("Road");
+                }
+                break;
+            case SandboxPhase.Phase3:
+                break;
         }
         
     }
@@ -552,20 +543,19 @@ public class HexGrid : MonoBehaviour
             cell.MyEdges[directionInt].gameObject.transform.localRotation *= Quaternion.Euler(0f, 90f, 0f);
         }
 
-        switch (phase)
+        switch (_phase)
         {
             case SandboxPhase.Phase1:
-                phase = SandboxPhase.Phase2;
-                ToggleCityBuild();
-                ToggleRoadBuild();
+                _phase = SandboxPhase.Phase2;
+                Build("City");
+                
                 break;
 
             //delete later
             case SandboxPhase.Phase2:
-                ToggleRoadBuild();
-            
-                //delete later
-                phase = SandboxPhase.Phase2;
+                _phase = SandboxPhase.Phase3;
+                Build("Off");
+                
                 break;
         }
     }

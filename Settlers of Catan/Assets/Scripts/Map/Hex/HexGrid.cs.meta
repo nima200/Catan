@@ -1,10 +1,6 @@
 fileFormatVersion: 2
 guid: 176f9127713f38244bee5012573408af
-<<<<<<< HEAD
 timeCreated: 1486837310
-=======
-timeCreated: 1488086355
->>>>>>> JAMES
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
@@ -15,13 +11,9 @@ MonoImporter:
   - buildButton: {instanceID: 0}
   - edgePrefab: {fileID: 114904479224344984, guid: d95737e47c71ede4f8bba3020245cfef,
       type: 2}
-<<<<<<< HEAD
   - possibleEdgePrefab: {fileID: 114660176733284600, guid: 40b83e37a6edcf043871a2968ea8a2f6,
       type: 2}
-  executionOrder: 0
-=======
   executionOrder: 100
->>>>>>> JAMES
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 
