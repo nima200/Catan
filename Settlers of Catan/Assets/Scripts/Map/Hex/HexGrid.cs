@@ -15,17 +15,13 @@ public class HexGrid : MonoBehaviour
     public Toggle BuildShipButton;
     public Toggle BuildSettleButton;
     public Toggle BuildCityButton;
+    public ToggleGroup ButtonGroup;
     public HexEdge EdgePrefab;
     public HexVertex VertexPrefab;
     public HexCell[] Cells { get; private set; }
     public Dropdown DirectionDropdown;
 
     private int[] _tokens;
-    
-    private bool _roadBuild;
-    private bool _shipBuild;
-    private bool _settleBuild;
-    private bool _cityBuild;
     private SandboxPhase _phase = SandboxPhase.Phase1;
     private BuildMode _buildMode = BuildMode.Off;
 
@@ -148,7 +144,7 @@ public class HexGrid : MonoBehaviour
     public void StartGame()
     {
         ShowPossibleCornerUnits();
-        _settleBuild = true;
+        
     }
 
     // Very generic mouse input handle method.
