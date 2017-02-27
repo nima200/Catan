@@ -43,7 +43,6 @@ public class HexVertex : MonoBehaviour
 	public int Index;
 	//keeps track of neighboring vertices
     public List<HexVertex> Neighbors;
-
 	private void Awake()
 	{
 		Neighbors = new List<HexVertex>();

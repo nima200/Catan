@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexEdge : MonoBehaviour
-{
-
-    public EdgeUnitType MyEdgeUnitType;
+{ 
+    public EdgeUnitType[] States = new EdgeUnitType[4];
+    private EdgeUnit _type = EdgeUnit.Disabled;
     public HexCell FirstCell, SecondCell;
     public HexEdge[] NeighborEdges;
     public List<HexEdge> Neighbors = new List<HexEdge>();
@@ -19,10 +20,28 @@ public class HexEdge : MonoBehaviour
         {
             return _isActual;
         }
-
         set
         {
             _isActual = value;
+        }
+    }
+    public EdgeUnit Type
+    {
+        get
+        {
+            return _type;
+        }
+        set
+        {
+            _type = value;
+            foreach (var state in States)
+            {
+                if (state.Unit != value) continue;
+                gameObject.GetComponent<MeshFilter>().mesh = state.GetComponent<MeshFilter>().sharedMesh;
+                gameObject.GetComponent<Renderer>().material = state.GetComponent<Renderer>().sharedMaterial;
+                gameObject.transform.localScale = state.transform.localScale;
+                break;
+            }
         }
     }
 

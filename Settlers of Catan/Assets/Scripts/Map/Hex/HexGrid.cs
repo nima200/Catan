@@ -2,8 +2,8 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class HexGrid : MonoBehaviour {
-
+public class HexGrid : MonoBehaviour
+{
     // the array of hexcells that the grid stores
     public HexCell[] Cells;
     public int Width = 8;
@@ -24,15 +24,17 @@ public class HexGrid : MonoBehaviour {
     private Canvas _gridCanvas;
     private Canvas _ui;
     private bool _roadBuild = false;
+    private bool _shipBuild = false;
     private bool _settleBuild = false;
     private bool _cityBuild = false;
     public Button BuildRoadButton;
+    public Button BuildShipButton;
     public Button BuildSettleButton;
     public Button BuildCityButton;
     public HexEdge EdgePrefab;
-    public HexEdge PossibleEdgePrefab;
-    private Dropdown _edgeDirectionDD;
-	public HexVertex settlementPrefab;
+//    public HexEdge PossibleEdgePrefab;
+    private Dropdown _edgeDirectionDd;
+	public HexVertex VertexPrefab;
 
     public HexCell[] GetCells()
     {
@@ -47,8 +49,8 @@ public class HexGrid : MonoBehaviour {
         _ui = GameObject.Find("User Interface").GetComponent<Canvas>();
         MakeTokens();
         Cells = new HexCell[Height * Width];
-        _edgeDirectionDD = _ui.GetComponentInChildren<Dropdown>();
-        _edgeDirectionDD.gameObject.SetActive(false);
+        _edgeDirectionDd = _ui.GetComponentInChildren<Dropdown>();
+        _edgeDirectionDd.gameObject.SetActive(false);
         // i is the index of the cell in the HexCell array.
         // i goes from 0 to (height*width);
         // i is incremented every time we create a new cell
@@ -83,13 +85,13 @@ public class HexGrid : MonoBehaviour {
         if (_roadBuild == false)
         {
             _roadBuild = true;
-            _edgeDirectionDD.gameObject.SetActive(true);
+            _edgeDirectionDd.gameObject.SetActive(true);
             BuildRoadButton.GetComponentInChildren<Text>().text = "End Build";
             ShowPossibleEdges();
         } else
         {
             _roadBuild = false;
-            _edgeDirectionDD.gameObject.SetActive(false);
+            _edgeDirectionDd.gameObject.SetActive(false);
             BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
             HidePossibleEdges();
         }
@@ -100,14 +102,14 @@ public class HexGrid : MonoBehaviour {
         if (_settleBuild == false)
         {
             _settleBuild = true;
-            _edgeDirectionDD.gameObject.SetActive(true);
+            _edgeDirectionDd.gameObject.SetActive(true);
             BuildSettleButton.GetComponentInChildren<Text>().text = "End Build";
             ShowPossibleCornerUnits();
         }
         else
         {
             _settleBuild = false;
-            _edgeDirectionDD.gameObject.SetActive(false);
+            _edgeDirectionDd.gameObject.SetActive(false);
             BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
             HidePossibleCornerUnits();
         }
@@ -118,16 +120,34 @@ public class HexGrid : MonoBehaviour {
         if (_cityBuild == false)
         {
             _cityBuild = true;
-            _edgeDirectionDD.gameObject.SetActive(true);
+            _edgeDirectionDd.gameObject.SetActive(true);
             BuildRoadButton.GetComponentInChildren<Text>().text = "End Build";
             ShowPossibleCornerUnits();
         }
         else
         {
             _cityBuild = false;
-            _edgeDirectionDD.gameObject.SetActive(false);
+            _edgeDirectionDd.gameObject.SetActive(false);
             BuildRoadButton.GetComponentInChildren<Text>().text = "Build City";
             HidePossibleCornerUnits();
+        }
+    }
+
+    public void ToggleShipBuild()
+    {
+        if (_shipBuild == false)
+        {
+            _shipBuild = true;
+            _edgeDirectionDd.gameObject.SetActive(true);
+            BuildShipButton.GetComponentInChildren<Text>().text = "End Build";
+            ShowPossibleEdges();
+        }
+        else
+        {
+            _shipBuild = false;
+            _edgeDirectionDd.gameObject.SetActive(false);
+            BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
+            HidePossibleEdges();
         }
     }
 
@@ -142,15 +162,19 @@ public class HexGrid : MonoBehaviour {
         if (!Physics.Raycast(inputRay, out hit)) return;
         if (_roadBuild)
         {
-            PlaceEdge(hit.point, EdgeUnitType.Road);
+            BuildEdgeUnit_Sandbox(hit.point, (HexDirection) _edgeDirectionDd.value, EdgeUnit.Road);
+        }
+        if (_shipBuild)
+        {
+            BuildEdgeUnit_Sandbox(hit.point, (HexDirection) _edgeDirectionDd.value, EdgeUnit.Ship);
         }
         if (_settleBuild)
         {
-            BuildCorner_Sandbox(hit.point, SandboxPhase.Phase1, (HexDirection) _edgeDirectionDD.value);
+            BuildCornerUnit_Sandbox(hit.point, SandboxPhase.Phase1, (HexDirection) _edgeDirectionDd.value);
         }
         if (_cityBuild)
         {
-            BuildCorner_Sandbox(hit.point, SandboxPhase.Phase2, (HexDirection) _edgeDirectionDD.value);
+            BuildCornerUnit_Sandbox(hit.point, SandboxPhase.Phase2, (HexDirection) _edgeDirectionDd.value);
         }
     }
 
@@ -175,22 +199,30 @@ public class HexGrid : MonoBehaviour {
 
     private void ShowPossibleEdges()
     {
-        foreach (var t in Cells)
+        foreach (var cell in Cells)
         {
-            if (t != null)
+            if (cell == null) continue;
+            foreach (var edge in cell.MyEdges)
             {
-                t.transform.Find("Empty Edges").gameObject.SetActive(true);
+                if (edge.Type == EdgeUnit.Disabled)
+                {
+                    edge.Type = EdgeUnit.Open;
+                }
             }
         }
     }
 
     public void HidePossibleEdges()
     {
-        foreach (var t in Cells)
+        foreach (var cell in Cells)
         {
-            if (t != null)
+            if (cell == null) continue;
+            foreach (var edge in cell.MyEdges)
             {
-                t.transform.Find("Empty Edges").gameObject.SetActive(false);
+                if (edge.Type == EdgeUnit.Open)
+                {
+                    edge.Type = EdgeUnit.Disabled;
+                }
             }
         }
     }
@@ -223,6 +255,7 @@ public class HexGrid : MonoBehaviour {
             }
         }
     }
+
     // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
     // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
 
@@ -301,7 +334,7 @@ public class HexGrid : MonoBehaviour {
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
 
-    public void BuildCorner_Sandbox(Vector3 position, SandboxPhase phase, HexDirection direction)
+    public void BuildCornerUnit_Sandbox(Vector3 position, SandboxPhase phase, HexDirection direction)
     {
         position = transform.InverseTransformPoint(position);
         var coordinates = HexCoordinates.FromPosition(position);
@@ -342,7 +375,7 @@ public class HexGrid : MonoBehaviour {
 		    for (int i = 0; i < 6; i++)
 		    {
 		        if (cell.MyVertices[i] != null) continue;
-		        var vertex = Instantiate(settlementPrefab);
+		        var vertex = Instantiate(VertexPrefab);
 		        cell.MyVertices[i] = vertex;
 		        vertex.transform.SetParent(cell.transform);
 		        vertex.transform.localPosition = HexMetrics.corners[i];
@@ -436,7 +469,29 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
-    private void PlaceEdge(Vector3 position, EdgeUnitType edgeUnitType)
+    public void BuildEdgeUnit_Sandbox(Vector3 position, HexDirection direction, EdgeUnit type)
+    {
+        position = transform.InverseTransformPoint(position);
+        var coordinates = HexCoordinates.FromPosition(position);
+        int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
+
+        if (index > Cells.Length - 1) return;
+
+        var cell = Cells[index];
+
+        int directionInt = (int)direction;
+
+        if (!cell.MyEdges[directionInt].Type.Equals(EdgeUnit.Open)) return;
+
+        cell.MyEdges[directionInt].Type = type;
+        cell.MyEdges[directionInt].gameObject.transform.localRotation = EdgeMetrics.rotations[directionInt];
+        if (type == EdgeUnit.Ship)
+        {
+            cell.MyEdges[directionInt].gameObject.transform.localRotation *= Quaternion.Euler(0f, 90f, 0f);
+        }
+    }
+
+    /*private void PlaceEdge(Vector3 position, EdgeUnit edgeType)
     {
         // Converting hit point to cell reference
         position = transform.InverseTransformPoint(position);
@@ -448,10 +503,10 @@ public class HexGrid : MonoBehaviour {
         var cell = Cells[index];
 
         // Prevent duplicates
-        if (cell.GetEdge(_edgeDirectionDD.value) != null) return;
+        if (cell.GetEdge(_edgeDirectionDd.value) != null) return;
 
         // Just some casting that will help reduce typing
-        int directionInt = _edgeDirectionDD.value;
+        int directionInt = _edgeDirectionDd.value;
         var direction = (HexDirection) directionInt;
         var directionOpposite = direction.Opposite();
         int directionOppositeInt = (int)directionOpposite;
@@ -463,7 +518,7 @@ public class HexGrid : MonoBehaviour {
 
         // Create the edge
         var edge = Instantiate(EdgePrefab);
-        edge.MyEdgeUnitType = edgeUnitType;
+        edge.Type = edgeType;
 
         // Take a reference to the possible edge so that we can destroy it
         var possibleEdge = cell.PossibleEdges[(int)direction];
@@ -576,7 +631,7 @@ public class HexGrid : MonoBehaviour {
         CreatePossibleEdges(cell);
     }
 
-    public void PlaceEdge_Sandbox(EdgeUnitType edgeUnitType)
+    public void PlaceEdge_Sandbox(EdgeUnit edgeType)
     {
         int index = RandomCell.giveCell();
         int randomEdgeDirection = RandomCell.giveDir(Cells[index]);
@@ -586,14 +641,14 @@ public class HexGrid : MonoBehaviour {
         if (cell.GetEdge(randomEdgeDirection) != null) return;
 
         // Some casting that will come in handy
-        int directionInt = _edgeDirectionDD.value;
+        int directionInt = _edgeDirectionDd.value;
         var direction = (HexDirection)directionInt;
         var directionOpposite = direction.Opposite();
         int directionOppositeInt = (int) directionOpposite;
             
         // Instantiate prefab and set unit type (Road/Ship)
         var edge = Instantiate(EdgePrefab);
-        edge.MyEdgeUnitType = edgeUnitType;
+        edge.Type = edgeType;
 
         if (cell.PossibleEdges[(int) direction] != null)
         {
@@ -626,9 +681,9 @@ public class HexGrid : MonoBehaviour {
             var direction = (HexDirection) i;
 
             // Edge directions for the 4 neighboring edges that an edge can have
-            int fcPreviousDirection = ((int) direction + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1 */
+            int fcPreviousDirection = ((int) direction + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1 #1#
             int fcNextDirection = ((int) direction + 1) % 6; 
-            int scPreviousDirection = ((int) direction.Opposite() + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1 */
+            int scPreviousDirection = ((int) direction.Opposite() + 5) % 6; /* <-- (direction + 5) % 6 = direction - 1 #1#
             int scNextDirection = ((int) direction.Opposite() + 1) % 6;
 
             // Midpoints between the two vertices where the possible edges would fall.
@@ -826,7 +881,7 @@ public class HexGrid : MonoBehaviour {
         // that has the same position as the one you're trying to place.
         // Essentially the method I prevent dups for possible edges.
         return !cell.HasEdgeAtDirection(direction) && !cell.HasPossibleEdgeAtDirection(direction);
-    }
+    }*/
 
     // Straightforward method that is meant for debugging purposes to be able
     // to echo out the neighbors of each cell and make sure that it actually sees its neighbors!
