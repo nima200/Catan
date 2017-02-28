@@ -21,7 +21,7 @@ Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\U
 Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
 Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.076 seconds
+- Completed reload, in  0.042 seconds
 Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\System.dll (this message is harmless)
 <RI> Initializing input.
@@ -29,18 +29,18 @@ XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
 <RI> Input initialized.
 desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initialized touch support.
-UnloadTime: 1.890987 ms
+UnloadTime: 1.824854 ms
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 1aac -> priority: 1 
+  Thread -> id: 3a24 -> priority: 1 
 GameLobby Scene Requested
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 41.695164 ms
+UnloadTime: 14.127791 ms
 
 Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 1121.
-Total: 16.912220 ms (FindLiveObjects: 0.064426 ms CreateObjectMapping: 0.071680 ms MarkObjects: 10.513071 ms  DeleteObjects: 6.251096 ms)
+Total: 2.158934 ms (FindLiveObjects: 0.104960 ms CreateObjectMapping: 0.101973 ms MarkObjects: 1.894400 ms  DeleteObjects: 0.040106 ms)
 
 Client Started
  
@@ -63,7 +63,7 @@ The referenced script on this Behaviour (Game Object 'HexEdge') is missing!
 (Filename:  Line: 1754)
 
 Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.587946 ms
+UnloadTime: 0.616533 ms
 DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
  
 (Filename:  Line: 447)
@@ -76,49 +76,15 @@ DontDestroyOnLoad only work for root GameObjects or components on root GameObjec
  
 (Filename:  Line: 447)
 
-There were 2 Players in the lobby
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
-DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
- 
-(Filename:  Line: 447)
-
-Number of Player registered by Player Manager:0
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-ArgumentOutOfRangeException: Argument is out of range.
-Parameter name: index
-  at System.Collections.Generic.List`1[Player].get_Item (Int32 index) [0x00000] in <filename unknown>:0 
-  at PlayerManager.getPlayer (Int32 index) [0x00000] in <filename unknown>:0 
-  at CardManager.Start () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at TradeManager.Start () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at CardMenuManager.Start () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-
-Unloading 17 unused Assets to reduce memory usage. Loaded Objects now: 4435.
-Total: 5.224108 ms (FindLiveObjects: 0.312320 ms CreateObjectMapping: 0.170240 ms MarkObjects: 4.712535 ms  DeleteObjects: 0.028586 ms)
+Unloading 17 unused Assets to reduce memory usage. Loaded Objects now: 3767.
+Total: 5.227522 ms (FindLiveObjects: 0.569600 ms CreateObjectMapping: 0.678826 ms MarkObjects: 3.945388 ms  DeleteObjects: 0.032000 ms)
 
 Player index:0 and List length:1
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Player index:1 and List length:2
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Player at index is : Player(Clone) (Player)
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
@@ -128,72 +94,8 @@ ClientDisconnected due to error: Timeout
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.433281 ms
+UnloadTime: 1.644800 ms
 
-Unloading 516 unused Assets to reduce memory usage. Loaded Objects now: 1209.
-Total: 2.492587 ms (FindLiveObjects: 0.121173 ms CreateObjectMapping: 0.130560 ms MarkObjects: 1.649494 ms  DeleteObjects: 0.590933 ms)
-
-DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
- 
-(Filename:  Line: 447)
-
-DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
- 
-(Filename:  Line: 447)
-
-The referenced script on this Behaviour (Game Object 'Possible Hex Edge') is missing!
- 
-(Filename:  Line: 1754)
-
-The referenced script on this Behaviour (Game Object 'HexEdge') is missing!
- 
-(Filename:  Line: 1754)
-
-Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.515840 ms
-DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
- 
-(Filename:  Line: 447)
-
-Player Manager created
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
- 
-(Filename:  Line: 447)
-
-There were 2 Players in the lobby
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
- 
-(Filename:  Line: 447)
-
-Player index:0 and List length:1
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-NullReferenceException: Object reference not set to an instance of an object
-  at CardMenuManager.Start () [0x00000] in <filename unknown>:0 
- 
-(Filename:  Line: -1)
-
-
-Unloading 17 unused Assets to reduce memory usage. Loaded Objects now: 3822.
-Total: 5.169068 ms (FindLiveObjects: 0.298666 ms CreateObjectMapping: 0.176640 ms MarkObjects: 4.636161 ms  DeleteObjects: 0.056746 ms)
-
-Player index:1 and List length:2
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Player at index is : Player(Clone) (Player)
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
-
-Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:54134}
-ServerDisconnected due to error: Timeout
- 
-(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+Unloading 516 unused Assets to reduce memory usage. Loaded Objects now: 1167.
+Total: 1.851734 ms (FindLiveObjects: 0.137386 ms CreateObjectMapping: 0.114346 ms MarkObjects: 1.034240 ms  DeleteObjects: 0.564480 ms)
 

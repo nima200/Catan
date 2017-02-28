@@ -2806,56 +2806,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 691638937}
---- !u!1 &691711332
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 691711333}
-  - component: {fileID: 691711334}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &691711333
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 691711332}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 849584481}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &691711334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 691711332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a722ede656df4c848b12a61dd1b2ec47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lobbyManager: {fileID: 0}
-  _lobbyplayerlist: {fileID: 0}
-  _cardManager: {fileID: 114866105393312124, guid: e49c05339b7390947bbddd0caf745bda,
-    type: 2}
-  _tradeManager: {fileID: 114264659114764330, guid: 5847e8b473526f84a9b3dba29cb4064c,
-    type: 2}
-  _cardmenumanager: {fileID: 114913629870588558, guid: eed6537bfccd70d42bbe7f199c82ee53,
-    type: 2}
-  _turnManager: {fileID: 114240566258739724, guid: e5def4e8b00f2ae488a3ad7adc8f3393,
-    type: 2}
 --- !u!1 &705381314
 GameObject:
   m_ObjectHideFlags: 0
@@ -3731,7 +3681,6 @@ Transform:
   - {fileID: 1857194163}
   - {fileID: 935576463}
   - {fileID: 199805069}
-  - {fileID: 691711333}
   - {fileID: 1350714404}
   m_Father: {fileID: 0}
   m_RootOrder: 6
