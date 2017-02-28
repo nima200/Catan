@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     // has a getter, and is a singleton.
-    private static GameManager Instance { get;  set; }
+    private static GameManager Instance { get;  set; } // reconsidering might be redudant. 
     public LobbyManager _lobbyManager;
     public LobbyPlayerList _lobbyplayerlist;
     public CardManager _cardManager;
@@ -55,5 +55,10 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public static GameManager getCurrent()
+    {
+        return Instance;
+    }
 
 }
