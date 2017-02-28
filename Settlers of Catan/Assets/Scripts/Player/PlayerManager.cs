@@ -25,10 +25,9 @@ public class PlayerManager : MonoBehaviour
 			Destroy (gameObject);    
 		}
 		DontDestroyOnLoad (gameObject);
-
-        // no need for the nbOfPlayers
-        nbOfPlayers = 4;                    // Set to 4 for now
-        createPlayer ();
+        
+       // nbOfPlayers = 4;                    // Set to 4 for now
+        //createPlayer ();
         pointer = 0;                       
 	}
 
@@ -52,7 +51,14 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 
-    
+    public Player getLocalPlayer() {
+        foreach (Player p in myPlayers) {
+            if (p.isLocalPlayer) {
+                return p;
+            }
+        }
+        return null;
+    }
 
     public Player getPlayer (int index)
 	{
@@ -72,6 +78,16 @@ public class PlayerManager : MonoBehaviour
     public void AddtoList(Player _player)
     {
         myPlayers.Add(_player);
+        int i = myPlayers.IndexOf(_player);
+        _player.Initialize(i, cardInventoryPrefab);
+        Debug.Log("Player index:" + i + " and List length:" + myPlayers.Count);
+
+        if (myPlayers.Count == nbOfPlayers) {
+            TurnManager.getInstance().SetFirstPlayer();
+        }
     }
 
+    public void SetNumberOfPlayers(int i) {
+        nbOfPlayers = i;
+    }
 }

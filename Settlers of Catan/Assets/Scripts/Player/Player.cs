@@ -8,15 +8,13 @@ public class Player : NetworkBehaviour {
     public string playerName = "";
 
 	public int playerID;
-    public bool isTurn;
+  //  private bool isTurn;
 	public CardInventory cardInventory;
 	public List<Harbour> myHarbour = new List<Harbour>();
 	public int ratio;
     public bool hasAlchemist;                             // TODO : find it in inventory
 
     private List<Player> _players = new List<Player>();  // Note  : Players will have access to the list.
-    public PlayerManager _playermanager;
-
     // Khalil - Added attribute "isTurn" as a boolean to control UI. 
     public Player()
     {
@@ -28,7 +26,7 @@ public class Player : NetworkBehaviour {
 		name = "Player" + i;
 		playerID = i;
 		playerName = "Player" + i;
-        isTurn = false;
+        //isTurn = false;
 		cardInventory = Instantiate(cardInventoryPrefab);
         cardInventory.gameObject.SetActive(true);
 		cardInventory.transform.parent = this.transform;
@@ -72,15 +70,28 @@ public class Player : NetworkBehaviour {
         return hasAlchemist;                        // TODO : find alchemist in inventory
     }
 
+/*    public bool CheckIsTurn() {
+        return isTurn;
+    }
 
-    public override void OnStartClient()
+    public void SetIsTurn(bool b) {
+        isTurn = b; 
+    } */
+
+
+    //    public override void OnStartClient()
+    //  {
+    //   PlayerManager.getInstance().AddtoList(this);
+    //}
+
+    private void Start()
     {
-        _playermanager.AddtoList(this);
+        PlayerManager.getInstance().AddtoList(this);
+        Debug.Log(playerName);
     }
 
     // for debuging only.
     public void Update()
     {
-        Debug.Log(playerName);
     }
 }

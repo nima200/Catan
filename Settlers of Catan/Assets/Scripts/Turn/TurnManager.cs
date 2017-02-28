@@ -9,7 +9,7 @@ public class TurnManager : MonoBehaviour
     private static TurnManager instance = null;
     public GameObject UtilityMenu;
     public GameObject DiceMenu;
-    private Player mainPlayer;                            // --> the player running this instance of the game
+    private Player localPlayer;                            // --> the player running this instance of the game
     private Player currentPlayer;                         // --> the player currently PLAYING
 
     // Use this for initialization
@@ -18,23 +18,25 @@ public class TurnManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            isRolled = false;
         }
         else if (instance != this)
         {
             Destroy(gameObject);
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
+    public void SetFirstPlayer()
     {
-        mainPlayer = PlayerManager.getInstance().getPlayer(0);      // Player 0 is the one playing on this instance of the game for now
+        localPlayer = PlayerManager.getInstance().getLocalPlayer();
         currentPlayer = PlayerManager.getInstance().getPlayer(0);
-        DontDestroyOnLoad(gameObject);
+        //currentPlayer.SetIsTurn(true);
     }
 
     public static TurnManager getInstance()
     {
+
         return instance;
     }
 
@@ -47,7 +49,7 @@ public class TurnManager : MonoBehaviour
         Debug.Log("Previous  player : " + previousCurrentPlayer.getPlayerID());
         setCurrentToNextPlayer();
         Debug.Log("New current player : " + currentPlayer.getPlayerID());
-        if (currentPlayer.equals(mainPlayer))
+        if (currentPlayer.isLocalPlayer)
         {
             Selectable[] allUtilitySelectable = UtilityMenu.GetComponentsInChildren<Selectable>();
             foreach (Selectable s in allUtilitySelectable)
@@ -61,7 +63,7 @@ public class TurnManager : MonoBehaviour
             }
             Debug.Log("ACTIVATED: I am the new current player");
         }
-        else if (previousCurrentPlayer.equals(mainPlayer))
+        else if (previousCurrentPlayer.isLocalPlayer)
         {
             Selectable[] allUtilitySelectable = UtilityMenu.GetComponentsInChildren<Selectable>();
             foreach (Selectable s in allUtilitySelectable)
@@ -80,7 +82,7 @@ public class TurnManager : MonoBehaviour
 
     public Player getMainPlayer()
     {
-        return mainPlayer;
+        return localPlayer;
     }
 
     public Player getCurrentPlayer()

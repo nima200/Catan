@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
     public CardManager _cardManager;
     public TradeManager _tradeManager;
     public CardMenuManager _cardmenumanager;
+    public TurnManager _turnManager;
 
 
    //playerlist being used to make lobbyplayerlist a inumberable non synced list.
@@ -51,10 +52,12 @@ public class GameManager : MonoBehaviour {
 
 
         //Creating new Managers.
-        Instantiate(_playerManager);
-        Instantiate(_cardManager);
-        Instantiate(_tradeManager);
-        Instantiate(_cardmenumanager);
+            Instantiate(_playerManager);
+              Instantiate(_turnManager);
+            Instantiate(_cardManager);
+            Instantiate(_tradeManager);
+            Instantiate(_cardmenumanager);
+                    
 
         // finding lobbymanager and playerlist from assets that weren't destroyed on scene change.
         _lobbyManager = FindObjectOfType<LobbyManager>();
@@ -62,10 +65,18 @@ public class GameManager : MonoBehaviour {
         intermiedateList = _lobbyplayerlist.PlayerList;
         IEnumberableLobbyplayerList = intermiedateList;
 
+        
+
         // IEnumberableLobbyPlayerlist is the list of lobbyplayers that were available before scene change. It allows iteration as an IEnumberable type. 
 
     }
 
+    void Start() {
+
+        int totalPlayers= IEnumberableLobbyplayerList.Count();
+        Debug.Log(IEnumberableLobbyplayerList.Count());
+        PlayerManager.getInstance().SetNumberOfPlayers(totalPlayers);
+    }
 
     public void rollDice() {
         DiceRoll.getInstance().RollTrigger();
@@ -87,7 +98,7 @@ public class GameManager : MonoBehaviour {
     }
 
     // Getter for gamemanager used by savegame.
-    public static GameManager getCurrent()
+    public static GameManager getCurrentGame()
     {
         return Instance;
     }

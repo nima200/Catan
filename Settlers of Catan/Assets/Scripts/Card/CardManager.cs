@@ -37,7 +37,7 @@ public class CardManager : MonoBehaviour
 	void Start ()
 	{
 		cardInventory = Instantiate (cardInventoryPrefab);
-		cardInventory.transform.parent = GameObject.Find ("CardManager").transform;
+		cardInventory.transform.parent = gameObject.transform;
 		GameObject cards = new GameObject ("Cards");
 		GameObject resourceCards = new GameObject ("Resource Cards");
 		resourceCards.transform.parent = cards.transform;
@@ -47,7 +47,8 @@ public class CardManager : MonoBehaviour
 		progressCards.transform.parent = cards.transform;
 		createStealableCard ();
 		createProgressCard ();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < PlayerManager.getInstance().getNbOfPlayer(); i++) {
+            Debug.Log(i);
 			distributeSteable(PlayerManager.getInstance().getPlayer(i), SteableKind.GOLD,2);
 		}
 

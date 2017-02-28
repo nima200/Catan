@@ -216,12 +216,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4409714452249354, guid: 8a32e1f42b25145b59b96658e112c559,
     type: 2}
   m_PrefabInternal: {fileID: 96694387}
---- !u!114 &96694389 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114656945425425102, guid: 8a32e1f42b25145b59b96658e112c559,
-    type: 2}
-  m_PrefabInternal: {fileID: 96694387}
-  m_Script: {fileID: 11500000, guid: 090d443764044418dab8ba18550e4537, type: 3}
 --- !u!1 &120927131
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,7 +575,7 @@ Transform:
   - {fileID: 603837639}
   - {fileID: 1353336623}
   m_Father: {fileID: 849584481}
-  m_RootOrder: 7
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &200767128
 GameObject:
@@ -976,49 +970,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 278510839}
---- !u!1 &291740620
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 291740621}
-  - component: {fileID: 291740622}
-  m_Layer: 0
-  m_Name: CardMenuManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &291740621
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 291740620}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 849584481}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &291740622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 291740620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3fa6e4f9c82d854f9faf31bb9b1be22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardInfoImg: {fileID: 1934260497}
-  resourceCommodityDecks: {fileID: 2065872382}
-  progressCardDecks: {fileID: 1580674963}
 --- !u!1 &295969491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,7 +1524,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 291740622}
+      - m_Target: {fileID: 0}
         m_MethodName: Shift
         m_Mode: 1
         m_Arguments:
@@ -1788,12 +1739,6 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224410615393402816, guid: 017ceb8196be61e41935acca0f0636dc,
     type: 2}
   m_PrefabInternal: {fileID: 389159306}
---- !u!114 &402785869 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114009516303472736, guid: cd7d6784167b0894793c6b032889a1de,
-    type: 2}
-  m_PrefabInternal: {fileID: 1253938767}
-  m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
 --- !u!114 &412270088 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114558535438578936, guid: 5e77e6e65dd62a241bbc4d7aacdef46b,
@@ -2153,48 +2098,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
---- !u!1 &555629115
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 555629116}
-  - component: {fileID: 555629117}
-  m_Layer: 0
-  m_Name: TurnManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &555629116
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 555629115}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 849584481}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &555629117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 555629115}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efba6e82f0d8f3848b1e00a2ee4374e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UtilityMenu: {fileID: 905738253}
-  DiceMenu: {fileID: 419757428}
 --- !u!1 &556821881 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1539104444306836, guid: e515eb8b9178c1d479b9ff7e320029da,
@@ -2551,7 +2454,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 291740622}
+        - m_Target: {fileID: 0}
           m_MethodName: ShowProgressCardInfo
           m_Mode: 2
           m_Arguments:
@@ -2568,7 +2471,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 291740622}
+        - m_Target: {fileID: 0}
           m_MethodName: HideProgressCardInfo
           m_Mode: 1
           m_Arguments:
@@ -2776,56 +2679,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 653561090}
---- !u!1 &677930394
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 677930395}
-  - component: {fileID: 677930397}
-  m_Layer: 0
-  m_Name: TradeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &677930395
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 677930394}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 849584481}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &677930397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 677930394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4aa235feb5f643be86feff9ea885f60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  specialHarbourPrefab: {fileID: 114662208211766030, guid: f507a50c738e9469fbd14fdf3dd29071,
-    type: 2}
-  genericHarbourPrefab: {fileID: 114703450466718210, guid: 99af62a83ae184841b718962fd546f8b,
-    type: 2}
-  bankMenuPrefab: {fileID: 2137396517}
-  userInterface: {fileID: 302892127}
-  bankHarBox: {fileID: 0}
-  playerBox: {fileID: 0}
-  bankAddRemove: []
-  playerAddRemove: []
 --- !u!1 &691638937
 GameObject:
   m_ObjectHideFlags: 0
@@ -2974,7 +2827,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 849584481}
-  m_RootOrder: 8
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &691711334
 MonoBehaviour:
@@ -2987,6 +2840,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a722ede656df4c848b12a61dd1b2ec47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lobbyManager: {fileID: 0}
+  _lobbyplayerlist: {fileID: 0}
+  _cardManager: {fileID: 114866105393312124, guid: e49c05339b7390947bbddd0caf745bda,
+    type: 2}
+  _tradeManager: {fileID: 114264659114764330, guid: 5847e8b473526f84a9b3dba29cb4064c,
+    type: 2}
+  _cardmenumanager: {fileID: 114913629870588558, guid: eed6537bfccd70d42bbe7f199c82ee53,
+    type: 2}
+  _turnManager: {fileID: 114240566258739724, guid: e5def4e8b00f2ae488a3ad7adc8f3393,
+    type: 2}
+  _playerManager: {fileID: 114024440553020430, guid: 920d1a591f14415478aa02ed92282b6d,
+    type: 2}
 --- !u!1 &705381314
 GameObject:
   m_ObjectHideFlags: 0
@@ -3568,7 +3433,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 555629117}
+      - m_Target: {fileID: 0}
         m_MethodName: NextTurn
         m_Mode: 1
         m_Arguments:
@@ -3859,13 +3724,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 677930395}
   - {fileID: 1857194163}
   - {fileID: 935576463}
-  - {fileID: 1977989721}
-  - {fileID: 1496501395}
-  - {fileID: 291740621}
-  - {fileID: 555629116}
   - {fileID: 199805069}
   - {fileID: 691711333}
   m_Father: {fileID: 0}
@@ -4211,7 +4071,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 291740622}
+        - m_Target: {fileID: 0}
           m_MethodName: ShowProgressCardInfo
           m_Mode: 2
           m_Arguments:
@@ -4228,7 +4088,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 291740622}
+        - m_Target: {fileID: 0}
           m_MethodName: HideProgressCardInfo
           m_Mode: 1
           m_Arguments:
@@ -4643,7 +4503,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 849584481}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &935576464
 MonoBehaviour:
@@ -4900,8 +4760,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1033c0b97eb028440b81c8797217f9fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ydie: {fileID: 2115873313}
-  Rdie: {fileID: 402785869}
+  Ydie: {fileID: 0}
+  Rdie: {fileID: 0}
+  submit: {fileID: 0}
 --- !u!114 &990799844 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114352510017339836, guid: 5e77e6e65dd62a241bbc4d7aacdef46b,
@@ -5993,12 +5854,12 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 677930397}
+      objectReference: {fileID: 0}
     - target: {fileID: 114501178180207534, guid: 5e77e6e65dd62a241bbc4d7aacdef46b,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 677930397}
+      objectReference: {fileID: 0}
     - target: {fileID: 1171053377446090, guid: 5e77e6e65dd62a241bbc4d7aacdef46b, type: 2}
       propertyPath: m_IsActive
       value: 0
@@ -6264,7 +6125,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 291740622}
+      - m_Target: {fileID: 0}
         m_MethodName: Shift
         m_Mode: 1
         m_Arguments:
@@ -8640,51 +8501,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1482570143}
---- !u!1 &1496501393
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1496501395}
-  - component: {fileID: 1496501394}
-  m_Layer: 0
-  m_Name: PlayerManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1496501394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1496501393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76e71ec672aae9140bd234fa3514d312, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Players: {fileID: 1783119354}
-  playerPrefrab: {fileID: 114124705082406530, guid: 4ba07e069105a43f58e5bfa688c16a61,
-    type: 2}
-  cardInventoryPrefab: {fileID: 96694389}
-  myPlayers: []
---- !u!4 &1496501395
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1496501393}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 899, y: 1584, z: 200}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 849584481}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1522186469
 GameObject:
   m_ObjectHideFlags: 0
@@ -9133,7 +8949,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 291740622}
+        - m_Target: {fileID: 0}
           m_MethodName: ShowProgressCardInfo
           m_Mode: 2
           m_Arguments:
@@ -9150,7 +8966,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 291740622}
+        - m_Target: {fileID: 0}
           m_MethodName: HideProgressCardInfo
           m_Mode: 1
           m_Arguments:
@@ -9366,7 +9182,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 555629117}
+      - m_Target: {fileID: 0}
         m_MethodName: NextTurn
         m_Mode: 1
         m_Arguments:
@@ -9488,7 +9304,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 677930397}
+      - m_Target: {fileID: 0}
         m_MethodName: ShowBankInstance
         m_Mode: 1
         m_Arguments:
@@ -10338,7 +10154,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 849584481}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1857194164
 MonoBehaviour:
@@ -10352,7 +10168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RollBtn: {fileID: 1762623145}
-  AlchemistMenu: {fileID: 976067605}
+  AlchemistMenu: {fileID: 0}
   HasAlchemist: 0
 --- !u!1 &1891181676
 GameObject:
@@ -10664,54 +10480,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1960117621}
---- !u!1 &1977989719
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1977989721}
-  - component: {fileID: 1977989720}
-  m_Layer: 0
-  m_Name: CardManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1977989720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1977989719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b30572001b04bd74cafc1b90794ec8ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardInventoryPrefab: {fileID: 114656945425425102, guid: 8a32e1f42b25145b59b96658e112c559,
-    type: 2}
-  resourceCardPrefab: {fileID: 114000014003085930, guid: 73e00ebd82d3b4a48b4ce44535e0fbe5,
-    type: 2}
-  commodityCardPrefab: {fileID: 114000012639691108, guid: 7d4c85ad0ee3845c496b3bab748a8395,
-    type: 2}
-  progressCardPrefab: {fileID: 114000010703395074, guid: 2b49f4b60e44a40dfb9b6110133ba239,
-    type: 2}
---- !u!4 &1977989721
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1977989719}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 847, y: 1600, z: 200}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 849584481}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1994083478 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114288224006954872, guid: 5e77e6e65dd62a241bbc4d7aacdef46b,
@@ -11085,12 +10853,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VPActive: {r: 0.53676474, g: 0.44272828, b: 0.31179717, a: 1}
   VPInactive: {r: 0.8161765, g: 0.69350165, b: 0.4741025, a: 1}
---- !u!114 &2115873313 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114009516303472736, guid: cd7d6784167b0894793c6b032889a1de,
-    type: 2}
-  m_PrefabInternal: {fileID: 362170935}
-  m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
 --- !u!1 &2118516616
 GameObject:
   m_ObjectHideFlags: 0
@@ -11257,7 +11019,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 291740622}
+        - m_Target: {fileID: 0}
           m_MethodName: ShowProgressCardInfo
           m_Mode: 2
           m_Arguments:
@@ -11274,7 +11036,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 291740622}
+        - m_Target: {fileID: 0}
           m_MethodName: HideProgressCardInfo
           m_Mode: 1
           m_Arguments:
@@ -11310,12 +11072,6 @@ Transform:
   m_PrefabParentObject: {fileID: 4217773410324938, guid: 5e77e6e65dd62a241bbc4d7aacdef46b,
     type: 2}
   m_PrefabInternal: {fileID: 1174084505}
---- !u!114 &2137396517 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114142155929376770, guid: 5e77e6e65dd62a241bbc4d7aacdef46b,
-    type: 2}
-  m_PrefabInternal: {fileID: 1174084505}
-  m_Script: {fileID: 11500000, guid: f99fdfb4eb6cf2f48bb881313cf31231, type: 3}
 --- !u!1001 &2146295265
 Prefab:
   m_ObjectHideFlags: 0
