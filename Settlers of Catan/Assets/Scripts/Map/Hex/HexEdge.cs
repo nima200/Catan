@@ -5,12 +5,17 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexEdge : MonoBehaviour
 { 
-    public EdgeUnitType[] States = new EdgeUnitType[4];
-    private EdgeUnit _type = EdgeUnit.Disabled;
+    public EdgeUnitType[] States = new EdgeUnitType[5];
+
+    //every edge needs to be hidden when created
+    private EdgeUnit _type = EdgeUnit.Hidden;
+
+    //the two hexcells that the edge divides
     public HexCell FirstCell, SecondCell;
     public HexEdge[] NeighborEdges;
     public List<HexEdge> Neighbors = new List<HexEdge>();
-    public List<HexEdge> PossibleNeighbors = new List<HexEdge>();
+
+    //head positions
     private Vector3 _positionFc;
     private Vector3 _positionSc;
     private bool _isActual = true;
@@ -25,6 +30,8 @@ public class HexEdge : MonoBehaviour
             _isActual = value;
         }
     }
+
+    //this is in charge of making sure the right mesh is rendered based on edge state
     public EdgeUnit Type
     {
         get
@@ -45,8 +52,11 @@ public class HexEdge : MonoBehaviour
         }
     }
 
-    public List<HexVertex> MyVertices = new List<HexVertex>(); 
+    //the hexvertexes that lie on each end of the edge
+    public List<HexVertex> Heads = new List<HexVertex>(); 
 
+
+    //Helper functions for setting neighbors
     public void SetNeighbor(EdgeDirection direction, HexEdge edge)
     {
         NeighborEdges[(int) direction] = edge;
@@ -58,6 +68,10 @@ public class HexEdge : MonoBehaviour
         NeighborEdges[direction] = edge;
         edge.NeighborEdges[(direction < 2) ? direction + 2 : direction - 2] = this;
     }
+
+    //********************************************//
+    //           Getters and Setters              //
+    //********************************************//
 
     public Vector3 GetPosition_FC()
     {

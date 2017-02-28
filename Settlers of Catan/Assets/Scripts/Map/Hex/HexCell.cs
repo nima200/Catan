@@ -16,18 +16,23 @@ public class HexCell : MonoBehaviour
     private Mesh _cellMesh;
 	private List<Vector3> _vertices;
     private List<int> _triangles;
+
     // Each cell needs to know its enum hex type -> the resources that the hex generates.
     public HexType MyHexType;
+
     // Each cell needs to acquire a point in the axial coordiate system.
     // http://catlikecoding.com/unity/tutorials/hex-map-1/hexagonal-coordinates/cube-coordinates.png
     public HexCoordinates Coordinates;
+
     // Need a renderer component to be able to access the material of the gameobject this
     // script is attached to. For coloring the hexes based on their resource type (HexType).
     public Renderer Rend;
+
     // The value attached to each hex, as well as the Text element that displays this value. 
     // Randomly generated. 
     public int CellNumber;
     public Text Label;
+
     // It was adviced by the tutorial I followed to serialize the neighbor connections of cells
     // so that they would survive recompiles. However I'm not entirely sure if we need this. Doesn't harm anyways.
     public HexCell[] Neighbors;
@@ -114,6 +119,7 @@ public class HexCell : MonoBehaviour
         return MyEdges[index];
     }
 
+    //the following two methods simply place edges at desired positions
     public void SetEdge(int directionInt, HexEdge edge)
     {
         var direction = (HexDirection) directionInt;
@@ -201,6 +207,12 @@ public class HexCell : MonoBehaviour
         _triangles.Add(vertexIndex + 1);
         _triangles.Add(vertexIndex + 2);
     }
+
+    //***************************//
+    //     State Evaluators      //
+    //***************************//
+
+
     public bool HasEdgeAtPosition(Vector3 position)
     {
         return MyEdges.Where(edge => edge != null).Any(edge => edge.GetPosition_FC() == position);

@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HexGrid : MonoBehaviour
+public class BoardManager : MonoBehaviour
 {
-
-    public int Width = 8;
-    public int Height = 7;
+    
     public HexCell CellPrefab;
     public Text CellLabelPrefab;
     public Canvas GridCanvas;
@@ -18,11 +17,14 @@ public class HexGrid : MonoBehaviour
     public ToggleGroup ButtonGroup;
     public HexEdge EdgePrefab;
     public HexVertex VertexPrefab;
-    public HexCell[] Cells { get; private set; }
     public Dropdown DirectionDropdown;
 
+    public HexCell[] Cells { get; private set; }
+    
+    private const int Width = 8;
+    private const int Height = 7;
     private int[] _tokens;
-    private SandboxPhase _phase = SandboxPhase.Phase1;
+    private TurnPhase _phase = TurnPhase.Phase1;
     private BuildMode _buildMode = BuildMode.Off;
 
     private void Awake()
@@ -42,6 +44,7 @@ public class HexGrid : MonoBehaviour
                 CreateCell(x, z, i++);
             }
         }
+        
     }
 
     // After the grid is awake, we can now triangulate the cells of the mesh.
@@ -59,8 +62,6 @@ public class HexGrid : MonoBehaviour
         }
     }
 
-
-
     public void Build(string modeName)
     {
         _buildMode = (BuildMode) Enum.Parse(typeof(BuildMode), modeName);
@@ -73,12 +74,7 @@ public class HexGrid : MonoBehaviour
                 BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
                 BuildCityButton.GetComponentInChildren<Text>().text = "Build City";
                 BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
-
                 DirectionDropdown.interactable = false;
-//                BuildRoadButton.interactable = true;
-//                BuildSettleButton.interactable = true;
-//                BuildCityButton.interactable = true;
-//                BuildShipButton.interactable = true;
                 break;
             case BuildMode.Settlement:
                 HidePossibleEdges();
@@ -87,12 +83,7 @@ public class HexGrid : MonoBehaviour
                 BuildSettleButton.GetComponentInChildren<Text>().text = "End Build";
                 BuildCityButton.GetComponentInChildren<Text>().text = "Build City";
                 BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
-
                 DirectionDropdown.interactable = true;
-//                BuildRoadButton.interactable = false;
-//                BuildSettleButton.interactable = true;
-//                BuildCityButton.interactable = false;
-//                BuildShipButton.interactable = false;
                 break;
             case BuildMode.City:
                 HidePossibleEdges();
@@ -101,12 +92,7 @@ public class HexGrid : MonoBehaviour
                 BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
                 BuildCityButton.GetComponentInChildren<Text>().text = "End Build";
                 BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
-
                 DirectionDropdown.interactable = true;
-//                BuildRoadButton.interactable = false;
-//                BuildSettleButton.interactable = false;
-//                BuildCityButton.interactable = true;
-//                BuildShipButton.interactable = false;
                 break;
             case BuildMode.Road:
                 ShowPossibleEdges();
@@ -115,12 +101,7 @@ public class HexGrid : MonoBehaviour
                 BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
                 BuildCityButton.GetComponentInChildren<Text>().text = "Build City";
                 BuildShipButton.GetComponentInChildren<Text>().text = "Build Ship";
-
                 DirectionDropdown.interactable = true;
-//                BuildRoadButton.interactable = true;
-//                BuildSettleButton.interactable = false;
-//                BuildCityButton.interactable = false;
-//                BuildShipButton.interactable = false;
                 break;
             case BuildMode.Ship:
                 ShowPossibleEdges();
@@ -129,22 +110,13 @@ public class HexGrid : MonoBehaviour
                 BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
                 BuildCityButton.GetComponentInChildren<Text>().text = "Build City";
                 BuildShipButton.GetComponentInChildren<Text>().text = "End Build";
-
                 DirectionDropdown.interactable = true;
-//                BuildRoadButton.interactable = false;
-//                BuildSettleButton.interactable = false;
-//                BuildCityButton.interactable = false;
-//                BuildShipButton.interactable = true;
                 break;
             case BuildMode.Knight:
                 break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
-    }
-    // TODO: Call sandbox, when on phase 3, stay there and apply normal functionality of building stuff.
-    public void StartGame()
-    {
-        ShowPossibleCornerUnits();
-        
     }
 
     // Very generic mouse input handle method.
@@ -165,11 +137,11 @@ public class HexGrid : MonoBehaviour
         }
         if (_buildMode == BuildMode.Settlement)
         {
-            BuildCornerUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value);
+            BuildCornerUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value, CornerUnit.Settlement);
         }
         if (_buildMode == BuildMode.City)
         {
-            BuildCornerUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value);
+            BuildCornerUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value, CornerUnit.City);
         }
     }
 
@@ -194,23 +166,63 @@ public class HexGrid : MonoBehaviour
 
     private void ShowPossibleEdges()
     {
+        // Look at all cells
         foreach (var cell in Cells)
         {
+            // For those deleted by boardtrimmer
             if (cell == null) continue;
-            foreach (var vertex in cell.MyVertices)
-            {
-                if (vertex.Type != CornerUnit.Settlement && vertex.Type != CornerUnit.City) continue;
-                foreach (var edge in vertex.MyEdges)
-                {
-                    if (edge.Type != EdgeUnit.Disabled) continue;
 
-                    if (_phase == SandboxPhase.Phase2)
+            // For SANDBOX mode.
+            if (_phase == TurnPhase.Phase1 || _phase == TurnPhase.Phase2)
+            {
+                foreach (var vertex in cell.MyVertices)
+                {
+                    // Only take care of city and settlement vertices
+                    if (vertex.Type != CornerUnit.Settlement && vertex.Type != CornerUnit.City) continue;
+
+                    // For all neighboring edges of a vertex
+                    foreach (var edge in vertex.NeighborEdges)
                     {
-                        edge.Type = vertex.Type == CornerUnit.City ? EdgeUnit.Open : EdgeUnit.Disabled;
+                        // We only want to show those edges currently hidden
+                        if (edge.Type != EdgeUnit.Hidden) continue;
+
+                        switch (_phase)
+                        {
+                            // SANDBOX: make edges around settlements open
+                            case TurnPhase.Phase1:
+                                edge.Type = EdgeUnit.Open;
+                                break;
+                            // SANDBOX: make edges around cities open
+                            case TurnPhase.Phase2:
+                                edge.Type = vertex.Type == CornerUnit.City ? EdgeUnit.Open : EdgeUnit.Hidden;
+                                break;
+                            // Handled phase 3 below
+                            case TurnPhase.Phase3:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+
                     }
-                    else
+                }
+            }
+            // Phase 3: The rest of build process throughout the game
+            else
+            {
+                // TODO: Apply the ownership stuff here too.
+                // Edges have to follow edges
+                foreach (var edge in cell.MyEdges)
+                {
+                    // Only take care of roads and ships (not hidden, etc)
+                    if (edge.Type != EdgeUnit.Road && edge.Type != EdgeUnit.Ship) continue;
+
+                    foreach (var neighbor in edge.Neighbors)
                     {
-                        edge.Type = EdgeUnit.Open;
+                        // Make all neighbors available to place on
+                        if (neighbor.Type == EdgeUnit.Hidden /* TODO: && head.Owner == currentPlayer */)
+                        {
+                            neighbor.Type = EdgeUnit.Open;
+                        }
                     }
                 }
             }
@@ -219,6 +231,7 @@ public class HexGrid : MonoBehaviour
 
     public void HidePossibleEdges()
     {
+        // Simply hide every current open edge
         foreach (var cell in Cells)
         {
             if (cell == null) continue;
@@ -226,7 +239,7 @@ public class HexGrid : MonoBehaviour
             {
                 if (edge.Type == EdgeUnit.Open)
                 {
-                    edge.Type = EdgeUnit.Disabled;
+                    edge.Type = EdgeUnit.Hidden;
                 }
             }
         }
@@ -234,34 +247,95 @@ public class HexGrid : MonoBehaviour
 
     private void ShowPossibleCornerUnits()
     {
+        // Look at all cells
         foreach (var cell in Cells)
         {
+            // For those deleted by the boardtrimmer
             if (cell == null) continue;
-            foreach (var vertex in cell.MyVertices)
+            
+            switch (_phase)
             {
-                if (_phase == SandboxPhase.Phase1)
-                {
-                    if (vertex.Type == CornerUnit.Hidden)
+                // In phase 1 every vertex of the board is open
+                // Except if a player before you placed something
+                case TurnPhase.Phase1:
+                    foreach (var vertex in cell.MyVertices)
                     {
-                        vertex.Type = CornerUnit.Open;
+                        switch (vertex.Type)
+                        {
+                            case CornerUnit.Disabled:
+                                break;
+                            case CornerUnit.Open:
+                                break;
+                            case CornerUnit.Settlement:
+                                foreach (var neighbor in vertex.Neighbors)
+                                {
+                                    neighbor.Type = CornerUnit.Disabled;
+                                }
+                                break;
+                            case CornerUnit.City:
+                                break;
+                            case CornerUnit.Hidden:
+                                vertex.Type = CornerUnit.Open;
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    }
+                    break;
+                // In phase 2, consider all settlements are placed in phase 1 <-- apply catan rules
+                case TurnPhase.Phase2:
+                    foreach (var vertex in cell.MyVertices)
+                    {
+                        switch (vertex.Type)
+                        {
+                            case CornerUnit.City:
+                                foreach (var neighbor in vertex.Neighbors)
+                                {
+                                    neighbor.Type = CornerUnit.Disabled;
+                                }
+                                break;
+                            case CornerUnit.Settlement:
+                                break;
+                            case CornerUnit.Hidden:
+                                vertex.Type = CornerUnit.Open;
+                                break;
+                            case CornerUnit.Disabled:
+                                break;
+                            case CornerUnit.Open:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    }
+                    break;
+                case TurnPhase.Phase3:
 
-                    }
-                } else if (_phase == SandboxPhase.Phase2 &&
-                         (vertex.Type == CornerUnit.City || vertex.Type == CornerUnit.Settlement))
-                {
-                    foreach (var neighbor in vertex.Neighbors)
+                    foreach (var vertex in cell.MyVertices)
                     {
-                        neighbor.Type = CornerUnit.Disabled;
+                        if (_phase != TurnPhase.Phase3 ||
+                            (vertex.Type != CornerUnit.City && vertex.Type != CornerUnit.Settlement)) continue;
+
+                        foreach (var neighbor in vertex.Neighbors)
+                        {
+                            neighbor.Type = CornerUnit.Disabled;
+                        }
                     }
-                } else if (_phase == SandboxPhase.Phase2 && vertex.Type == CornerUnit.Hidden)
-                {
-                    vertex.Type = CornerUnit.Open;
-                } else if (_phase == SandboxPhase.Phase3)
-                {
-                    
-                }
-                    
-              
+                    foreach (var edge in cell.MyEdges)
+                    {
+                        if (edge.Type != EdgeUnit.Road && edge.Type != EdgeUnit.Ship) continue;
+
+                        // If the head's owner is not me, then don't open.
+                        foreach (var head in edge.Heads)
+                        {
+                            if (head.Type == CornerUnit.Hidden /* && head.Owner == currentPlayer */)
+                            {
+                                head.Type = CornerUnit.Open;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }
@@ -358,7 +432,7 @@ public class HexGrid : MonoBehaviour
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
 
-    public void BuildCornerUnit_Sandbox(Vector3 position, HexDirection direction)
+    public void BuildCornerUnit_Sandbox(Vector3 position, HexDirection direction, CornerUnit p3BuildType)
     {
         position = transform.InverseTransformPoint(position);
         var coordinates = HexCoordinates.FromPosition(position);
@@ -375,21 +449,26 @@ public class HexGrid : MonoBehaviour
 
         switch (_phase)
         {
-            case SandboxPhase.Phase1:
+            case TurnPhase.Phase1:
                 if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
                 {
                     cell.MyVertices[directionInt].Type = CornerUnit.Settlement;
                     Build("Road");
                 }
                 break;
-            case SandboxPhase.Phase2:
+            case TurnPhase.Phase2:
                 if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
                 {
                     cell.MyVertices[directionInt].Type = CornerUnit.City;
                     Build("Road");
                 }
                 break;
-            case SandboxPhase.Phase3:
+            case TurnPhase.Phase3:
+                if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
+                {
+                    cell.MyVertices[directionInt].Type = p3BuildType;
+                    Build("Off");
+                }
                 break;
         }
         
@@ -456,22 +535,22 @@ public class HexGrid : MonoBehaviour
                 var edge = Instantiate(EdgePrefab);
                 cell.MyEdges[i] = edge;
 
-                if (!cell.MyVertices[i].MyEdges.Contains(edge))
+                if (!cell.MyVertices[i].NeighborEdges.Contains(edge))
                 {
-                    cell.MyVertices[i].MyEdges.Add(edge);
+                    cell.MyVertices[i].NeighborEdges.Add(edge);
                 }
-                if (!cell.MyVertices[(i + 1) % 6].MyEdges.Contains(edge))
+                if (!cell.MyVertices[(i + 1) % 6].NeighborEdges.Contains(edge))
                 {
-                    cell.MyVertices[(i + 1) % 6].MyEdges.Add(edge);
+                    cell.MyVertices[(i + 1) % 6].NeighborEdges.Add(edge);
                 }
 
-                if (!edge.MyVertices.Contains(cell.MyVertices[i]))
+                if (!edge.Heads.Contains(cell.MyVertices[i]))
                 {
-                    edge.MyVertices.Add(cell.MyVertices[i]);
+                    edge.Heads.Add(cell.MyVertices[i]);
                 }
-                if (!edge.MyVertices.Contains(cell.MyVertices[(i + 1) % 6]))
+                if (!edge.Heads.Contains(cell.MyVertices[(i + 1) % 6]))
                 {
-                    edge.MyVertices.Add(cell.MyVertices[(i + 1) % 6]);
+                    edge.Heads.Add(cell.MyVertices[(i + 1) % 6]);
                 }
 
 
@@ -541,17 +620,16 @@ public class HexGrid : MonoBehaviour
 
         switch (_phase)
         {
-            case SandboxPhase.Phase1:
-                _phase = SandboxPhase.Phase2;
+            case TurnPhase.Phase1:
+                _phase = TurnPhase.Phase2;
                 Build("City");
-                
                 break;
-
-            //delete later
-            case SandboxPhase.Phase2:
-                _phase = SandboxPhase.Phase3;
+            case TurnPhase.Phase2:
+                _phase = TurnPhase.Phase3;
                 Build("Off");
-                
+                break;
+            case TurnPhase.Phase3:
+                Build("Off");
                 break;
         }
     }

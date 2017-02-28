@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class RandomCell
 {
-    public static HexGrid grid = GameObject.Find("Hex Grid").GetComponent<HexGrid>();
+    public static BoardManager grid = GameObject.Find("Hex Grid").GetComponent<BoardManager>();
 
     public static int giveCell()
     {

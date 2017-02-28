@@ -3,7 +3,7 @@ using System.Collections;
 
 public class HexColorManager : MonoBehaviour {
 
-    public HexGrid grid;
+    public BoardManager grid;
 
     void Start()
     {

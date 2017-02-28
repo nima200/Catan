@@ -6,7 +6,10 @@ using UnityEngine;
 public class HexVertex : MonoBehaviour
 {
     public CornerUnitType[] States;
-    private CornerUnit _type;
+    [SerializeField]
+    private CornerUnit _type = CornerUnit.Hidden;
+
+    //makes sure that the right mesh is rendered based on HexVertex state
     public CornerUnit Type
     {
         get { return _type; }
@@ -38,17 +41,15 @@ public class HexVertex : MonoBehaviour
             }
         }
     }
-    public List<HexEdge> MyEdges;
+    public List<HexEdge> NeighborEdges = new List<HexEdge>();
     public Vector3 Position;
-	public int Index;
+	public int Index = 0;
+
 	//keeps track of neighboring vertices
-    public List<HexVertex> Neighbors;
+    public List<HexVertex> Neighbors = new List<HexVertex>();
+
 	private void Awake()
 	{
-		Neighbors = new List<HexVertex>();
-		Index = 0;
         transform.GetComponent<MeshFilter>().mesh = new Mesh();
-        MyEdges = new List<HexEdge>();
-        Type = CornerUnit.Hidden;
     }
 }

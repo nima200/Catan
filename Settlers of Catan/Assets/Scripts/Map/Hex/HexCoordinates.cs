@@ -53,7 +53,7 @@ public struct HexCoordinates
     }
 
     // This method creates a HexCoordinate given a position.
-    // If you look at where it's called (HexGrid.cs line 168) you shall see that
+    // If you look at where it's called (BoardManager.cs line 168) you shall see that
     // it's used where mouse input is involved. We store the location where mouse 
     // was clicked in a Vector3 data type and derive the coordinates that it falls onto from there.
     // it's like a mapping from the cartesian coordinates (X,Y) of the screen onto the axial coordinate
