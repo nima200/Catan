@@ -14,6 +14,9 @@ public class Player : NetworkBehaviour {
 	public int ratio;
     public bool hasAlchemist;                             // TODO : find it in inventory
 
+    private List<Player> _players = new List<Player>();  // Note  : Players will have access to the list.
+    public PlayerManager _playermanager;
+
     // Khalil - Added attribute "isTurn" as a boolean to control UI. 
     public Player()
     {
@@ -69,6 +72,13 @@ public class Player : NetworkBehaviour {
         return hasAlchemist;                        // TODO : find alchemist in inventory
     }
 
+
+    public override void OnStartClient()
+    {
+        _playermanager.AddtoList(this);
+    }
+
+    // for debuging only.
     public void Update()
     {
         Debug.Log(playerName);

@@ -13,9 +13,10 @@ public class PlayerManager : MonoBehaviour
 	public List<Player> myPlayers = new List<Player> ();
     private int nbOfPlayers;
     private int pointer;
+    
 
-	//Make Player Manager Singleton
-	void Awake ()
+    //Make Player Manager Singleton
+    void Awake ()
 	{
 		if (instance == null) {
 			instance = this;
@@ -24,6 +25,8 @@ public class PlayerManager : MonoBehaviour
 			Destroy (gameObject);    
 		}
 		DontDestroyOnLoad (gameObject);
+
+        // no need for the nbOfPlayers
         nbOfPlayers = 4;                    // Set to 4 for now
         createPlayer ();
         pointer = 0;                       
@@ -34,7 +37,8 @@ public class PlayerManager : MonoBehaviour
 		return instance;
 	}
     
-
+    // would go away. No need of making 4 players
+    // no need for vector transform . 
 	private void createPlayer ()
 	{
         Player player;
@@ -64,4 +68,10 @@ public class PlayerManager : MonoBehaviour
         pointer = (pointer + 1) % nbOfPlayers;
         return getPlayer(pointer);
     }
+
+    public void AddtoList(Player _player)
+    {
+        myPlayers.Add(_player);
+    }
+
 }
