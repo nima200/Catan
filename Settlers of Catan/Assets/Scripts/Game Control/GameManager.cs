@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     // change this by giving it the playerlist
 
-    public PlayerManager _playerManager;
+   // public PlayerManager _playerManager;
 
 
     // awake for singleton. 
@@ -52,8 +52,8 @@ public class GameManager : MonoBehaviour {
 
 
         //Creating new Managers.
-            Instantiate(_playerManager);
-              Instantiate(_turnManager);
+           // Instantiate(_playerManager);
+            Instantiate(_turnManager);
             Instantiate(_cardManager);
             Instantiate(_tradeManager);
             Instantiate(_cardmenumanager);
