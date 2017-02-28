@@ -13,9 +13,7 @@ public class AddRemove : MonoBehaviour
 
     public virtual void Awake()
     {
-        value = 0;
         display = gameObject.GetComponentInChildren<Text>();
-        //Debug.Log(display.text);
         display.text = value.ToString();
     }
 
@@ -26,12 +24,10 @@ public class AddRemove : MonoBehaviour
 
     public void SetValue()
     {
-        Debug.Log("Display:"+ display);
-        Debug.Log("Value:" + value);
-        display.text = value.ToString();
+        this.display.text = value.ToString();
     }
 
-    public void Decrease()
+    public virtual void Decrease()
     {
         if (value - incrementFactor >= minMax[0])
         {

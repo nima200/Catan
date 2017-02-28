@@ -18,6 +18,7 @@ public class UICountManager : MonoBehaviour {
         counters = CardMenu.GetComponentsInChildren<CounterDummy>();
         UpdateIndicators();
         // TODO : add eventlistener to trigger update of the display (eg, trade, rollDice, ...)
+		cardInventory.InventoryChanged += UpdateIndicators;
 
 	}
 	
@@ -31,6 +32,7 @@ public class UICountManager : MonoBehaviour {
 
 			counters[i].gameObject.GetComponentInChildren<Text>().text = cardInventory.countSteableCard(myKind).ToString();
 	    }
-
 	}
+
+
 }
