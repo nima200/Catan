@@ -10,5 +10,6 @@ public enum TurnPhase
 {
     Sandbox1,
     Sandbox2,
-    Build
+    Build,
+    WaitForTurn
 }

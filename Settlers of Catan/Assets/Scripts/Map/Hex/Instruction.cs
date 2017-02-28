@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SandboxInstructions : MonoBehaviour {
+public class Instruction : MonoBehaviour {
 
 }

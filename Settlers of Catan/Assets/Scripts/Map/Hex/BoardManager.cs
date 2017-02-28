@@ -25,7 +25,7 @@ public class BoardManager : MonoBehaviour
     private const int Width = 8;
     private const int Height = 7;
     private int[] _tokens;
-    public TurnPhase _phase = TurnPhase.Sandbox1;
+    private TurnPhase _phase = TurnPhase.Sandbox1;
     private BuildMode _buildMode = BuildMode.Off;
 
     private void Awake()
@@ -86,8 +86,8 @@ public class BoardManager : MonoBehaviour
 
     private void StartGame()
     {
+        // We're in phase 1 so we can just get started with building a settlement
         Build("Settlement");
-        
     }
 
     private void Trim()
@@ -124,7 +124,7 @@ public class BoardManager : MonoBehaviour
                 BuildSettleButton.GetComponentInChildren<Text>().text = "Settlement";
                 BuildCityButton.GetComponentInChildren<Text>().text = "City";
                 BuildShipButton.GetComponentInChildren<Text>().text = "Ship";
-                UserInterface.GetComponentInChildren<SandboxInstructions>().GetComponent<Text>().text = "";
+                UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "";
                 DirectionDropdown.interactable = false;
                 break;
             case BuildMode.Settlement:
@@ -135,7 +135,7 @@ public class BoardManager : MonoBehaviour
                 BuildCityButton.GetComponentInChildren<Text>().text = "City";
                 BuildShipButton.GetComponentInChildren<Text>().text = "Ship";
                 DirectionDropdown.interactable = true;
-                UserInterface.GetComponentInChildren<SandboxInstructions>().GetComponent<Text>().text =
+                UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a settlement!";
                 break;
             case BuildMode.City:
@@ -146,7 +146,7 @@ public class BoardManager : MonoBehaviour
                 BuildCityButton.GetComponentInChildren<Text>().text = "Build";
                 BuildShipButton.GetComponentInChildren<Text>().text = "Ship";
                 DirectionDropdown.interactable = true;
-                UserInterface.GetComponentInChildren<SandboxInstructions>().GetComponent<Text>().text =
+                UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a city!";
                 break;
             case BuildMode.Road:
@@ -157,7 +157,7 @@ public class BoardManager : MonoBehaviour
                 BuildCityButton.GetComponentInChildren<Text>().text = "City";
                 BuildShipButton.GetComponentInChildren<Text>().text = "Ship";
                 DirectionDropdown.interactable = true;
-                UserInterface.GetComponentInChildren<SandboxInstructions>().GetComponent<Text>().text =
+                UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a road";
                 break;
             case BuildMode.Ship:
@@ -168,7 +168,7 @@ public class BoardManager : MonoBehaviour
                 BuildCityButton.GetComponentInChildren<Text>().text = "City";
                 BuildShipButton.GetComponentInChildren<Text>().text = "Build";
                 DirectionDropdown.interactable = true;
-                UserInterface.GetComponentInChildren<SandboxInstructions>().GetComponent<Text>().text =
+                UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a ship!";
                 break;
             case BuildMode.Knight:
@@ -677,7 +677,7 @@ public class BoardManager : MonoBehaviour
                 break;
             // If it was phase 3, turn off the build menu
             case TurnPhase.Build:
-                UserInterface.GetComponentInChildren<SandboxInstructions>().GetComponent<Text>().text = "";
+                UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "";
                 if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
                 cell.MyVertices[directionInt].Type = unitType;
                 Build("Off");
@@ -726,12 +726,15 @@ public class BoardManager : MonoBehaviour
                 break;
             // If done with phase 2, we can proceed to phase 3 and just end the build after the second road placed in 'sandbox'
             case TurnPhase.Sandbox2:
-                _phase = TurnPhase.Build;
+                // _phase = TurnPhase.Build;
+                _phase = TurnPhase.WaitForTurn;
                 Build("Off");
                 break;
             // And if in phase 3, then we just apply the routine end build state after building a road anywhere
             case TurnPhase.Build:
                 Build("Off");
+                break;
+            case TurnPhase.WaitForTurn:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -809,6 +812,17 @@ public class BoardManager : MonoBehaviour
                 cell.GetNeighbor((i + 1) % 6).MyEdges[(directionOppositeInt + 2) % 6].Neighbors.Add(edge);
             }
         }
+    }
+
+    public void WaitForTurn()
+    {
+        _phase = TurnPhase.WaitForTurn;
+        UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "Please wait for your turn";
+    }
+
+    public void IsTurn()
+    {
+        UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "It is now your turn!";
     }
     
     private static void Triangulate(IEnumerable<HexCell> hexCells)
