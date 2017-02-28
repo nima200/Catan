@@ -6,7 +6,6 @@ public class PlayerAddRemove : AddRemove {
 	public BankAddRemove bankAddRemove;
 	public SteableKind steableKind;
 	private Player mainPlayer;
-	private CardInventory bankInv;
 	private CardInventory playerInv;
 
 	public override void  Awake ()
@@ -14,7 +13,6 @@ public class PlayerAddRemove : AddRemove {
 		base.Awake();
 		this.incrementFactor = 4;
 		mainPlayer = TurnManager.getInstance().getMainPlayer();
-		bankInv = CardManager.getInstance ().getCardInventory ();
 		playerInv = mainPlayer.getCardInventory();
 	}
 

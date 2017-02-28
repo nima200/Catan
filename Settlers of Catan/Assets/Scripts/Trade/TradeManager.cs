@@ -81,6 +81,7 @@ public class TradeManager : MonoBehaviour {
             Debug.Log("Gave " + cardsToGive[r] + " " + r.ToString());
 		}
 		resetCounter();
+//		UICountManager.getInstance().UpdateIndicators();
 	}
 
 	public static TradeManager getInstance ()
