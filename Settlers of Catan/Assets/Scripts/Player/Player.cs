@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class Player : MonoBehaviour {
+public class Player : NetworkBehaviour {
     [SyncVar]
-    public string playerName;
+    public string playerName = "";
 
 	public int playerID;
     public bool isTurn;
@@ -67,5 +67,10 @@ public class Player : MonoBehaviour {
 
     public bool HasAlchemist() {
         return hasAlchemist;                        // TODO : find alchemist in inventory
+    }
+
+    public void Update()
+    {
+        Debug.Log(playerName);
     }
 }
