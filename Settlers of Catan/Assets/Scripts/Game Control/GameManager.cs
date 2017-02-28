@@ -10,6 +10,13 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
     // has a getter, and is a singleton.
     private static GameManager Instance { get;  set; } // reconsidering might be redudant. 
+
+    // These are only to allow the list that is being inherited from the lobbymanager to be converted into a inumberable type.
+    private List<LobbyPlayer> intermiedateList;
+    private IEnumerable<LobbyPlayer> IEnumberableLobbyplayerList;
+    // -----------------------------------------------------------------//
+
+    // ---Managers --//
     public LobbyManager _lobbyManager;
     public LobbyPlayerList _lobbyplayerlist;
     public CardManager _cardManager;
@@ -48,6 +55,15 @@ public class GameManager : MonoBehaviour {
         Instantiate(_cardManager);
         Instantiate(_tradeManager);
         Instantiate(_cardmenumanager);
+
+        // finding lobbymanager and playerlist from assets that weren't destroyed on scene change.
+        _lobbyManager = FindObjectOfType<LobbyManager>();
+        _lobbyplayerlist= FindObjectOfType<LobbyPlayerList>();
+        intermiedateList = _lobbyplayerlist.PlayerList;
+        IEnumberableLobbyplayerList = intermiedateList;
+
+        // IEnumberableLobbyPlayerlist is the list of lobbyplayers that were available before scene change. It allows iteration as an IEnumberable type. 
+
     }
 
 	
@@ -56,6 +72,7 @@ public class GameManager : MonoBehaviour {
 		
 	}
 
+    // Getter for gamemanager used by savegame.
     public static GameManager getCurrent()
     {
         return Instance;

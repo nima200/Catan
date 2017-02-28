@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class Player : MonoBehaviour {
-
+    [SyncVar]
     public string playerName;
+
 	public int playerID;
     public bool isTurn;
 	public CardInventory cardInventory;
