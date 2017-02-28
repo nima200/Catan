@@ -17,7 +17,6 @@ public class AddRemove : MonoBehaviour
         display.text = value.ToString();
     }
 
-
     public int GetValue()
     {
         return value;
@@ -25,12 +24,10 @@ public class AddRemove : MonoBehaviour
 
     public void SetValue()
     {
-//        Debug.Log("Display:"+ display);
-//        Debug.Log("Value:" + value);
         this.display.text = value.ToString();
     }
 
-    public void Decrease()
+    public virtual void Decrease()
     {
         if (value - incrementFactor >= minMax[0])
         {

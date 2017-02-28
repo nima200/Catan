@@ -5,28 +5,21 @@ using UnityEngine;
 public class BankAddRemove : AddRemove {
 	public PlayerAddRemove playerAddRemove;
 	public SteableKind steableKind;
+	private CardInventory bankInv;
 
 
 	public override void  Awake ()
 	{
 		base.Awake();
 		this.incrementFactor = 1;
-	}
-
-	// Update is called once per frame
-    void Update()
-	{
-        //Update min and max so that the number of card the player wants does not exceed the number of card the bank has
-        CardInventory bankInv = CardManager.getInstance ().getCardInventory ();
-		CardInventory playerInv = TurnManager.getInstance().getMainPlayer().getCardInventory();
-		int n = bankInv.countSteableCard (steableKind);
-		minMax = new int[2] { 0, n };
-
+		bankInv = CardManager.getInstance ().getCardInventory ();
 	}
 
 	public override void Increase ()
 	{
-		Debug.Log("called");
+		//Update min and max so that the number of card the player wants does not exceed the number of card the bank has
+		int n = bankInv.countSteableCard (steableKind);
+		minMax = new int[2] { 0, n };
 		base.Increase ();
 		if (playerAddRemove.GetValue() > 0) {
 			playerAddRemove.value = 0;
