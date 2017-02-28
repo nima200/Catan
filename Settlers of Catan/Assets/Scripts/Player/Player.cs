@@ -23,9 +23,9 @@ public class Player : NetworkBehaviour {
 
 	public void Initialize (int i, CardInventory cardInventoryPrefab)
 	{
-		name = "Player" + i;
-		playerID = i;
-		playerName = "Player" + i;
+		//name = "Player" + i;
+		//playerID = i;
+		playerName = "Player " + playerName;
         //isTurn = false;
 		cardInventory = Instantiate(cardInventoryPrefab);
         cardInventory.gameObject.SetActive(true);
@@ -79,16 +79,16 @@ public class Player : NetworkBehaviour {
     } */
 
 
-    //    public override void OnStartClient()
-    //  {
-    //   PlayerManager.getInstance().AddtoList(this);
-    //}
+        public override void OnStartClient()
+      {
+           PlayerManager.getInstance().AddtoList(this);
+    }
 
-    private void Start()
+    /*private void Awake()
     {
         PlayerManager.getInstance().AddtoList(this);
         Debug.Log(playerName);
-    }
+    }*/
 
     // for debuging only.
     public void Update()

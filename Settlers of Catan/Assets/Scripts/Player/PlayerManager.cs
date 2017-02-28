@@ -62,6 +62,7 @@ public class PlayerManager : MonoBehaviour
 
     public Player getPlayer (int index)
 	{
+        Debug.Log("Player at index is : "+ myPlayers[index]);
 		return myPlayers[index];
 	}
 

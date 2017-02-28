@@ -52,7 +52,16 @@ public class GameManager : MonoBehaviour {
 
 
         //Creating new Managers.
-           // Instantiate(_playerManager);
+        // Instantiate(_playerManager);
+        _lobbyManager = FindObjectOfType<LobbyManager>();
+        _lobbyplayerlist = FindObjectOfType<LobbyPlayerList>();
+        intermiedateList = _lobbyplayerlist.PlayerList;
+        IEnumberableLobbyplayerList = intermiedateList;
+
+             int totalPlayers = IEnumberableLobbyplayerList.Count();
+            Debug.Log(IEnumberableLobbyplayerList.Count());
+            PlayerManager.getInstance().SetNumberOfPlayers(totalPlayers);
+
             Instantiate(_turnManager);
             Instantiate(_cardManager);
             Instantiate(_tradeManager);
@@ -60,10 +69,7 @@ public class GameManager : MonoBehaviour {
                     
 
         // finding lobbymanager and playerlist from assets that weren't destroyed on scene change.
-        _lobbyManager = FindObjectOfType<LobbyManager>();
-        _lobbyplayerlist= FindObjectOfType<LobbyPlayerList>();
-        intermiedateList = _lobbyplayerlist.PlayerList;
-        IEnumberableLobbyplayerList = intermiedateList;
+    
 
         
 
@@ -73,9 +79,6 @@ public class GameManager : MonoBehaviour {
 
     void Start() {
 
-        int totalPlayers= IEnumberableLobbyplayerList.Count();
-        Debug.Log(IEnumberableLobbyplayerList.Count());
-        PlayerManager.getInstance().SetNumberOfPlayers(totalPlayers);
     }
 
     public void rollDice() {
