@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,6 +51,10 @@ public class BoardManager : MonoBehaviour
     private void Start()
     {
         Triangulate(Cells);
+        Trim();
+        AssignTokens();
+        CreateVertices();
+        CreateEdges();
     }
 
     private void Update()
@@ -58,6 +63,28 @@ public class BoardManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             HandleInput();
+        }
+    }
+
+    private void Trim()
+    {
+        int[] numbers = { 0, 1, 7, 8, 15, 16, 32, 40, 47, 48, 49, 55 };
+
+        foreach (int i in numbers)
+        {
+
+            //Debug.Log(cells[i]);
+            for (int j = 0; j < 6; j++)
+            {
+                if (Cells[i].GetNeighbor(j) != null)
+                {
+
+                    Cells[i].Neighbors[j].Neighbors[(int)((HexDirection)j).Opposite()] = null;
+                }
+            }
+            Destroy(Cells[i].gameObject);
+            Destroy(Cells[i].Label.gameObject);
+            Cells[i] = null;
         }
     }
 
@@ -125,11 +152,11 @@ public class BoardManager : MonoBehaviour
         if (!Physics.Raycast(inputRay, out hit)) return;
         if (_buildMode == BuildMode.Road)
         {
-            BuildEdgeUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value, EdgeUnit.Road);
+            BuildEdgeUnit(hit.point, (HexDirection) DirectionDropdown.value, EdgeUnit.Road);
         }
         if (_buildMode == BuildMode.Ship)
         {
-            BuildEdgeUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value, EdgeUnit.Ship);
+            BuildEdgeUnit(hit.point, (HexDirection) DirectionDropdown.value, EdgeUnit.Ship);
         }
         if (_buildMode == BuildMode.Settlement)
         {
@@ -146,7 +173,7 @@ public class BoardManager : MonoBehaviour
         _tokens = TokenGenerator.generate(44);
     }
 
-    public void AssignTokens()
+    private void AssignTokens()
     {
         int tokenIndex = 0;
         foreach (var t in Cells)
@@ -224,22 +251,6 @@ public class BoardManager : MonoBehaviour
          }
      }
 
-    public void HidePossibleEdgeUnits()
-    {
-        // Simply hide every current open edge
-        foreach (var cell in Cells)
-        {
-            if (cell == null) continue;
-            foreach (var edge in cell.MyEdges)
-            {
-                if (edge.Type == EdgeUnit.Open)
-                {
-                    edge.Type = EdgeUnit.Hidden;
-                }
-            }
-        }
-    }
-
     private void ShowPossibleCornerUnits()
     {
         // Look at all cells
@@ -247,7 +258,7 @@ public class BoardManager : MonoBehaviour
         {
             // For those deleted by the boardtrimmer
             if (cell == null) continue;
-            
+
             switch (_phase)
             {
                 // In phase 1 every vertex of the board is open
@@ -370,6 +381,22 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    private void HidePossibleEdgeUnits()
+    {
+        // Simply hide every current open edge
+        foreach (var cell in Cells)
+        {
+            if (cell == null) continue;
+            foreach (var edge in cell.MyEdges)
+            {
+                if (edge.Type == EdgeUnit.Open)
+                {
+                    edge.Type = EdgeUnit.Hidden;
+                }
+            }
+        }
+    }
+
     private void HidePossibleCornerUnits()
     {
         foreach (var cell in Cells)
@@ -398,18 +425,18 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    // distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
-    // distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
-
-    // also, hex rows are not directly on top of each other. Each row is offset along the X axis by the inner radius.
-    // however we need to bring them back cause if for every row we only add half of z, then it just turns into a rhombus in the overall shape
-    // to get the brick stack effect,  we need to bring back the x offset of every "other" row.
-
-    // subtracting by the INT division makes this awesome cause we can essentially subtract every time but the effect is only applied
-    // once every other row.
-
     private void CreateCell(int x, int z, int i)
     {
+         /*distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
+         distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
+
+         also, hex rows are not directly on top of each other. Each row is offset along the X axis by the inner radius.
+         however we need to bring them back cause if for every row we only add half of z, then it just turns into a rhombus in the overall shape
+         to get the brick stack effect,  we need to bring back the x offset of every "other" row.
+
+         subtracting by the INT division makes this awesome cause we can essentially subtract every time but the effect is only applied
+         once every other row.*/
+
         //HexVertex position;
         float xCoord = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
         float yCoord = 0f;
@@ -476,103 +503,40 @@ public class BoardManager : MonoBehaviour
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
 
-    public void BuildCornerUnit(Vector3 position, HexDirection direction, CornerUnit unitType)
+    private void CreateVertices()
     {
-        position = transform.InverseTransformPoint(position);
-        var coordinates = HexCoordinates.FromPosition(position);
-        int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
-
-        if (index > Cells.Length - 1) return;
-
-        var cell = Cells[index];
-
-        int directionInt = (int) direction;
-
-        // Prevent duplicates
-        if (!cell.MyVertices[directionInt].Type.Equals(CornerUnit.Open)) return;
-
-        switch (_phase)
-        {
-            // After placing a corner unit, if it was in phase 1 or 2, build a road.
-            case TurnPhase.Phase1:
-            case TurnPhase.Phase2:
-                if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
-                cell.MyVertices[directionInt].Type = unitType;
-                Build("Road");
-                break;
-            // If it was phase 3, turn off the build menu
-            case TurnPhase.Phase3:
-                if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
-                cell.MyVertices[directionInt].Type = unitType;
-                Build("Off");
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    public void CreateVertices()
-	{
-		foreach (var cell in Cells)
-		{
-		    if (cell == null) continue;
-
-            // For all vertex locations of a cell
-		    for (int i = 0; i < 6; i++)
-		    {
-                // Prevent duplicates (i.e. for all edge locations of a cell that are empty)
-		        if (cell.MyVertices[i] != null) continue;
-                // Create a vertex
-		        var vertex = Instantiate(VertexPrefab);
-                // Assign the location
-		        cell.MyVertices[i] = vertex;
-                // Assign the parent and in game position w.r.t. the cell it belongs to
-		        vertex.transform.SetParent(cell.transform);
-		        vertex.transform.localPosition = HexMetrics.corners[i];
-                // If there's a neighboring cell at direction i then it needs a reference to this vertex created
-		        if (cell.GetNeighbor(i) != null)
-		        {
-		            cell.GetNeighbor(i).MyVertices[(int)(((HexDirection)i).Opposite() + 1) % 6] = vertex;
-		        }
-                // If there's a neighboring cell at direction i - 1 (i.e. (i + 5) % 6) then it needs a reference to this vertex created
-                if (cell.GetNeighbor((i + 5) % 6) != null)
-		        {
-		            cell.GetNeighbor((i + 5) % 6).MyVertices[(int)(((HexDirection)i).Opposite() + 5) % 6] = vertex;
-		        }
-		    }
-		}
-	    AssignVertexNeighbors();
-	}
-
-    private void AssignVertexNeighbors()
-    {
-        // For all cells
         foreach (var cell in Cells)
         {
-            // For taking care of borders
             if (cell == null) continue;
 
-            // For all vertices
+            // For all vertex locations of a cell
             for (int i = 0; i < 6; i++)
             {
-                // Extract the cell
-                var vertex = cell.MyVertices[i];
-                // Set a cross link to its cell's next vertex, if not already established
-                if (!vertex.Neighbors.Contains(cell.MyVertices[(i + 1) % 6]))
+                // Prevent duplicates (i.e. for all edge locations of a cell that are empty)
+                if (cell.MyVertices[i] != null) continue;
+                // Create a vertex
+                var vertex = Instantiate(VertexPrefab);
+                // Assign the location
+                cell.MyVertices[i] = vertex;
+                // Assign the parent and in game position w.r.t. the cell it belongs to
+                vertex.transform.SetParent(cell.transform);
+                vertex.transform.localPosition = HexMetrics.corners[i];
+                // If there's a neighboring cell at direction i then it needs a reference to this vertex created
+                if (cell.GetNeighbor(i) != null)
                 {
-                    vertex.Neighbors.Add(cell.MyVertices[(i + 1) % 6]);
-                    cell.MyVertices[(i + 1) % 6].Neighbors.Add(vertex);
+                    cell.GetNeighbor(i).MyVertices[(int)(((HexDirection)i).Opposite() + 1) % 6] = vertex;
                 }
-                // Set a cross link to its cell's previous vertex, if not already established
-                if (vertex.Neighbors.Contains(cell.MyVertices[(i + 5) % 6])) continue;
-
-                vertex.Neighbors.Add(cell.MyVertices[(i + 5) % 6]);
-                cell.MyVertices[(i + 5) % 6].Neighbors.Add(vertex);
+                // If there's a neighboring cell at direction i - 1 (i.e. (i + 5) % 6) then it needs a reference to this vertex created
+                if (cell.GetNeighbor((i + 5) % 6) != null)
+                {
+                    cell.GetNeighbor((i + 5) % 6).MyVertices[(int)(((HexDirection)i).Opposite() + 5) % 6] = vertex;
+                }
             }
         }
+        AssignVertexNeighbors();
     }
 
-    public void CreateEdges()
+    private void CreateEdges()
     {
         // For all cells
         foreach (var cell in Cells)
@@ -613,7 +577,7 @@ public class BoardManager : MonoBehaviour
                 /* VERTEX-EDGE-VERTEX NEIGHBOR STRUCTURE:
                  * An edge needs to know about the two vertices that are its heads
                  */
-                
+
                 // So if it doesn't already know about it
                 if (!edge.Heads.Contains(cell.MyVertices[i]))
                 {
@@ -636,11 +600,125 @@ public class BoardManager : MonoBehaviour
                 if (cell.GetNeighbor(i) != null)
                 {
                     // Then let the neighboring cell know about this edge placed so it's shared between them.
-                    cell.GetNeighbor(i).MyEdges[(int) (((HexDirection) i).Opposite()) % 6] = edge;
+                    cell.GetNeighbor(i).MyEdges[(int)(((HexDirection)i).Opposite()) % 6] = edge;
                 }
             }
         }
         AssignEdgeNeighbors();
+    }
+
+    private void BuildCornerUnit(Vector3 position, HexDirection direction, CornerUnit unitType)
+    {
+        position = transform.InverseTransformPoint(position);
+        var coordinates = HexCoordinates.FromPosition(position);
+        int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
+
+        if (index > Cells.Length - 1) return;
+
+        var cell = Cells[index];
+
+        int directionInt = (int) direction;
+
+        // Prevent duplicates
+        if (!cell.MyVertices[directionInt].Type.Equals(CornerUnit.Open)) return;
+
+        switch (_phase)
+        {
+            // After placing a corner unit, if it was in phase 1 or 2, build a road.
+            case TurnPhase.Phase1:
+            case TurnPhase.Phase2:
+                if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
+                cell.MyVertices[directionInt].Type = unitType;
+                Build("Road");
+                break;
+            // If it was phase 3, turn off the build menu
+            case TurnPhase.Phase3:
+                if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
+                cell.MyVertices[directionInt].Type = unitType;
+                Build("Off");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void BuildEdgeUnit(Vector3 position, HexDirection direction, EdgeUnit unitType)
+    {
+        // Transform mouse hit location into a cell index
+        position = transform.InverseTransformPoint(position);
+        var coordinates = HexCoordinates.FromPosition(position);
+        int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
+
+        // If OOB, end.
+        if (index > Cells.Length - 1) return;
+
+        // If not, extract the cell
+        var cell = Cells[index];
+
+        // Just some useful unitType casting as usual
+        int directionInt = (int)direction;
+
+        // If it's not 'possible' to place an edge (i.e. if the edge unitType is not 'open) then end.
+        if (!cell.MyEdges[directionInt].Type.Equals(EdgeUnit.Open)) return;
+
+        // Else, can build on that location. So set the unitType to the built unitType passed to function (road/ship/etc...)
+        cell.MyEdges[directionInt].Type = unitType;
+        // Place it in the correct rotation around the cell while you're at it
+        cell.MyEdges[directionInt].gameObject.transform.localRotation = EdgeMetrics.rotations[directionInt];
+        // Lil hack to resolve ship rotations not appearing correctly as their .fbx model file was screwed up with rotations
+        if (unitType == EdgeUnit.Ship)
+        {
+            cell.MyEdges[directionInt].gameObject.transform.localRotation *= Quaternion.Euler(0f, 90f, 0f);
+        }
+
+
+        switch (_phase)
+        {
+            // If done with phase 1, we can proceed to phase 2 and just build a city after the first road was placed in 'sandbox'
+            case TurnPhase.Phase1:
+                _phase = TurnPhase.Phase2;
+                Build("City");
+                break;
+            // If done with phase 2, we can proceed to phase 3 and just end the build after the second road placed in 'sandbox'
+            case TurnPhase.Phase2:
+                _phase = TurnPhase.Phase3;
+                Build("Off");
+                break;
+            // And if in phase 3, then we just apply the routine end build state after building a road anywhere
+            case TurnPhase.Phase3:
+                Build("Off");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void AssignVertexNeighbors()
+    {
+        // For all cells
+        foreach (var cell in Cells)
+        {
+            // For taking care of borders
+            if (cell == null) continue;
+
+            // For all vertices
+            for (int i = 0; i < 6; i++)
+            {
+                // Extract the cell
+                var vertex = cell.MyVertices[i];
+                // Set a cross link to its cell's next vertex, if not already established
+                if (!vertex.Neighbors.Contains(cell.MyVertices[(i + 1) % 6]))
+                {
+                    vertex.Neighbors.Add(cell.MyVertices[(i + 1) % 6]);
+                    cell.MyVertices[(i + 1) % 6].Neighbors.Add(vertex);
+                }
+                // Set a cross link to its cell's previous vertex, if not already established
+                if (vertex.Neighbors.Contains(cell.MyVertices[(i + 5) % 6])) continue;
+
+                vertex.Neighbors.Add(cell.MyVertices[(i + 5) % 6]);
+                cell.MyVertices[(i + 5) % 6].Neighbors.Add(vertex);
+            }
+        }
     }
 
     private void AssignEdgeNeighbors()
@@ -670,56 +748,25 @@ public class BoardManager : MonoBehaviour
                     edge.Neighbors.Add(cell.MyEdges[(i + 5) % 6]);
                     cell.MyEdges[(i + 5) % 6].Neighbors.Add(edge);
                 }
+                // Some unitType casting that's useful below
                 var directionOpposite = ((HexDirection) i).Opposite();
                 int directionOppositeInt = (int) directionOpposite;
 
+                // Let's only look at border cells
                 if (cell.GetNeighbor(i) != null) continue;
+                // And among those let's only look at those that have a neighbor in the next position <-- further narrows down 'border cells' to the ones we need
                 if (cell.GetNeighbor((i + 1) % 6) == null) continue;
+                // If we already know about that edge that belongs to the next neighbor, then nvm.
                 if (edge.Neighbors.Contains(cell.GetNeighbor((i + 1) % 6).MyEdges[(directionOppositeInt + 2) % 6])) continue;
+                // But if we don't know about it, well let's know about it!
+                // i.e. cross reference like usual
                 edge.Neighbors.Add(cell.GetNeighbor((i + 1) % 6).MyEdges[(directionOppositeInt + 2) % 6]);
                 cell.GetNeighbor((i + 1) % 6).MyEdges[(directionOppositeInt + 2) % 6].Neighbors.Add(edge);
             }
         }
     }
-
-    public void BuildEdgeUnit_Sandbox(Vector3 position, HexDirection direction, EdgeUnit type)
-    {
-        position = transform.InverseTransformPoint(position);
-        var coordinates = HexCoordinates.FromPosition(position);
-        int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
-
-        if (index > Cells.Length - 1) return;
-
-        var cell = Cells[index];
-
-        int directionInt = (int)direction;
-
-        if (!cell.MyEdges[directionInt].Type.Equals(EdgeUnit.Open)) return;
-
-        cell.MyEdges[directionInt].Type = type;
-        cell.MyEdges[directionInt].gameObject.transform.localRotation = EdgeMetrics.rotations[directionInt];
-        if (type == EdgeUnit.Ship)
-        {
-            cell.MyEdges[directionInt].gameObject.transform.localRotation *= Quaternion.Euler(0f, 90f, 0f);
-        }
-
-        switch (_phase)
-        {
-            case TurnPhase.Phase1:
-                _phase = TurnPhase.Phase2;
-                Build("City");
-                break;
-            case TurnPhase.Phase2:
-                _phase = TurnPhase.Phase3;
-                Build("Off");
-                break;
-            case TurnPhase.Phase3:
-                Build("Off");
-                break;
-        }
-    }
-    // Method for triangulating all cells within the "cells" array of a grid.
-    private static void Triangulate(HexCell[] hexCells)
+    
+    private static void Triangulate(IEnumerable<HexCell> hexCells)
     {
         foreach (var cell in hexCells)
         {
