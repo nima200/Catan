@@ -53,13 +53,13 @@ public class GameManager : MonoBehaviour {
 
         //Creating new Managers.
         // Instantiate(_playerManager);
-        _lobbyManager = FindObjectOfType<LobbyManager>();
-        _lobbyplayerlist = FindObjectOfType<LobbyPlayerList>();
-        intermiedateList = _lobbyplayerlist.PlayerList;
-        IEnumberableLobbyplayerList = intermiedateList;
+            _lobbyManager = FindObjectOfType<LobbyManager>();
+            _lobbyplayerlist = FindObjectOfType<LobbyPlayerList>();
+            intermiedateList = _lobbyplayerlist.PlayerList;
+            IEnumberableLobbyplayerList = intermiedateList;
 
-             int totalPlayers = IEnumberableLobbyplayerList.Count();
-            Debug.Log(IEnumberableLobbyplayerList.Count());
+            int totalPlayers = IEnumberableLobbyplayerList.Count();
+            Debug.Log("There were "+IEnumberableLobbyplayerList.Count()+" Players in the lobby");
             PlayerManager.getInstance().SetNumberOfPlayers(totalPlayers);
 
             Instantiate(_turnManager);

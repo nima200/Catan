@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
 
 	private static PlayerManager instance = null;
+    public GameManager _gameManager;
     public GameObject Players;
 	public Player playerPrefrab;
 	public CardInventory cardInventoryPrefab;
@@ -28,7 +29,8 @@ public class PlayerManager : MonoBehaviour
         
        // nbOfPlayers = 4;                    // Set to 4 for now
         //createPlayer ();
-        pointer = 0;                       
+        pointer = 0;
+        Debug.Log("Player Manager created");                   
 	}
 
 	public static PlayerManager getInstance()
@@ -84,6 +86,7 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Player index:" + i + " and List length:" + myPlayers.Count);
 
         if (myPlayers.Count == nbOfPlayers) {
+            Instantiate(_gameManager);
             TurnManager.getInstance().SetFirstPlayer();
         }
     }

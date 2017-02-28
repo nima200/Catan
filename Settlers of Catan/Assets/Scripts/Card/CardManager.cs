@@ -47,8 +47,9 @@ public class CardManager : MonoBehaviour
 		progressCards.transform.parent = cards.transform;
 		createStealableCard ();
 		createProgressCard ();
+        Debug.Log("Number of Player registered by Player Manager:" + PlayerManager.getInstance().myPlayers.Count);
 		for (int i = 0; i < PlayerManager.getInstance().getNbOfPlayer(); i++) {                //WARNING : EXCEPTION 
-            Debug.Log("What is the index "+ i);
+            //Debug.Log("What is the index "+ i);
 			distributeSteable(PlayerManager.getInstance().getPlayer(i), SteableKind.GOLD,2);
 		}
 

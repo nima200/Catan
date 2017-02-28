@@ -79,8 +79,8 @@ public class Player : NetworkBehaviour {
     } */
 
 
-        public override void OnStartClient()
-      {
+    void Awake()
+    {
            PlayerManager.getInstance().AddtoList(this);
     }
 

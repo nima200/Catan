@@ -1,0 +1,199 @@
+Initialize engine version: 5.5.1f1 (88d00a7498cd)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Intel(R) HD Graphics 510 (ID=0x1906)
+    Vendor:   Intel
+    VRAM:     2111 MB
+    Driver:   21.20.16.4550
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+- Completed reload, in  0.076 seconds
+Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\System.dll (this message is harmless)
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initialized touch support.
+UnloadTime: 1.890987 ms
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1aac -> priority: 1 
+GameLobby Scene Requested
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 41.695164 ms
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 1121.
+Total: 16.912220 ms (FindLiveObjects: 0.064426 ms CreateObjectMapping: 0.071680 ms MarkObjects: 10.513071 ms  DeleteObjects: 6.251096 ms)
+
+Client Started
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+The referenced script on this Behaviour (Game Object 'Possible Hex Edge') is missing!
+ 
+(Filename:  Line: 1754)
+
+The referenced script on this Behaviour (Game Object 'HexEdge') is missing!
+ 
+(Filename:  Line: 1754)
+
+Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.587946 ms
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+Player Manager created
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+There were 2 Players in the lobby
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+Number of Player registered by Player Manager:0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+ArgumentOutOfRangeException: Argument is out of range.
+Parameter name: index
+  at System.Collections.Generic.List`1[Player].get_Item (Int32 index) [0x00000] in <filename unknown>:0 
+  at PlayerManager.getPlayer (Int32 index) [0x00000] in <filename unknown>:0 
+  at CardManager.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at TradeManager.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at CardMenuManager.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+
+Unloading 17 unused Assets to reduce memory usage. Loaded Objects now: 4435.
+Total: 5.224108 ms (FindLiveObjects: 0.312320 ms CreateObjectMapping: 0.170240 ms MarkObjects: 4.712535 ms  DeleteObjects: 0.028586 ms)
+
+Player index:0 and List length:1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Player index:1 and List length:2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Player at index is : Player(Clone) (Player)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:7777}
+ClientDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.433281 ms
+
+Unloading 516 unused Assets to reduce memory usage. Loaded Objects now: 1209.
+Total: 2.492587 ms (FindLiveObjects: 0.121173 ms CreateObjectMapping: 0.130560 ms MarkObjects: 1.649494 ms  DeleteObjects: 0.590933 ms)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+The referenced script on this Behaviour (Game Object 'Possible Hex Edge') is missing!
+ 
+(Filename:  Line: 1754)
+
+The referenced script on this Behaviour (Game Object 'HexEdge') is missing!
+ 
+(Filename:  Line: 1754)
+
+Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.515840 ms
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+Player Manager created
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+There were 2 Players in the lobby
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+Player index:0 and List length:1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at CardMenuManager.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+
+Unloading 17 unused Assets to reduce memory usage. Loaded Objects now: 3822.
+Total: 5.169068 ms (FindLiveObjects: 0.298666 ms CreateObjectMapping: 0.176640 ms MarkObjects: 4.636161 ms  DeleteObjects: 0.056746 ms)
+
+Player index:1 and List length:2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Player at index is : Player(Clone) (Player)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:54134}
+ServerDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
