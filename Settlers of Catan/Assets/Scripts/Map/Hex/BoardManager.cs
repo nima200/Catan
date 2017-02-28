@@ -20,6 +20,8 @@ public class BoardManager : MonoBehaviour
     public HexVertex VertexPrefab;
     public Dropdown DirectionDropdown;
 
+	private static BoardManager instance = null;
+
     public HexCell[] Cells { get; private set; }
     
     private const int Width = 8;
@@ -30,6 +32,18 @@ public class BoardManager : MonoBehaviour
 
     private void Awake()
     {
+		//creates singleton on awake
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else if (instance != this)
+		{
+			Destroy(gameObject);
+		}
+
+		DontDestroyOnLoad(gameObject);
+
         MakeTokens();
         Cells = new HexCell[Height * Width];
         DirectionDropdown = UserInterface.GetComponentInChildren<Dropdown>();
@@ -47,6 +61,12 @@ public class BoardManager : MonoBehaviour
         }
         
     }
+
+	//access singleton 
+	public static BoardManager getInstance()
+	{
+		return instance;
+	}
 
     private void Start()
     {
