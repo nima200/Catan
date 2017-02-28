@@ -6,12 +6,16 @@ public class PlayerAddRemove : AddRemove {
 	public BankAddRemove bankAddRemove;
 	public SteableKind steableKind;
 
+
+	public override void  Awake ()
+	{
+		base.Awake();
+		this.incrementFactor = 4;
+	}
+
 	// Update is called once per frame
-	//public override void Awake ()
     void Update()
     {
-        //base.Awake();
-        //Debug.Log("PLAYER AR"+display.text);
 		Player mainPlayer = TurnManager.getInstance().getMainPlayer();
 		//Update min and max so that the number of card the player is able to trade does not exceed the number of card the player has
 		CardInventory bankInv = CardManager.getInstance ().getCardInventory ();
@@ -25,6 +29,7 @@ public class PlayerAddRemove : AddRemove {
 
 	public override void Increase ()
 	{
+		Debug.Log("called");
 		base.Increase ();
 		if (bankAddRemove.GetValue() > 0) {
 			bankAddRemove.value = 0;

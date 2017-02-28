@@ -13,11 +13,10 @@ public class AddRemove : MonoBehaviour
 
     public virtual void Awake()
     {
-        value = 0;
         display = gameObject.GetComponentInChildren<Text>();
-        //Debug.Log(display.text);
         display.text = value.ToString();
     }
+
 
     public int GetValue()
     {
@@ -26,9 +25,9 @@ public class AddRemove : MonoBehaviour
 
     public void SetValue()
     {
-        Debug.Log("Display:"+ display);
-        Debug.Log("Value:" + value);
-        display.text = value.ToString();
+//        Debug.Log("Display:"+ display);
+//        Debug.Log("Value:" + value);
+        this.display.text = value.ToString();
     }
 
     public void Decrease()

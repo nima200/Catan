@@ -156,25 +156,6 @@ public class TradeManager : MonoBehaviour {
         playerAddRemove = playerBox.GetComponentsInChildren<PlayerAddRemove>();
         resetCounter();
 
-        bankInv = CardManager.getInstance().getCardInventory();
-
-        foreach (AddRemove cd in bankAddRemove)
-        {
-            Button[] allButtons = cd.gameObject.GetComponentsInChildren<Button>();
-            foreach (Button b in allButtons) {
-                //Debug.Log("Bank button found");
-                b.onClick.AddListener(UpdateBound);
-            }
-        }
-        foreach (AddRemove cd in playerAddRemove)
-        {
-            Button[] allButtons = cd.gameObject.GetComponentsInChildren<Button>();
-            foreach (Button b in allButtons)
-            {
-               // Debug.Log("Player button found");
-                b.onClick.AddListener(UpdateBound);
-            }
-        }
     }
 
     public void DestroyBankInstance()
@@ -184,44 +165,9 @@ public class TradeManager : MonoBehaviour {
     }
 
     public void HideBankInstance() {
-
         Debug.Log("Bank trade session instance hidden.");
         bankMenu.gameObject.SetActive(false);
     }
-
-
-	// Update is called once per frame (ie 30 times per sec!!!!!!!!)
-	void UpdateBound ()
-	{
-        Debug.Log("Oui you called me ?");
-        for (int i = 0; i < bankAddRemove.Length; i++)
-        {
-            BankAddRemove counter = bankAddRemove[i];
-            //Give and take cannot be of the same resource kind
-            if (counter.value > 0)
-            {
-                playerAddRemove[i].value = 0;
-                playerAddRemove[i].SetValue();
-            }
-            int n = bankInv.countSteableCard(counter.steableKind);
-            counter.minMax = new int[2] { 0, n };
-        }
-
-        for (int i = 0; i < playerAddRemove.Length; i++)
-        {
-            PlayerAddRemove counter = playerAddRemove[i];
-            //Give and take cannot be of the same resource kind
-            if (counter.value > 0)
-            {
-                bankAddRemove[i].value = 0;
-                bankAddRemove[i].SetValue();
-            }
-            int n = playerInv.countSteableCard(counter.steableKind);
-            counter.minMax = new int[2] { 0, n };
-            counter.incrementFactor = mainPlayer.getMaritimTradeRatio(counter.steableKind);
-        }
-    }
-
 
 
 

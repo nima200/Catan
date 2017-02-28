@@ -46,7 +46,7 @@ public class HexMesh : MonoBehaviour {
         for (int i = 0; i < 6; i++)
         {
             AddTriangle(center, center + HexMetrics.corners[i], center + HexMetrics.corners[i+1]);
-            AddTriangleColor(cell.color);
+            AddTriangleColor(cell.rend.material.color);
         }
     }
 
