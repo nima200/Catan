@@ -18,6 +18,7 @@ public class TurnManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            isRolled = false;
         }
         else if (instance != this)
         {
@@ -38,7 +39,10 @@ public class TurnManager : MonoBehaviour
     }
 
     public void NextTurn()
-    {                                                                                   // TODO : Broadcast over network
+    {
+
+        // TODO : Broadcast over network
+        DiceRoll.getInstance().ResetDice();
         Player previousCurrentPlayer = currentPlayer;                                   // TODO : assigning players? 
         Debug.Log("Previous  player : " + previousCurrentPlayer.getPlayerID());
         setCurrentToNextPlayer();
