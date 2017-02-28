@@ -12,12 +12,17 @@ public class GameManager : MonoBehaviour {
     private static GameManager Instance { get;  set; }
     public LobbyManager _lobbyManager;
     public LobbyPlayerList _lobbyplayerlist;
+    public CardManager _cardManager;
+    public TradeManager _tradeManager;
+    public CardMenuManager _cardmenumanager;
+
 
    //playerlist being used to make lobbyplayerlist a inumberable non synced list.
 
     private IEnumerable<LobbyPlayer> _playerList;
 
     // Use this for initialization
+    // change this by giving it the playerlist
 
     public PlayerManager _playerManager;
 
@@ -37,9 +42,12 @@ public class GameManager : MonoBehaviour {
         }
         DontDestroyOnLoad(gameObject);
 
-        //Creating new playermanager.
-        Instantiate(_playerManager);
 
+        //Creating new Managers.
+        Instantiate(_playerManager);
+        Instantiate(_cardManager);
+        Instantiate(_tradeManager);
+        Instantiate(_cardmenumanager);
     }
 
 	

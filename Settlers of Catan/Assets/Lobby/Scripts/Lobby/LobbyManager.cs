@@ -384,7 +384,9 @@ namespace Prototype.NetworkLobby
                 }
             }
 
+
             ServerChangeScene(playScene);
+            //also can create a singleton here. 
         }
 
         // ----------------- Client callbacks ------------------
