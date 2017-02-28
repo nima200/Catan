@@ -24,7 +24,7 @@ public class SaveLoad : MonoBehaviour {
 	}
 	
 	public static void Save() {
-	    savedGames.Add(GameManager.getCurrent());
+	    //savedGames.Add(GameManager.getCurrent());
 	    BinaryFormatter bf = new BinaryFormatter();
 	    FileStream file = File.Create (Application.persistentDataPath + "/savedGames.catan");
 	    bf.Serialize(file, SaveLoad.savedGames);

@@ -6,12 +6,9 @@ using UnityEngine.UI;
 public class DiceRoll : MonoBehaviour {
 
     //TODO: Player curPlayer reference (-> bool isTurn)
-    private enum EventDie {BarbMove, Market,Politics, Science};
 
+    private static DiceRoll instance = null;
     public Button RollBtn;                // WARNING: public attribute does not look wellformed...
-//    public Button EndTurnBtn;
-//    public Button ResetBtn;
-//    public GameObject choicePanelObj;
     public AlchemistMenu AlchemistMenu;
 
     private int[] _intRolls;
@@ -19,20 +16,18 @@ public class DiceRoll : MonoBehaviour {
     private bool _isRolled;
     public bool HasAlchemist;
 
-    /* ========================
-     *          START
-     * ========================
-     * called at the beginning of the game
-     */
-    void Start() {
-//        RollBtn.onClick.AddListener(RollTrigger);     // COMMENT: instead of dice roll class with reference to DiceButton, just put everything in dice button ?
-//        EndTurnBtn.onClick.AddListener(ResetDice);
-//        ResetBtn.onClick.AddListener(ResetDice);
-//        AlchemistMenu.submit.onClick.AddListener(RollAlchemist);
-
-        _isRolled = false;
-        //hasMerchant = true;                          // TO REMOVE: when player hasMerchant attribute is implemented
-        _intRolls = new int[2];
+    void Awake() {
+        if (instance == null)
+        {
+            instance = this;
+            _isRolled = false;
+            _intRolls = new int[2];
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     /* ========================
@@ -105,22 +100,37 @@ public class DiceRoll : MonoBehaviour {
     private void RollEventDie() {
         int roll = Random.Range(1, 7);
         if (roll == 1 || roll == 2 || roll == 3) {
-            _eventRoll = EventDie.BarbMove;
+            _eventRoll = EventDie.BARBMOVE;
             Debug.Log("Event Die: " + _eventRoll.ToString() + "\n");
         }
         else if (roll == 4) {
-            _eventRoll = EventDie.Market;
+            _eventRoll = EventDie.TRADE;
             Debug.Log("Event Die: " + _eventRoll.ToString() + "\n");
         }
         else if (roll == 5) {
-            _eventRoll = EventDie.Politics;
+            _eventRoll = EventDie.POLITICS;
             Debug.Log("Event Die: " + _eventRoll.ToString() + "\n");
         }
         else if (roll == 6) {
-            _eventRoll = EventDie.Science;
+            _eventRoll = EventDie.SCIENCE;
             Debug.Log("Event Die: " + _eventRoll.ToString() + "\n");
         }
     }
+
+    public int[] getIntRoll() {
+        if (_isRolled)
+        {
+            return _intRolls;
+        }
+        else return null;
+    }
+
+
+    public EventDie getEventRoll()
+    {
+        return _eventRoll;
+    }
+
 
     /*==========================
      *   RESET(endTurnButton)
@@ -130,5 +140,11 @@ public class DiceRoll : MonoBehaviour {
         _isRolled = false;
         RollBtn.interactable = true; // TO REMOVE: when player ready/unready behaviour is implemented
         // COMMENT: don't have to reset values, since next roll will update them
+    }
+
+
+    public static DiceRoll getInstance()
+    {
+        return instance;
     }
 }
