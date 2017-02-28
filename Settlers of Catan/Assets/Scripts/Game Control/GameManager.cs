@@ -50,10 +50,24 @@ public class GameManager : MonoBehaviour {
         Instantiate(_cardmenumanager);
     }
 
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public void rollDice() {
+        DiceRoll.getInstance().RollTrigger();
+        int[] currentIntRoll = DiceRoll.getInstance().getIntRoll();
+        EventDie currentEventRoll = DiceRoll.getInstance().getEventRoll();
+
+        //TODO : Broadcast roll to all players
+        //      communicate with map, give resources
+        //      
+    }
+
+    // Update is called once per frame
+    public static GameManager getInstance() {
+        return Instance;
+    }
+
+    public Player getCurrent() {
+        return TurnManager.getInstance().getCurrentPlayer();
+    }
 
 }
