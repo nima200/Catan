@@ -55,6 +55,7 @@ public class CardManager : MonoBehaviour
 		distributeSteable(TurnManager.getInstance().getCurrentPlayer(), SteableKind.ORE, 3);
 		distributeSteable(TurnManager.getInstance().getCurrentPlayer(), SteableKind.CLOTH, 6);
 		distributeSteable(TurnManager.getInstance().getCurrentPlayer(), SteableKind.LUMBER, 9);
+//		UICountManager.getInstance().UpdateIndicators();
 	}
 	
 	// Update is called once per frame
