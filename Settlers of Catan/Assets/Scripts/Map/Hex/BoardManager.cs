@@ -47,7 +47,6 @@ public class BoardManager : MonoBehaviour
         
     }
 
-    // After the grid is awake, we can now triangulate the cells of the mesh.
     private void Start()
     {
         Triangulate(Cells);
@@ -68,7 +67,7 @@ public class BoardManager : MonoBehaviour
         switch (_buildMode)
         {
             case BuildMode.Off:
-                HidePossibleEdges();
+                HidePossibleEdgeUnits();
                 HidePossibleCornerUnits();
                 BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
                 BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
@@ -77,7 +76,7 @@ public class BoardManager : MonoBehaviour
                 DirectionDropdown.interactable = false;
                 break;
             case BuildMode.Settlement:
-                HidePossibleEdges();
+                HidePossibleEdgeUnits();
                 ShowPossibleCornerUnits();
                 BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
                 BuildSettleButton.GetComponentInChildren<Text>().text = "End Build";
@@ -86,7 +85,7 @@ public class BoardManager : MonoBehaviour
                 DirectionDropdown.interactable = true;
                 break;
             case BuildMode.City:
-                HidePossibleEdges();
+                HidePossibleEdgeUnits();
                 ShowPossibleCornerUnits();
                 BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
                 BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
@@ -95,7 +94,7 @@ public class BoardManager : MonoBehaviour
                 DirectionDropdown.interactable = true;
                 break;
             case BuildMode.Road:
-                ShowPossibleEdges();
+                ShowPossibleEdgeUnits();
                 HidePossibleCornerUnits();
                 BuildRoadButton.GetComponentInChildren<Text>().text = "End Build";
                 BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
@@ -104,7 +103,7 @@ public class BoardManager : MonoBehaviour
                 DirectionDropdown.interactable = true;
                 break;
             case BuildMode.Ship:
-                ShowPossibleEdges();
+                ShowPossibleEdgeUnits();
                 HidePossibleCornerUnits();
                 BuildRoadButton.GetComponentInChildren<Text>().text = "Build Road";
                 BuildSettleButton.GetComponentInChildren<Text>().text = "Build Settlement";
@@ -119,9 +118,6 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    // Very generic mouse input handle method.
-    // Check this out for more info
-    // https://docs.unity3d.com/ScriptReference/Input-mousePosition.html
     private void HandleInput()
     {
         var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -137,15 +133,14 @@ public class BoardManager : MonoBehaviour
         }
         if (_buildMode == BuildMode.Settlement)
         {
-            BuildCornerUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value, CornerUnit.Settlement);
+            BuildCornerUnit(hit.point, (HexDirection) DirectionDropdown.value, CornerUnit.Settlement);
         }
         if (_buildMode == BuildMode.City)
         {
-            BuildCornerUnit_Sandbox(hit.point, (HexDirection) DirectionDropdown.value, CornerUnit.City);
+            BuildCornerUnit(hit.point, (HexDirection) DirectionDropdown.value, CornerUnit.City);
         }
     }
 
-    // Calls onto the token generator.
     private void MakeTokens()
     {
         _tokens = TokenGenerator.generate(44);
@@ -164,7 +159,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void ShowPossibleEdges()
+    private void ShowPossibleEdgeUnits()
     {
         // Look at all cells
         foreach (var cell in Cells)
@@ -229,7 +224,7 @@ public class BoardManager : MonoBehaviour
          }
      }
 
-    public void HidePossibleEdges()
+    public void HidePossibleEdgeUnits()
     {
         // Simply hide every current open edge
         foreach (var cell in Cells)
@@ -288,6 +283,8 @@ public class BoardManager : MonoBehaviour
                     {
                         switch (vertex.Type)
                         {
+                            // The rule is so that within phase 2, when a city is placed
+                            // no one can place a city/road within 1 distance of that city
                             case CornerUnit.City:
                                 foreach (var neighbor in vertex.Neighbors)
                                 {
@@ -296,6 +293,7 @@ public class BoardManager : MonoBehaviour
                                 break;
                             case CornerUnit.Settlement:
                                 break;
+                            // Open up all hidden cells for the next placement
                             case CornerUnit.Hidden:
                                 vertex.Type = CornerUnit.Open;
                                 break;
@@ -309,28 +307,60 @@ public class BoardManager : MonoBehaviour
                     }
                     break;
                 case TurnPhase.Phase3:
-
+                    // For all vertices
                     foreach (var vertex in cell.MyVertices)
                     {
-                        if (_phase != TurnPhase.Phase3 ||
-                            (vertex.Type != CornerUnit.City && vertex.Type != CornerUnit.Settlement)) continue;
-
-                        foreach (var neighbor in vertex.Neighbors)
+                        switch (vertex.Type)
                         {
-                            neighbor.Type = CornerUnit.Disabled;
+                            case CornerUnit.Disabled:
+                                break;
+                            case CornerUnit.Open:
+                                break;
+                            // If there's a settlement placed, disable all its neighbors
+                            case CornerUnit.Settlement:
+                                foreach (var neighbor in vertex.Neighbors)
+                                {
+                                    neighbor.Type = CornerUnit.Disabled;
+                                }
+                                break;
+                            // If there's a city placed, disable all its neighbors
+                            case CornerUnit.City:
+                                foreach (var neighbor in vertex.Neighbors)
+                                {
+                                    neighbor.Type = CornerUnit.Disabled;
+                                }
+                                break;
+                            case CornerUnit.Hidden:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
                         }
                     }
+                    // For all edges
                     foreach (var edge in cell.MyEdges)
                     {
-                        if (edge.Type != EdgeUnit.Road && edge.Type != EdgeUnit.Ship) continue;
-
-                        // If the head's owner is not me, then don't open.
-                        foreach (var head in edge.Heads)
+                        switch (edge.Type)
                         {
-                            if (head.Type == CornerUnit.Hidden /* && head.Owner == currentPlayer */)
-                            {
-                                head.Type = CornerUnit.Open;
-                            }
+                            case EdgeUnit.Disabled:
+                                break;
+                            case EdgeUnit.Open:
+                                break;
+                            case EdgeUnit.Road:
+                                break;
+                            case EdgeUnit.Ship:
+                                break;
+                            // Only if there's a hidden vertex, show it.
+                            case EdgeUnit.Hidden:
+                                foreach (var head in edge.Heads)
+                                {
+                                    if (head.Type == CornerUnit.Hidden)
+                                    {
+                                        head.Type = CornerUnit.Open;
+                                    }
+                                }
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
                         }
                     }
                     break;
@@ -339,6 +369,7 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+
     private void HidePossibleCornerUnits()
     {
         foreach (var cell in Cells)
@@ -346,9 +377,22 @@ public class BoardManager : MonoBehaviour
             if (cell == null) continue;
             foreach (var vertex in cell.MyVertices)
             {
-                if (vertex.Type == CornerUnit.Open)
+                switch (vertex.Type)
                 {
-                    vertex.Type = CornerUnit.Hidden;
+                    case CornerUnit.Disabled:
+                        break;
+                    // If there's an open (possible) edge shown, hide it
+                    case CornerUnit.Open:
+                        vertex.Type = CornerUnit.Hidden;
+                        break;
+                    case CornerUnit.Settlement:
+                        break;
+                    case CornerUnit.City:
+                        break;
+                    case CornerUnit.Hidden:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }
@@ -432,7 +476,7 @@ public class BoardManager : MonoBehaviour
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
     }
 
-    public void BuildCornerUnit_Sandbox(Vector3 position, HexDirection direction, CornerUnit p3BuildType)
+    public void BuildCornerUnit(Vector3 position, HexDirection direction, CornerUnit unitType)
     {
         position = transform.InverseTransformPoint(position);
         var coordinates = HexCoordinates.FromPosition(position);
@@ -449,29 +493,22 @@ public class BoardManager : MonoBehaviour
 
         switch (_phase)
         {
+            // After placing a corner unit, if it was in phase 1 or 2, build a road.
             case TurnPhase.Phase1:
-                if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
-                {
-                    cell.MyVertices[directionInt].Type = CornerUnit.Settlement;
-                    Build("Road");
-                }
-                break;
             case TurnPhase.Phase2:
-                if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
-                {
-                    cell.MyVertices[directionInt].Type = CornerUnit.City;
-                    Build("Road");
-                }
+                if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
+                cell.MyVertices[directionInt].Type = unitType;
+                Build("Road");
                 break;
+            // If it was phase 3, turn off the build menu
             case TurnPhase.Phase3:
-                if (cell.MyVertices[directionInt].Type == CornerUnit.Open)
-                {
-                    cell.MyVertices[directionInt].Type = p3BuildType;
-                    Build("Off");
-                }
+                if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
+                cell.MyVertices[directionInt].Type = unitType;
+                Build("Off");
                 break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
-        
     }
 
     public void CreateVertices()
@@ -480,18 +517,25 @@ public class BoardManager : MonoBehaviour
 		{
 		    if (cell == null) continue;
 
+            // For all vertex locations of a cell
 		    for (int i = 0; i < 6; i++)
 		    {
+                // Prevent duplicates (i.e. for all edge locations of a cell that are empty)
 		        if (cell.MyVertices[i] != null) continue;
+                // Create a vertex
 		        var vertex = Instantiate(VertexPrefab);
+                // Assign the location
 		        cell.MyVertices[i] = vertex;
+                // Assign the parent and in game position w.r.t. the cell it belongs to
 		        vertex.transform.SetParent(cell.transform);
 		        vertex.transform.localPosition = HexMetrics.corners[i];
+                // If there's a neighboring cell at direction i then it needs a reference to this vertex created
 		        if (cell.GetNeighbor(i) != null)
 		        {
 		            cell.GetNeighbor(i).MyVertices[(int)(((HexDirection)i).Opposite() + 1) % 6] = vertex;
 		        }
-		        if (cell.GetNeighbor((i + 5) % 6) != null)
+                // If there's a neighboring cell at direction i - 1 (i.e. (i + 5) % 6) then it needs a reference to this vertex created
+                if (cell.GetNeighbor((i + 5) % 6) != null)
 		        {
 		            cell.GetNeighbor((i + 5) % 6).MyVertices[(int)(((HexDirection)i).Opposite() + 5) % 6] = vertex;
 		        }
@@ -502,63 +546,96 @@ public class BoardManager : MonoBehaviour
 
     private void AssignVertexNeighbors()
     {
+        // For all cells
         foreach (var cell in Cells)
         {
+            // For taking care of borders
             if (cell == null) continue;
 
+            // For all vertices
             for (int i = 0; i < 6; i++)
             {
+                // Extract the cell
                 var vertex = cell.MyVertices[i];
+                // Set a cross link to its cell's next vertex, if not already established
                 if (!vertex.Neighbors.Contains(cell.MyVertices[(i + 1) % 6]))
                 {
                     vertex.Neighbors.Add(cell.MyVertices[(i + 1) % 6]);
                     cell.MyVertices[(i + 1) % 6].Neighbors.Add(vertex);
                 }
+                // Set a cross link to its cell's previous vertex, if not already established
                 if (vertex.Neighbors.Contains(cell.MyVertices[(i + 5) % 6])) continue;
 
                 vertex.Neighbors.Add(cell.MyVertices[(i + 5) % 6]);
                 cell.MyVertices[(i + 5) % 6].Neighbors.Add(vertex);
             }
-        
         }
     }
 
     public void CreateEdges()
     {
+        // For all cells
         foreach (var cell in Cells)
         {
+            // For taking care of borders
             if (cell == null) continue;
 
+            // For each edge of the hexagon
             for (int i = 0; i < 6; i++)
             {
+                // If there's not already a HexEdge there
                 if (cell.MyEdges[i] != null) continue;
+                // Then create it
                 var edge = Instantiate(EdgePrefab);
+                // Let the cell know about it
                 cell.MyEdges[i] = edge;
 
+                /* VERTEX - EDGE NEIGHBOR STRUCTURE:
+                 * 
+                 *            |
+                 *            v
+                 *           / \
+                 *  v needs to know about the 3 edges around it
+                 */
+
+                // If the cell's vertex at i doesn't have this edge that just got created as a neighbor
                 if (!cell.MyVertices[i].NeighborEdges.Contains(edge))
                 {
+                    // Then add it
                     cell.MyVertices[i].NeighborEdges.Add(edge);
                 }
+                // And also the cell's vertex at i + 1, since an edge connects two vertices at all times
                 if (!cell.MyVertices[(i + 1) % 6].NeighborEdges.Contains(edge))
                 {
                     cell.MyVertices[(i + 1) % 6].NeighborEdges.Add(edge);
                 }
 
+                /* VERTEX-EDGE-VERTEX NEIGHBOR STRUCTURE:
+                 * An edge needs to know about the two vertices that are its heads
+                 */
+                
+                // So if it doesn't already know about it
                 if (!edge.Heads.Contains(cell.MyVertices[i]))
                 {
+                    // Then add the link
                     edge.Heads.Add(cell.MyVertices[i]);
                 }
+                // Same story here, except about the other head
                 if (!edge.Heads.Contains(cell.MyVertices[(i + 1) % 6]))
                 {
                     edge.Heads.Add(cell.MyVertices[(i + 1) % 6]);
                 }
 
-
+                // Place the edge under the correct hierarchy location
                 edge.transform.SetParent(cell.transform.Find("My Edges"));
+                // Place it at the correct position in local space, with respect to the direction it was placed on the cell
                 edge.transform.localPosition = (HexMetrics.corners[i] + HexMetrics.corners[(i + 1) % 6]) / 2;
+                // And also apply the respective rotations
                 edge.transform.localRotation = EdgeMetrics.rotations[i];
+                // If a neighbor at that direction exists
                 if (cell.GetNeighbor(i) != null)
                 {
+                    // Then let the neighboring cell know about this edge placed so it's shared between them.
                     cell.GetNeighbor(i).MyEdges[(int) (((HexDirection) i).Opposite()) % 6] = edge;
                 }
             }
@@ -568,20 +645,28 @@ public class BoardManager : MonoBehaviour
 
     private void AssignEdgeNeighbors()
     {
+        // For all cells
         foreach (var cell in Cells)
         {
+            // For taking care of the borders
             if (cell == null) continue;
 
+            // For all edges of a cell
             for (int i = 0; i < 6; i++)
             {
+                // Extract the edge
                 var edge = cell.MyEdges[i];
+                // If the edge doesn't already know about its cell's next edge
                 if (!edge.Neighbors.Contains(cell.MyEdges[(i + 1) % 6]))
                 {
+                    // Then add a cross reference between them
                     edge.Neighbors.Add(cell.MyEdges[(i + 1) % 6]);
                     cell.MyEdges[(i + 1) % 6].Neighbors.Add(edge);
                 }
+                // If the edge doesn't already know about its cell's previous edge
                 if (!edge.Neighbors.Contains(cell.MyEdges[(i + 5) % 6]))
                 {
+                    // Then add a cross reference between them
                     edge.Neighbors.Add(cell.MyEdges[(i + 5) % 6]);
                     cell.MyEdges[(i + 5) % 6].Neighbors.Add(edge);
                 }
