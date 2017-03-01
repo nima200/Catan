@@ -21,7 +21,7 @@ Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\U
 Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
 Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.068 seconds
+- Completed reload, in  0.061 seconds
 Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\admin\Documents\GitHub\Catan\test0228_Data\Managed\System.dll (this message is harmless)
 <RI> Initializing input.
@@ -29,6 +29,106 @@ XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
 <RI> Input initialized.
 desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initialized touch support.
-UnloadTime: 1.947307 ms
+UnloadTime: 1.553920 ms
 Setting up 1 worker threads for Enlighten.
-  Thread -> id: 11b8 -> priority: 1 
+  Thread -> id: 4840 -> priority: 1 
+GameLobby Scene Requested
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 11.004591 ms
+
+Unloading 12 unused Assets to reduce memory usage. Loaded Objects now: 1121.
+Total: 1.689600 ms (FindLiveObjects: 0.148480 ms CreateObjectMapping: 0.122026 ms MarkObjects: 1.383253 ms  DeleteObjects: 0.032426 ms)
+
+Client Started
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+The referenced script on this Behaviour (Game Object 'Possible Hex Edge') is missing!
+ 
+(Filename:  Line: 1754)
+
+The referenced script on this Behaviour (Game Object 'HexEdge') is missing!
+ 
+(Filename:  Line: 1754)
+
+Unloading 8 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.718506 ms
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+There were 2 Players in the lobby
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Player Manager created
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+DontDestroyOnLoad only work for root GameObjects or components on root GameObjects.
+ 
+(Filename:  Line: 447)
+
+
+Unloading 17 unused Assets to reduce memory usage. Loaded Objects now: 3800.
+Total: 4.490668 ms (FindLiveObjects: 0.269226 ms CreateObjectMapping: 0.190293 ms MarkObjects: 3.971841 ms  DeleteObjects: 0.058026 ms)
+
+Player index:0 and List length:1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Player index:1 and List length:2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+TurnManager created
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+GameManager created
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Player at index is : Player(Clone) (Player)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Number of Player registered by Player Manager:2
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Player at index is : Player(Clone) (Player)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Player at index is : Player(Clone) (Player)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at TradeManager.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:7777}
+ClientDisconnected due to error: Timeout
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.737067 ms
+
+Unloading 515 unused Assets to reduce memory usage. Loaded Objects now: 1220.
+Total: 4.052908 ms (FindLiveObjects: 0.224000 ms CreateObjectMapping: 0.407040 ms MarkObjects: 2.432427 ms  DeleteObjects: 0.988160 ms)
+
