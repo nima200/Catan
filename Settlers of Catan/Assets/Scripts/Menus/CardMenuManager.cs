@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class CardMenuManager : MonoBehaviour
 {
-
-    public RawImage cardInfoImg;
-    private GameObject cardInfoObject;
+    private static CardMenuManager instance;
+    private RawImage cardInfoImg;
+    public GameObject cardInfoObject;
 
     public GameObject resourceCommodityDecks;
     public GameObject progressCardDecks;
@@ -15,10 +15,23 @@ public class CardMenuManager : MonoBehaviour
 
 
     //Initialization
+    private void Awake()
+    {
+        Debug.Log("CardMenu man created");
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
-        Instantiate(cardInfoImg);
-        cardInfoObject = cardInfoImg.gameObject;
+      //  Instantiate(cardInfoImg);
+
+        cardInfoImg = cardInfoObject.GetComponent<RawImage>();
         resourceCommodityShown = true;
     }
 
@@ -74,5 +87,8 @@ public class CardMenuManager : MonoBehaviour
         resourceCommodityDecks.SetActive(false);
         progressCardDecks.SetActive(true);
 
+    }
+    public static CardMenuManager getInstance() {
+        return instance;
     }
 }

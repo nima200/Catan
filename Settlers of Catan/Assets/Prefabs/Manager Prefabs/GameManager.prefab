@@ -53,11 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lobbyManager: {fileID: 0}
   _lobbyplayerlist: {fileID: 0}
-  _cardManager: {fileID: 114866105393312124, guid: e49c05339b7390947bbddd0caf745bda,
-    type: 2}
-  _tradeManager: {fileID: 114264659114764330, guid: 5847e8b473526f84a9b3dba29cb4064c,
-    type: 2}
-  _cardmenumanager: {fileID: 114913629870588558, guid: eed6537bfccd70d42bbe7f199c82ee53,
-    type: 2}
-  _turnManager: {fileID: 114240566258739724, guid: e5def4e8b00f2ae488a3ad7adc8f3393,
-    type: 2}
+  _cardManager: {fileID: 0}
+  _tradeManager: {fileID: 0}
+  _cardMenuManager: {fileID: 0}
+  _turnManager: {fileID: 0}

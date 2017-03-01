@@ -19,6 +19,7 @@ public class CardManager : MonoBehaviour
 	//Make Card Manager Singleton
 	void Awake ()
 	{
+        Debug.Log("Card manager created");
 		if (instance == null) {
 			instance = this;
 		}

@@ -104,6 +104,7 @@ public class PlayerManager : MonoBehaviour
 
         if (myPlayers.Count == nbOfPlayers) {
             Instantiate(_gameManager);
+            _gameManager.gameObject.SetActive(true);
             TurnManager.getInstance().SetFirstPlayer();
         }
     }

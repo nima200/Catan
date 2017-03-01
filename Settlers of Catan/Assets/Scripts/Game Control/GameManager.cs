@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
     public LobbyPlayerList _lobbyplayerlist;
     public CardManager _cardManager;
     public TradeManager _tradeManager;
-    public CardMenuManager _cardmenumanager;
+    public CardMenuManager _cardMenuManager;
     public TurnManager _turnManager;
 
 
@@ -57,8 +57,12 @@ public class GameManager : MonoBehaviour {
             Instantiate(_turnManager);
             Instantiate(_cardManager);
             Instantiate(_tradeManager);
-            Instantiate(_cardmenumanager);
+            Instantiate(_cardMenuManager);
 
+        _turnManager.gameObject.SetActive(true);
+        _cardManager.gameObject.SetActive(true);
+        _tradeManager.gameObject.SetActive(true);
+        _cardMenuManager.gameObject.SetActive(true);
 
         // finding lobbymanager and playerlist from assets that weren't destroyed on scene change.
 
