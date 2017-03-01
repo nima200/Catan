@@ -36,7 +36,56 @@ public class TradeManager : MonoBehaviour {
 		DontDestroyOnLoad (gameObject);
 	}
 
-	public void BankTrade ()
+    // Initiazed harbours
+    void Start()
+    {
+
+        bankInv = CardManager.getInstance().getCardInventory();
+        mainPlayer = TurnManager.getInstance().getMainPlayer();
+        if (!mainPlayer)
+        {
+            Debug.Log("there is a main player :");
+            playerInv = mainPlayer.getCardInventory();
+        }
+
+
+        GameObject harbours = new GameObject("Harbours");
+        GameObject specialHarbours = new GameObject("Special Harbours");
+        GameObject genericHarbours = new GameObject("Generic Harbours");
+        specialHarbours.transform.parent = harbours.transform;
+        genericHarbours.transform.parent = harbours.transform;
+        for (int i = 0; i < 5; i++)
+        {
+            SpecialHarbour harbour = Instantiate(specialHarbourPrefab);
+            harbour.steableKind = (SteableKind)i;
+            harbour.name = "Harbour " + harbour.steableKind;
+            harbour.transform.parent = specialHarbours.transform;
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            GenericHarbour harbour = Instantiate(genericHarbourPrefab);
+            harbour.name = "Harbour " + i;
+            harbour.transform.parent = genericHarbours.transform;
+        }
+    }
+
+
+    // attached to "Bank trade"
+    // 2 functions :
+    //  (1) initiate trade session : call CreateBankInstance
+    //  (2) show trade menu again if it got hidden
+    public void ShowBankInstance()
+    {
+        if (!bankMenu)
+        {
+            CreateBankInstance();
+            Debug.Log("Bank trade session instance created.");
+        }
+        else bankMenu.gameObject.SetActive(true);
+    }
+
+
+    public void BankTrade ()
 	{
 		//Check whether the trade is initiated by the current player
 		if (mainPlayer != TurnManager.getInstance ().getCurrentPlayer ()) {
@@ -84,10 +133,6 @@ public class TradeManager : MonoBehaviour {
 //		UICountManager.getInstance().UpdateIndicators();
 	}
 
-	public static TradeManager getInstance ()
-	{
-		return instance;
-	}
 
 
 	void resetCounter()
@@ -101,51 +146,6 @@ public class TradeManager : MonoBehaviour {
 			counter.SetValue();
 		}
 	}
-
-	// Initiazed harbours
-	void Start ()
-	{
-
-		bankInv = CardManager.getInstance ().getCardInventory();
-		mainPlayer = TurnManager.getInstance ().getMainPlayer ();
-
-        playerInv = mainPlayer.getCardInventory();
-        
-		
-
-		GameObject harbours = new GameObject ("Harbours");
-		GameObject specialHarbours = new GameObject ("Special Harbours");
-		GameObject genericHarbours = new GameObject ("Generic Harbours");
-		specialHarbours.transform.parent = harbours.transform;
-		genericHarbours.transform.parent = harbours.transform;
-		for (int i = 0; i < 5; i++) {
-			SpecialHarbour harbour = Instantiate (specialHarbourPrefab);
-			harbour.steableKind = (SteableKind)i;
-			harbour.name = "Harbour " + harbour.steableKind;
-			harbour.transform.parent = specialHarbours.transform;
-		}	
-		for (int i = 0; i < 4; i++) {
-			GenericHarbour harbour = Instantiate (genericHarbourPrefab);
-			harbour.name = "Harbour " + i;
-			harbour.transform.parent = genericHarbours.transform;
-		}
-	}
-
-
-    // attached to "Bank trade"
-    // 2 functions :
-    //  (1) initiate trade session : call CreateBankInstance
-    //  (2) show trade menu again if it got hidden
-    public void ShowBankInstance()
-    {
-        if (!bankMenu)
-        {
-            CreateBankInstance();
-            Debug.Log("Bank trade session instance created.");
-        }
-        else bankMenu.gameObject.SetActive(true);
-    }
-
 
     // 
     void CreateBankInstance() {
@@ -174,5 +174,9 @@ public class TradeManager : MonoBehaviour {
     }
 
 
+    public static TradeManager getInstance()
+    {
+        return instance;
+    }
 
 }

@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour {
         // Instantiate(_playerManager);
         
         _turnManager.gameObject.SetActive(true);
+        TurnManager.getInstance().SetFirstPlayer();
         _cardManager.gameObject.SetActive(true);
         _tradeManager.gameObject.SetActive(true);
         _cardMenuManager.gameObject.SetActive(true);

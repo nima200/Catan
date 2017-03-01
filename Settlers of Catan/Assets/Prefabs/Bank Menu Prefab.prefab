@@ -248,7 +248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1186004087950792
 GameObject:
   m_ObjectHideFlags: 1
@@ -2288,8 +2288,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: HideBankInstance
+      - m_Target: {fileID: 11500000, guid: b4aa235feb5f643be86feff9ea885f60, type: 3}
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3782,10 +3782,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ef1a735bf08d54499760438ec142e49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 
   incrementFactor: 0
-  bankAddRemovelay: {fileID: 0}
+  bankAddRemove: {fileID: 0}
   steableKind: 5
 --- !u!114 &114341046875583980
 MonoBehaviour:
@@ -3825,6 +3826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 0000000006000000
   incrementFactor: 0
@@ -3872,10 +3874,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab41d201832f6147a6e1b2f7c9a3d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 
   incrementFactor: 0
-  playerAddRemovelay: {fileID: 0}
+  playerAddRemove: {fileID: 0}
   steableKind: 0
 --- !u!114 &114376716116325640
 MonoBehaviour:
@@ -3973,10 +3976,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab41d201832f6147a6e1b2f7c9a3d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 
   incrementFactor: 0
-  playerAddRemovelay: {fileID: 0}
+  playerAddRemove: {fileID: 0}
   steableKind: 0
 --- !u!114 &114389213567100686
 MonoBehaviour:
@@ -4041,6 +4045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 0000000006000000
   incrementFactor: 0
@@ -4272,10 +4277,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab41d201832f6147a6e1b2f7c9a3d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 
   incrementFactor: 0
-  playerAddRemovelay: {fileID: 0}
+  playerAddRemove: {fileID: 0}
   steableKind: 8
 --- !u!114 &114449438958266654
 MonoBehaviour:
@@ -4406,10 +4412,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab41d201832f6147a6e1b2f7c9a3d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 
   incrementFactor: 0
-  playerAddRemovelay: {fileID: 0}
+  playerAddRemove: {fileID: 0}
   steableKind: 1
 --- !u!114 &114477016578013056
 MonoBehaviour:
@@ -4422,6 +4429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 0000000006000000
   incrementFactor: 0
@@ -4543,8 +4551,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: DestroyBankInstance
+      - m_Target: {fileID: 11500000, guid: b4aa235feb5f643be86feff9ea885f60, type: 3}
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4679,6 +4687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 0000000006000000
   incrementFactor: 0
@@ -4721,8 +4730,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: BankTrade
+      - m_Target: {fileID: 11500000, guid: b4aa235feb5f643be86feff9ea885f60, type: 3}
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4745,6 +4754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 0000000006000000
   incrementFactor: 0
@@ -4819,6 +4829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 0000000006000000
   incrementFactor: 0
@@ -5885,6 +5896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 0000000006000000
   incrementFactor: 0
@@ -5926,10 +5938,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab41d201832f6147a6e1b2f7c9a3d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 
   incrementFactor: 0
-  playerAddRemovelay: {fileID: 0}
+  playerAddRemove: {fileID: 0}
   steableKind: 3
 --- !u!114 &114852404740790118
 MonoBehaviour:
@@ -6102,6 +6115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627cef48055138746bfa49935f811ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 0000000006000000
   incrementFactor: 0
@@ -6116,7 +6130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99aa9101755f62743bd9017ed77183e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AddRemovelays: []
 --- !u!114 &114881947094615312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6128,10 +6141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab41d201832f6147a6e1b2f7c9a3d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 
   incrementFactor: 0
-  playerAddRemovelay: {fileID: 0}
+  playerAddRemove: {fileID: 0}
   steableKind: 2
 --- !u!114 &114889031056242210
 MonoBehaviour:
@@ -6225,10 +6239,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab41d201832f6147a6e1b2f7c9a3d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 
   incrementFactor: 0
-  playerAddRemovelay: {fileID: 0}
+  playerAddRemove: {fileID: 0}
   steableKind: 7
 --- !u!114 &114905129182048732
 MonoBehaviour:
@@ -6596,10 +6611,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab41d201832f6147a6e1b2f7c9a3d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  display: {fileID: 0}
   value: 0
   minMax: 
   incrementFactor: 0
-  playerAddRemovelay: {fileID: 0}
+  playerAddRemove: {fileID: 0}
   steableKind: 6
 --- !u!114 &114961271084407338
 MonoBehaviour:

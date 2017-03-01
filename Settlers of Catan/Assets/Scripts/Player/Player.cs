@@ -9,17 +9,17 @@ public class Player : NetworkBehaviour {
 
 	public int playerID;
   //  private bool isTurn;
+
 	public CardInventory cardInventory;
 	public List<Harbour> myHarbour = new List<Harbour>();
 	public int ratio;
     public bool hasAlchemist;                             // TODO : find it in inventory
-
-    private List<Player> _players = new List<Player>();  // Note  : Players will have access to the list.
-    // Khalil - Added attribute "isTurn" as a boolean to control UI. 
+    
     public Player()
     {
 		
     }
+
 
 	public void Initialize (int i, CardInventory cardInventoryPrefab)
 	{
