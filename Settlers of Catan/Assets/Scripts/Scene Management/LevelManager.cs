@@ -14,4 +14,10 @@ public class LevelManager : MonoBehaviour {
         Debug.Log("Exit requested");
         Application.Quit();
     }
+
+    // to force destroy an object. It is not working since once a obj has dontdestroy on load tag, it can't be accessed
+    public void forceDestroy(GameObject obj)
+    {
+        DestroyImmediate(obj);
+    }
 }

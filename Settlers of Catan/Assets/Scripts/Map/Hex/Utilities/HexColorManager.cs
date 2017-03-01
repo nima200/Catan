@@ -3,17 +3,17 @@ using System.Collections;
 
 public class HexColorManager : MonoBehaviour {
 
-    public HexGrid grid;
+    public BoardManager grid;
 
     void Start()
     {
-        HexCell[] cells = grid.getCells();
+        HexCell[] cells = grid.Cells;
         for (int i = 0; i < cells.Length; i++)
         {
             if (cells[i] != null)
             {
                 HexType cellType = TypeGenerator();
-                cells[i].myHexType = cellType;
+                cells[i].MyHexType = cellType;
                 ColorHex(cells[i]);
             }
             
@@ -49,24 +49,24 @@ public class HexColorManager : MonoBehaviour {
 
     void ColorHex(HexCell cell)
     {
-        if (cell.myHexType == HexType.Brick)
+        if (cell.MyHexType == HexType.Brick)
         {
-            cell.rend.material.color = new Color(0.61f, 0.09f, 0.04f);
-        } else if (cell.myHexType == HexType.Desert)
+            cell.Rend.material.color = new Color(0.61f, 0.09f, 0.04f);
+        } else if (cell.MyHexType == HexType.Desert)
         {
-            cell.rend.material.color = new Color(0.76f, 0.70f, 0.50f);
-        } else if (cell.myHexType == HexType.Wood)
+            cell.Rend.material.color = new Color(0.76f, 0.70f, 0.50f);
+        } else if (cell.MyHexType == HexType.Wood)
         {
-            cell.rend.material.color = Color.green;
-        } else if (cell.myHexType == HexType.Sheep)
+            cell.Rend.material.color = Color.green;
+        } else if (cell.MyHexType == HexType.Sheep)
         {
-            cell.rend.material.color = Color.white;
-        } else if (cell.myHexType == HexType.Sea)
+            cell.Rend.material.color = Color.white;
+        } else if (cell.MyHexType == HexType.Sea)
         {
-            cell.rend.material.color = Color.blue;
+            cell.Rend.material.color = Color.blue;
         } else
         {
-            cell.rend.material.color = Color.grey;
+            cell.Rend.material.color = Color.grey;
         }
     }
 }

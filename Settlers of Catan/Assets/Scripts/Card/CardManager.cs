@@ -11,7 +11,6 @@ public class CardManager : MonoBehaviour
 	public ProgressCard progressCardPrefab;
 	private static CardManager instance = null;
 	private CardInventory cardInventory;
-	int STEABLE_KIND_TOTAL = 9;
 	int RESOURCE_KIND_TOTAL = 6;
 	int RESOURCE_CARD_NUM = 19;
 	int COMMODITY_CARD_NUM = 12;
@@ -38,7 +37,7 @@ public class CardManager : MonoBehaviour
 	void Start ()
 	{
 		cardInventory = Instantiate (cardInventoryPrefab);
-		cardInventory.transform.parent = GameObject.Find ("CardManager").transform;
+		cardInventory.transform.parent = gameObject.transform;
 		GameObject cards = new GameObject ("Cards");
 		GameObject resourceCards = new GameObject ("Resource Cards");
 		resourceCards.transform.parent = cards.transform;
@@ -48,13 +47,16 @@ public class CardManager : MonoBehaviour
 		progressCards.transform.parent = cards.transform;
 		createStealableCard ();
 		createProgressCard ();
-		for (int i = 0; i < 4; i++) {
+        Debug.Log("Number of Player registered by Player Manager:" + PlayerManager.getInstance().myPlayers.Count);
+		for (int i = 0; i < PlayerManager.getInstance().getNbOfPlayer(); i++) {                //WARNING : EXCEPTION 
+            //Debug.Log("What is the index "+ i);
 			distributeSteable(PlayerManager.getInstance().getPlayer(i), SteableKind.GOLD,2);
 		}
 
-		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.ORE, 3);
-		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.CLOTH, 1);
-		distributeSteable(PlayerManager.getInstance().getCurrentPlayer(), SteableKind.LUMBER, 2);
+		distributeSteable(TurnManager.getInstance().getCurrentPlayer(), SteableKind.ORE, 3);
+		distributeSteable(TurnManager.getInstance().getCurrentPlayer(), SteableKind.CLOTH, 6);
+		distributeSteable(TurnManager.getInstance().getCurrentPlayer(), SteableKind.LUMBER, 9);
+//		UICountManager.getInstance().UpdateIndicators();
 	}
 	
 	// Update is called once per frame

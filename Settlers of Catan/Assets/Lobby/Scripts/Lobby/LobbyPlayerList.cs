@@ -66,5 +66,13 @@ namespace Prototype.NetworkLobby
                 ++i;
             }
         }
+
+        public List<LobbyPlayer> PlayerList
+        {
+            get
+            {
+                return _players;
+            }
+        }
     }
 }

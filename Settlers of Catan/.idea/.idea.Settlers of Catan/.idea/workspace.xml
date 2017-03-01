@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="868c9c09-b696-477b-aca7-ed78dad254bb" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="HexGrid.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Map/Hex/HexGrid.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="21" column="74" lean-forward="false" selection-start-line="21" selection-start-column="74" selection-end-line="21" selection-end-column="74" />
+              <folding>
+                <marker date="1487393702832" expanded="true" signature="6:175" ph="..." />
+                <marker date="1487393702832" expanded="true" signature="214:38340" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="525:743" ph="/* this will keep track of all unique hexvertex positions that will be used to create the network ... */" />
+                <marker date="1487393702832" expanded="true" signature="1137:1176" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="1194:2119" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="1209:1345" ph="/* there's only one canvas as a child to the gameObject this script is attached to ... */" />
+                <marker date="1487393702832" expanded="true" signature="1690:1934" ph="/* i is the index of the cell in the HexCell array. ... */" />
+                <marker date="1487393702832" expanded="true" signature="1982:2113" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="2036:2103" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="2215:2255" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="2274:2421" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="2367:2414" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="2452:2932" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="2490:2704" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="2709:2926" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="2943:3094" ph="/* Very generic mouse input handle method. ... */" />
+                <marker date="1487393702832" expanded="true" signature="3117:3407" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="3269:3401" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="3306:3391" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="3469:3527" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="3559:3970" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="3640:3964" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="3684:3954" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="4000:4224" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="4053:4218" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="4097:4208" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="4261:4486" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="4314:4480" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="4358:4470" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="4490:4600" ph="/* creates HexVertex layer that will reside within the board ... */" />
+                <marker date="1487393702832" expanded="true" signature="4633:5360" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="4999:5140" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="5028:5135" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="5076:5129" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="5257:5309" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="5366:6128" ph="/* distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex ... */" />
+                <marker date="1487393702832" expanded="true" signature="6170:8774" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="6669:6746" ph="/* cell.centerVertex = new HexVertex(position); ... */" />
+                <marker date="1487393702832" expanded="true" signature="6766:7279" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="6789:7209" ph="/* adding the west neighbor of all cells ... */" />
+                <marker date="1487393702832" expanded="true" signature="7299:8406" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="7322:7725" ph="/* the rows are bricked. So we have to treat the neighbors of the rows differently. ... */" />
+                <marker date="1487393702832" expanded="true" signature="7755:8101" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="7974:8087" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="8106:8396" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="8269:8382" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="8839:16934" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="9289:16928" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="9471:16802" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="10779:10999" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="11020:11134" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="11152:11259" ph="/* AND BEHOLD, THE EDGE UNIT NEIGHBOR STRUCTURE SETUP ... */" />
+                <marker date="1487393702832" expanded="true" signature="11372:12388" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="11705:11911" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="11936:12370" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="12129:12347" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="12463:13139" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="12668:12805" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="12830:13121" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="12950:13099" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="13185:16626" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="13321:14456" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="13677:13900" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="13929:14433" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="14168:14407" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="14754:16608" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="15398:15768" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="15797:16586" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="16162:16560" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="16996:24375" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="17011:17275" ph="/* Converting hit point to cell reference ... */" />
+                <marker date="1487393702832" expanded="true" signature="17553:24369" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="17576:17693" ph="/* TODO: Place unit only if followed by another unit. ... */" />
+                <marker date="1487393702832" expanded="true" signature="17906:18055" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="18789:18993" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="19010:19112" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="19126:19229" ph="/* AND BEHOLD, THE EDGE UNIT NEIGHBOR STRUCTURE SETUP ... */" />
+                <marker date="1487393702832" expanded="true" signature="19338:20278" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="19651:19841" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="19862:20264" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="20043:20245" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="20349:20969" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="20542:20667" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="20688:20955" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="20800:20937" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="21011:24205" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="21139:22194" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="21475:21682" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="21707:22175" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="21930:22153" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="22472:24191" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="23072:23414" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="23439:24172" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="23780:24150" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="24427:36397" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="24510:36391" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="24665:36381" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="25141:26417" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="25692:25972" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="26694:27838" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="27196:27460" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="27890:36367" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="27973:32117" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="28305:29829" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="28968:29309" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="30311:32095" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="31088:31485" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="32180:36349" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="32538:34062" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="33201:33542" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="34543:36327" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="35320:35717" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="36403:36573" ph="/* Straightforward method that is meant for debugging purposes to be able ... */" />
+                <marker date="1487393702832" expanded="true" signature="36614:38027" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="36977:37098" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="37160:37279" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="37342:37463" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="37526:37647" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="37709:37828" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="37891:38012" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="38147:38337" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="38203:38331" ph="{...}" />
+                <marker date="1487393702832" expanded="true" signature="38250:38321" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HexCell.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Map/Hex/HexCell.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="608">
+              <caret line="32" column="34" lean-forward="false" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="34" />
+              <folding>
+                <marker date="1487284088408" expanded="true" signature="6:74" ph="..." />
+                <marker date="1487284088408" expanded="true" signature="237:6816" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="244:401" ph="/* The actual mesh of the cell. Followed by the list of vertices and triangle indices ... */" />
+                <marker date="1487284088408" expanded="true" signature="602:771" ph="/* Each cell needs to acquire a point in the axial coordiate system. ... */" />
+                <marker date="1487284088408" expanded="true" signature="815:993" ph="/* Need a renderer component to be able to access the material of the gameobject this ... */" />
+                <marker date="1487284088408" expanded="true" signature="1024:1141" ph="/* The value attached to each hex, as well as the Text element that displays this value. ... */" />
+                <marker date="1487284088408" expanded="true" signature="1196:1402" ph="/* It was adviced by the tutorial I followed to serialize the neighbor connections of cells ... */" />
+                <marker date="1487284088408" expanded="true" signature="1661:2286" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="1676:1909" ph="/* Once the script wakes up we essentially want to intialize all those undeclared ... */" />
+                <marker date="1487284088408" expanded="true" signature="2304:2676" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="2319:2446" ph="/* Adding a collider to the game object that holds this script. ... */" />
+                <marker date="1487284088408" expanded="true" signature="2812:2866" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="2872:2970" ph="/* Overloading the getter method to be able to also access the neighbors with ... */" />
+                <marker date="1487284088408" expanded="true" signature="3012:3057" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="3063:3218" ph="/* Setter for neighbors. It does the job for opposing directions together. ... */" />
+                <marker date="1487284088408" expanded="true" signature="3285:3402" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="3454:3506" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="3545:3588" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="3638:4187" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="3754:3965" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="3863:3955" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="3970:4181" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="4079:4171" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="4193:4297" ph="/* Method used from outside this class. It essentially initializes/creates the mesh ... */" />
+                <marker date="1487284088408" expanded="true" signature="4327:6068" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="4342:4484" ph="/* Start by clearing any old info that are stored in these arrays. ... */" />
+                <marker date="1487284088408" expanded="true" signature="4796:4940" ph="/* Please don't spam my console log Jimmy. ... */" />
+                <marker date="1487284088408" expanded="true" signature="4976:5926" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="5540:5818" ph="/* Converting our vertices and triangles lists that we have populated so far into arrays to assign ... */" />
+                <marker date="1487284088408" expanded="true" signature="6126:6808" ph="{...}" />
+                <marker date="1487284088408" expanded="true" signature="6141:6311" ph="/* We need an index that fetches where we left off from the previous time this method was called. ... */" />
+                <marker date="1487284088408" expanded="true" signature="6426:6686" ph="/* A mesh's &quot;triangles&quot; array is just an index list. It holds the indices of the ... */" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/Scripts/Map/Hex/HexGrid.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="SolutionExplorer">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Settlers of Catan (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Settlers of Catan (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Settlers of Catan (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scripts" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Settlers of Catan (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scripts" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Map" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Settlers of Catan (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assets" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Scripts" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Map" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hex" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Settlers of Catan (4 projects)" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Assembly-CSharp" />
+              <option name="myItemType" value="com.jetbrains.resharper.projectView.solutionExplorer.SolutionExplorerNodeRider" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+    </panes>
+  </component>
+  <component name="RunManager" selected=".NET Project.Default">
+    <configuration default="true" type="DotNetProject" factoryName=".NET Project">
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="PROJECT_PATH" value="" />
+      <option name="PROJECT_KIND" value="None" />
+      <option name="PROJECT_TFM" value="" />
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="USE_MONO" value="0" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue=".NET Project.Default" />
+    </list>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="868c9c09-b696-477b-aca7-ed78dad254bb" name="Default" comment="" />
+      <created>1487392173789</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1487392173789</updated>
+      <workItem from="1487392176085" duration="823000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="823000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Errors In Solution" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Unit Tests" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="NuGet" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Change Signature" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Map/Hex/HexCell.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="32" column="34" lean-forward="false" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="34" />
+          <folding>
+            <marker date="1487284088408" expanded="true" signature="6:74" ph="..." />
+            <marker date="1487284088408" expanded="true" signature="237:6816" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="244:401" ph="/* The actual mesh of the cell. Followed by the list of vertices and triangle indices ... */" />
+            <marker date="1487284088408" expanded="true" signature="602:771" ph="/* Each cell needs to acquire a point in the axial coordiate system. ... */" />
+            <marker date="1487284088408" expanded="true" signature="815:993" ph="/* Need a renderer component to be able to access the material of the gameobject this ... */" />
+            <marker date="1487284088408" expanded="true" signature="1024:1141" ph="/* The value attached to each hex, as well as the Text element that displays this value. ... */" />
+            <marker date="1487284088408" expanded="true" signature="1196:1402" ph="/* It was adviced by the tutorial I followed to serialize the neighbor connections of cells ... */" />
+            <marker date="1487284088408" expanded="true" signature="1661:2286" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="1676:1909" ph="/* Once the script wakes up we essentially want to intialize all those undeclared ... */" />
+            <marker date="1487284088408" expanded="true" signature="2304:2676" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="2319:2446" ph="/* Adding a collider to the game object that holds this script. ... */" />
+            <marker date="1487284088408" expanded="true" signature="2812:2866" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="2872:2970" ph="/* Overloading the getter method to be able to also access the neighbors with ... */" />
+            <marker date="1487284088408" expanded="true" signature="3012:3057" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="3063:3218" ph="/* Setter for neighbors. It does the job for opposing directions together. ... */" />
+            <marker date="1487284088408" expanded="true" signature="3285:3402" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="3454:3506" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="3545:3588" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="3638:4187" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="3754:3965" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="3863:3955" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="3970:4181" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="4079:4171" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="4193:4297" ph="/* Method used from outside this class. It essentially initializes/creates the mesh ... */" />
+            <marker date="1487284088408" expanded="true" signature="4327:6068" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="4342:4484" ph="/* Start by clearing any old info that are stored in these arrays. ... */" />
+            <marker date="1487284088408" expanded="true" signature="4796:4940" ph="/* Please don't spam my console log Jimmy. ... */" />
+            <marker date="1487284088408" expanded="true" signature="4976:5926" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="5540:5818" ph="/* Converting our vertices and triangles lists that we have populated so far into arrays to assign ... */" />
+            <marker date="1487284088408" expanded="true" signature="6126:6808" ph="{...}" />
+            <marker date="1487284088408" expanded="true" signature="6141:6311" ph="/* We need an index that fetches where we left off from the previous time this method was called. ... */" />
+            <marker date="1487284088408" expanded="true" signature="6426:6686" ph="/* A mesh's &quot;triangles&quot; array is just an index list. It holds the indices of the ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Map/Hex/HexGrid.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="74" lean-forward="false" selection-start-line="21" selection-start-column="74" selection-end-line="21" selection-end-column="74" />
+          <folding>
+            <marker date="1487393702832" expanded="true" signature="6:175" ph="..." />
+            <marker date="1487393702832" expanded="true" signature="214:38340" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="525:743" ph="/* this will keep track of all unique hexvertex positions that will be used to create the network ... */" />
+            <marker date="1487393702832" expanded="true" signature="1137:1176" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="1194:2119" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="1209:1345" ph="/* there's only one canvas as a child to the gameObject this script is attached to ... */" />
+            <marker date="1487393702832" expanded="true" signature="1690:1934" ph="/* i is the index of the cell in the HexCell array. ... */" />
+            <marker date="1487393702832" expanded="true" signature="1982:2113" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="2036:2103" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="2215:2255" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="2274:2421" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="2367:2414" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="2452:2932" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="2490:2704" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="2709:2926" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="2943:3094" ph="/* Very generic mouse input handle method. ... */" />
+            <marker date="1487393702832" expanded="true" signature="3117:3407" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="3269:3401" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="3306:3391" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="3469:3527" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="3559:3970" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="3640:3964" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="3684:3954" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="4000:4224" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="4053:4218" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="4097:4208" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="4261:4486" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="4314:4480" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="4358:4470" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="4490:4600" ph="/* creates HexVertex layer that will reside within the board ... */" />
+            <marker date="1487393702832" expanded="true" signature="4633:5360" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="4999:5140" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="5028:5135" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="5076:5129" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="5257:5309" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="5366:6128" ph="/* distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex ... */" />
+            <marker date="1487393702832" expanded="true" signature="6170:8774" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="6669:6746" ph="/* cell.centerVertex = new HexVertex(position); ... */" />
+            <marker date="1487393702832" expanded="true" signature="6766:7279" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="6789:7209" ph="/* adding the west neighbor of all cells ... */" />
+            <marker date="1487393702832" expanded="true" signature="7299:8406" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="7322:7725" ph="/* the rows are bricked. So we have to treat the neighbors of the rows differently. ... */" />
+            <marker date="1487393702832" expanded="true" signature="7755:8101" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="7974:8087" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="8106:8396" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="8269:8382" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="8839:16934" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="9289:16928" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="9471:16802" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="10779:10999" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="11020:11134" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="11152:11259" ph="/* AND BEHOLD, THE EDGE UNIT NEIGHBOR STRUCTURE SETUP ... */" />
+            <marker date="1487393702832" expanded="true" signature="11372:12388" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="11705:11911" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="11936:12370" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="12129:12347" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="12463:13139" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="12668:12805" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="12830:13121" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="12950:13099" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="13185:16626" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="13321:14456" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="13677:13900" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="13929:14433" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="14168:14407" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="14754:16608" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="15398:15768" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="15797:16586" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="16162:16560" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="16996:24375" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="17011:17275" ph="/* Converting hit point to cell reference ... */" />
+            <marker date="1487393702832" expanded="true" signature="17553:24369" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="17576:17693" ph="/* TODO: Place unit only if followed by another unit. ... */" />
+            <marker date="1487393702832" expanded="true" signature="17906:18055" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="18789:18993" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="19010:19112" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="19126:19229" ph="/* AND BEHOLD, THE EDGE UNIT NEIGHBOR STRUCTURE SETUP ... */" />
+            <marker date="1487393702832" expanded="true" signature="19338:20278" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="19651:19841" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="19862:20264" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="20043:20245" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="20349:20969" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="20542:20667" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="20688:20955" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="20800:20937" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="21011:24205" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="21139:22194" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="21475:21682" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="21707:22175" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="21930:22153" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="22472:24191" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="23072:23414" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="23439:24172" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="23780:24150" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="24427:36397" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="24510:36391" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="24665:36381" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="25141:26417" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="25692:25972" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="26694:27838" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="27196:27460" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="27890:36367" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="27973:32117" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="28305:29829" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="28968:29309" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="30311:32095" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="31088:31485" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="32180:36349" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="32538:34062" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="33201:33542" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="34543:36327" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="35320:35717" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="36403:36573" ph="/* Straightforward method that is meant for debugging purposes to be able ... */" />
+            <marker date="1487393702832" expanded="true" signature="36614:38027" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="36977:37098" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="37160:37279" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="37342:37463" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="37526:37647" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="37709:37828" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="37891:38012" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="38147:38337" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="38203:38331" ph="{...}" />
+            <marker date="1487393702832" expanded="true" signature="38250:38321" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

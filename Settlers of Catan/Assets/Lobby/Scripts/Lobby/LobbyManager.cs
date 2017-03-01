@@ -332,10 +332,13 @@ namespace Prototype.NetworkLobby
             if (_lobbyHooks)
                 _lobbyHooks.OnLobbyServerSceneLoadedForPlayer(this, lobbyPlayer, gamePlayer);
 
+
+
             return true;
         }
 
         // --- Countdown management
+        // Take away countdown screen. 
 
         public override void OnLobbyServerPlayersReady()
         {
@@ -384,7 +387,9 @@ namespace Prototype.NetworkLobby
                 }
             }
 
+
             ServerChangeScene(playScene);
+            //also can create a singleton here. 
         }
 
         // ----------------- Client callbacks ------------------
@@ -404,6 +409,9 @@ namespace Prototype.NetworkLobby
                 SetServerInfo("Client", networkAddress);
             }
         }
+
+        // What to do when the client disconnects. 
+        // Change to allow host migration. 
 
 
         public override void OnClientDisconnect(NetworkConnection conn)

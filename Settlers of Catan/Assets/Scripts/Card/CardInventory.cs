@@ -9,14 +9,16 @@ public class CardInventory : MonoBehaviour
 	public List<ProgressCard> progressCards = new List<ProgressCard> ();
 	public Dictionary<SteableKind,  List<SteableCard>> steableCards = new Dictionary<SteableKind, List<SteableCard>>();
 	int STEABLE_KIND_TOTAL = 9;
+	public delegate void InventoryChangedDelegate();
+	public event InventoryChangedDelegate InventoryChanged;
 
-	public CardInventory ()
+	void Awake ()
 	{
 		for (int i = 0; i < STEABLE_KIND_TOTAL; i++) {
 			steableCards.Add((SteableKind)i, new List<SteableCard> ());
-		}
+        }
 
-	}
+    }
 
 	public int countSteableCard (SteableKind kind)
 	{
@@ -26,16 +28,25 @@ public class CardInventory : MonoBehaviour
 	public void addSteableCard (SteableKind kind, SteableCard card)
 	{
 		steableCards [kind].Add (card);
+		if (InventoryChanged != null) {
+			InventoryChanged();
+		}
 	}
 
 	public void addSteableCards (SteableKind kind, List<SteableCard> cards)
 	{
 		steableCards [kind].AddRange(cards);
+		if (InventoryChanged != null) {
+			InventoryChanged();
+		}
 	}
 
 	public void addProgressCard (ProgressCard card)
 	{
 		progressCards.Add (card);
+		if (InventoryChanged != null) {
+			InventoryChanged();
+		}
 	}
 
 	public List<SteableCard> removeSteableCard (SteableKind steableKind, int num)
@@ -43,6 +54,9 @@ public class CardInventory : MonoBehaviour
 		List<SteableCard> list = steableCards[steableKind];
 		List<SteableCard> rc = list.GetRange(0, num);
 		list.RemoveRange(0,num);
+		if (InventoryChanged != null) {
+			InventoryChanged();
+		}
 		return rc;
 	}
 
@@ -60,14 +74,4 @@ public class CardInventory : MonoBehaviour
 	}
 
 
-	// Use this for initialization
-	void Start ()
-	{
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-	
-	}
 }

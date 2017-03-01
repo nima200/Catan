@@ -72,7 +72,7 @@ MonoBehaviour:
     i14: 237
     i15: 170
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114952274189339170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -88,3 +88,5 @@ MonoBehaviour:
   playerID: 0
   cardInventory: {fileID: 0}
   myHarbour: []
+  ratio: 0
+  hasAlchemist: 0

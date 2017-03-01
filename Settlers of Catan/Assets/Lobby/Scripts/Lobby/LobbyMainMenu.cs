@@ -37,6 +37,7 @@ namespace Prototype.NetworkLobby
 
             lobbyManager.networkAddress = ipInput.text;
             lobbyManager.StartClient();
+            Debug.Log("Client Started");
 
             lobbyManager.backDelegate = lobbyManager.StopClientClbk;
             lobbyManager.DisplayIsConnecting();

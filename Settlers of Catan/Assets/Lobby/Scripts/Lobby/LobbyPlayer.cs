@@ -27,6 +27,7 @@ namespace Prototype.NetworkLobby
         //OnMyName function will be invoked on clients when server change the value of playerName
         [SyncVar(hook = "OnMyName")]
         public string playerName = "";
+
         [SyncVar(hook = "OnMyColor")]
         public Color playerColor = Color.white;
 
