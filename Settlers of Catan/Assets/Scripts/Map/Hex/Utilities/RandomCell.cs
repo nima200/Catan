@@ -4,14 +4,14 @@ using UnityEngine;
 
 public static class RandomCell
 {
-    public static HexGrid grid = GameObject.Find("Hex Grid").GetComponent<HexGrid>();
+    public static BoardManager grid = GameObject.Find("Hex Grid").GetComponent<BoardManager>();
 
     public static int giveCell()
     {
         while (true)
         {
-            int randomIndex = Random.Range(0, grid.cells.Length - 1);
-            if (grid.cells[randomIndex] != null)
+            int randomIndex = Random.Range(0, grid.Cells.Length - 1);
+            if (grid.Cells[randomIndex] != null)
             {
                 return randomIndex;
             }
