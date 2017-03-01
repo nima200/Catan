@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour {
     //Hey Charlotte, I started this for you~
     //This is called when you clicked on the dice
     public void rollDice() {
-        DiceRoll.getInstance().RollTrigger();
+        //DiceRoll.getInstance().RollTrigger();
         int[] currentIntRoll = DiceRoll.getInstance().getIntRoll();
         EventDie currentEventRoll = DiceRoll.getInstance().getEventRoll();
 
