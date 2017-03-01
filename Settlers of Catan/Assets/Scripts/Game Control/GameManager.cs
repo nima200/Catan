@@ -53,12 +53,7 @@ public class GameManager : MonoBehaviour {
 
         //Creating new Managers.
         // Instantiate(_playerManager);
-
-            Instantiate(_turnManager);
-            Instantiate(_cardManager);
-            Instantiate(_tradeManager);
-            Instantiate(_cardMenuManager);
-
+        
         _turnManager.gameObject.SetActive(true);
         _cardManager.gameObject.SetActive(true);
         _tradeManager.gameObject.SetActive(true);

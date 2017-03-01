@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class CardMenuManager : MonoBehaviour
 {
-    private static CardMenuManager instance;
     private RawImage cardInfoImg;
     public GameObject cardInfoObject;
 
@@ -13,24 +12,8 @@ public class CardMenuManager : MonoBehaviour
     public GameObject progressCardDecks;
     private bool resourceCommodityShown;
 
-
-    //Initialization
-    private void Awake()
-    {
-        Debug.Log("CardMenu man created");
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
     void Start()
     {
-      //  Instantiate(cardInfoImg);
-
         cardInfoImg = cardInfoObject.GetComponent<RawImage>();
         resourceCommodityShown = true;
     }
@@ -51,8 +34,8 @@ public class CardMenuManager : MonoBehaviour
             string cardTexture = ri.texture.ToString();
             int length = cardTexture.Length;
             string cardInfoTexture = cardTexture.Substring(0, length - 25) + "1";
+            Debug.Log("Texture to load "+ cardInfoTexture);
             cardInfoImg.texture = (Texture2D)Resources.Load(cardInfoTexture);
-            Debug.Log(cardInfoTexture);
         }
         else Debug.Log("Nah pandeja");
     }
@@ -87,8 +70,5 @@ public class CardMenuManager : MonoBehaviour
         resourceCommodityDecks.SetActive(false);
         progressCardDecks.SetActive(true);
 
-    }
-    public static CardMenuManager getInstance() {
-        return instance;
     }
 }
