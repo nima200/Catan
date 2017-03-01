@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BoardManager : MonoBehaviour
 {
     public HexCell CellPrefab;
+
     public Text CellLabelPrefab;
     public Canvas GridCanvas;
     public Canvas UserInterface;
@@ -13,7 +14,6 @@ public class BoardManager : MonoBehaviour
     public Toggle BuildShipButton;
     public Toggle BuildSettleButton;
     public Toggle BuildCityButton;
-    public ToggleGroup ButtonGroup;
     public HexEdge EdgePrefab;
     public HexVertex VertexPrefab;
     public Dropdown DirectionDropdown;
@@ -120,20 +120,12 @@ public class BoardManager : MonoBehaviour
             case BuildMode.Off:
                 HidePossibleEdgeUnits();
                 HidePossibleCornerUnits();
-                BuildRoadButton.GetComponentInChildren<Text>().text = "Road";
-                BuildSettleButton.GetComponentInChildren<Text>().text = "Settlement";
-                BuildCityButton.GetComponentInChildren<Text>().text = "City";
-                BuildShipButton.GetComponentInChildren<Text>().text = "Ship";
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "";
                 DirectionDropdown.interactable = false;
                 break;
             case BuildMode.Settlement:
                 HidePossibleEdgeUnits();
                 ShowPossibleCornerUnits();
-                BuildRoadButton.GetComponentInChildren<Text>().text = "Road";
-                BuildSettleButton.GetComponentInChildren<Text>().text = "Build";
-                BuildCityButton.GetComponentInChildren<Text>().text = "City";
-                BuildShipButton.GetComponentInChildren<Text>().text = "Ship";
                 DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a settlement!";
@@ -141,10 +133,6 @@ public class BoardManager : MonoBehaviour
             case BuildMode.City:
                 HidePossibleEdgeUnits();
                 ShowPossibleCornerUnits();
-                BuildRoadButton.GetComponentInChildren<Text>().text = "Road";
-                BuildSettleButton.GetComponentInChildren<Text>().text = "Settlement";
-                BuildCityButton.GetComponentInChildren<Text>().text = "Build";
-                BuildShipButton.GetComponentInChildren<Text>().text = "Ship";
                 DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a city!";
@@ -152,10 +140,6 @@ public class BoardManager : MonoBehaviour
             case BuildMode.Road:
                 ShowPossibleEdgeUnits();
                 HidePossibleCornerUnits();
-                BuildRoadButton.GetComponentInChildren<Text>().text = "Build";
-                BuildSettleButton.GetComponentInChildren<Text>().text = "Settlement";
-                BuildCityButton.GetComponentInChildren<Text>().text = "City";
-                BuildShipButton.GetComponentInChildren<Text>().text = "Ship";
                 DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a road";
@@ -163,18 +147,12 @@ public class BoardManager : MonoBehaviour
             case BuildMode.Ship:
                 ShowPossibleEdgeUnits();
                 HidePossibleCornerUnits();
-                BuildRoadButton.GetComponentInChildren<Text>().text = "Road";
-                BuildSettleButton.GetComponentInChildren<Text>().text = "Settlement";
-                BuildCityButton.GetComponentInChildren<Text>().text = "City";
-                BuildShipButton.GetComponentInChildren<Text>().text = "Build";
                 DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a ship!";
                 break;
             case BuildMode.Knight:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -254,8 +232,6 @@ public class BoardManager : MonoBehaviour
                             // Handled phase 3 below
                             case TurnPhase.Build:
                                 break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
                         }
 
                     }
@@ -316,8 +292,6 @@ public class BoardManager : MonoBehaviour
                             case CornerUnit.Hidden:
                                 vertex.Type = CornerUnit.Open;
                                 break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
                         }
                     }
                     break;
@@ -349,8 +323,6 @@ public class BoardManager : MonoBehaviour
                                 break;
                             case CornerUnit.Open:
                                 break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
                         }
                     }
                     break;
@@ -380,8 +352,6 @@ public class BoardManager : MonoBehaviour
                                 break;
                             case CornerUnit.Hidden:
                                 break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
                         }
                     }
                     // For all edges
@@ -414,13 +384,9 @@ public class BoardManager : MonoBehaviour
                             // Only if there's a hidden vertex, show it.
                             case EdgeUnit.Hidden:
                                 break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
                         }
                     }
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
     }
@@ -462,8 +428,6 @@ public class BoardManager : MonoBehaviour
                         break;
                     case CornerUnit.Hidden:
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
                 }
             }
         }
@@ -673,6 +637,7 @@ public class BoardManager : MonoBehaviour
             case TurnPhase.Sandbox2:
                 if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
                 cell.MyVertices[directionInt].Type = unitType;
+                // cell.MyVertices[directionInt].owner = turnmanager.currentPlayer;  <-- Charlotte apply this when you are trying to make sure that a player has link to the vertices he places.
                 Build("Road");
                 break;
             // If it was phase 3, turn off the build menu
@@ -682,8 +647,6 @@ public class BoardManager : MonoBehaviour
                 cell.MyVertices[directionInt].Type = unitType;
                 Build("Off");
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -726,8 +689,8 @@ public class BoardManager : MonoBehaviour
                 break;
             // If done with phase 2, we can proceed to phase 3 and just end the build after the second road placed in 'sandbox'
             case TurnPhase.Sandbox2:
-                // _phase = TurnPhase.Build;
-                _phase = TurnPhase.WaitForTurn;
+                 _phase = TurnPhase.Build;
+//                _phase = TurnPhase.WaitForTurn;
                 Build("Off");
                 break;
             // And if in phase 3, then we just apply the routine end build state after building a road anywhere
@@ -736,8 +699,6 @@ public class BoardManager : MonoBehaviour
                 break;
             case TurnPhase.WaitForTurn:
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
 
