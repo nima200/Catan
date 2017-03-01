@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using Prototype.NetworkLobby;
+using System.Linq;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -14,7 +15,13 @@ public class PlayerManager : MonoBehaviour
 	public List<Player> myPlayers = new List<Player> ();
     private int nbOfPlayers;
     private int pointer;
-    
+
+
+    public LobbyManager _lobbyManager;
+    private List<LobbyPlayer> intermiedateList;
+    private IEnumerable<LobbyPlayer> IEnumberableLobbyplayerList;
+
+    public LobbyPlayerList _lobbyplayerlist;
 
     //Make Player Manager Singleton
     void Awake ()
@@ -26,9 +33,19 @@ public class PlayerManager : MonoBehaviour
 			Destroy (gameObject);    
 		}
 		DontDestroyOnLoad (gameObject);
-        
-       // nbOfPlayers = 4;                    // Set to 4 for now
+
+        // nbOfPlayers = 4;                    // Set to 4 for now
         //createPlayer ();
+
+        _lobbyManager = FindObjectOfType<LobbyManager>();
+        _lobbyplayerlist = FindObjectOfType<LobbyPlayerList>();
+        intermiedateList = _lobbyplayerlist.PlayerList;
+        IEnumberableLobbyplayerList = intermiedateList;
+
+        int totalPlayers = IEnumberableLobbyplayerList.Count();
+        Debug.Log("There were " + IEnumberableLobbyplayerList.Count() + " Players in the lobby");
+        PlayerManager.getInstance().SetNumberOfPlayers(totalPlayers);
+
         pointer = 0;
         Debug.Log("Player Manager created");                   
 	}

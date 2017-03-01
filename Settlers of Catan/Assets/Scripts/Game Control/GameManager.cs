@@ -53,34 +53,25 @@ public class GameManager : MonoBehaviour {
 
         //Creating new Managers.
         // Instantiate(_playerManager);
-            _lobbyManager = FindObjectOfType<LobbyManager>();
-            _lobbyplayerlist = FindObjectOfType<LobbyPlayerList>();
-            intermiedateList = _lobbyplayerlist.PlayerList;
-            IEnumberableLobbyplayerList = intermiedateList;
-
-            int totalPlayers = IEnumberableLobbyplayerList.Count();
-            Debug.Log("There were "+IEnumberableLobbyplayerList.Count()+" Players in the lobby");
-            PlayerManager.getInstance().SetNumberOfPlayers(totalPlayers);
 
             Instantiate(_turnManager);
             Instantiate(_cardManager);
             Instantiate(_tradeManager);
             Instantiate(_cardmenumanager);
-                    
+
 
         // finding lobbymanager and playerlist from assets that weren't destroyed on scene change.
-    
 
-        
+
+
 
         // IEnumberableLobbyPlayerlist is the list of lobbyplayers that were available before scene change. It allows iteration as an IEnumberable type. 
 
+        Debug.Log("GameManager created");
     }
 
-    void Start() {
-
-    }
-
+    //Hey Charlotte, I started this for you~
+    //This is called when you clicked on the dice
     public void rollDice() {
         DiceRoll.getInstance().RollTrigger();
         int[] currentIntRoll = DiceRoll.getInstance().getIntRoll();

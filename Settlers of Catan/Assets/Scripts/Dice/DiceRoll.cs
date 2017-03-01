@@ -14,7 +14,7 @@ public class DiceRoll : MonoBehaviour {
     private int[] _intRolls;
     private EventDie _eventRoll;
     private bool _isRolled;
-    public bool HasAlchemist;
+//    public bool HasAlchemist;
 
     void Awake() {
         if (instance == null)
@@ -37,6 +37,15 @@ public class DiceRoll : MonoBehaviour {
      * called when it is this player's turn (eventlistener ?)
      * TODO: link to player's activation
      */
+
+
+        //Event Listener, triggers RollDice() in GameManager when click on Button
+        //Could not add it manually in inspector since GameManager is created at runtime
+   /* void Start() {
+        RollBtn.onClick.AddListener(GameManager.getInstance().rollDice);
+    }*/
+
+
     public void InitDice() {
         RollBtn.interactable = true;
     }
@@ -44,11 +53,10 @@ public class DiceRoll : MonoBehaviour {
     /* ========================
    *    ROLL TRIGGER(onclick)
    *   ========================
-   *    TODO: link this method with ResourceSolver?
    */
     public void RollTrigger () {
         if (!_isRolled){
-            if (HasAlchemist){
+            if (TurnManager.getInstance().getCurrentPlayer().hasAlchemist){
                 AlchemistMenu.gameObject.SetActive(true); // action will happen in RollAlchemist
             }
 
@@ -59,6 +67,7 @@ public class DiceRoll : MonoBehaviour {
             }
             RollBtn.interactable = false;
         }
+        GameManager.getInstance().rollDice();
     }
 
     /* ===================

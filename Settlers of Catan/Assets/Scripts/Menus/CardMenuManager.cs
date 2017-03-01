@@ -17,6 +17,7 @@ public class CardMenuManager : MonoBehaviour
     //Initialization
     void Start()
     {
+        Instantiate(cardInfoImg);
         cardInfoObject = cardInfoImg.gameObject;
         resourceCommodityShown = true;
     }

@@ -1129,7 +1129,6 @@ RectTransform:
   m_Children:
   - {fileID: 2066212709}
   - {fileID: 328979394}
-  - {fileID: 1934260499}
   - {fileID: 905738254}
   - {fileID: 419757429}
   - {fileID: 976067602}
@@ -1785,7 +1784,7 @@ Transform:
   - {fileID: 1762623144}
   - {fileID: 1117466952}
   m_Father: {fileID: 302892128}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &433634818
 GameObject:
@@ -2502,7 +2501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3fa6e4f9c82d854f9faf31bb9b1be22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardInfoImg: {fileID: 1934260497}
+  cardInfoImg: {fileID: 0}
   resourceCommodityDecks: {fileID: 0}
   progressCardDecks: {fileID: 0}
 --- !u!114 &643005491
@@ -3341,7 +3340,7 @@ RectTransform:
   m_Children:
   - {fileID: 1573314446}
   m_Father: {fileID: 302892128}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4067,7 +4066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3fa6e4f9c82d854f9faf31bb9b1be22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardInfoImg: {fileID: 1934260497}
+  cardInfoImg: {fileID: 0}
   resourceCommodityDecks: {fileID: 0}
   progressCardDecks: {fileID: 0}
 --- !u!114 &886883546
@@ -4212,7 +4211,7 @@ RectTransform:
   - {fileID: 1143532855}
   - {fileID: 382888786}
   m_Father: {fileID: 302892128}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4568,7 +4567,7 @@ Transform:
   - {fileID: 1176285290}
   - {fileID: 382038864}
   m_Father: {fileID: 302892128}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &944579691 stripped
 MonoBehaviour:
@@ -4663,7 +4662,7 @@ RectTransform:
   - {fileID: 295969492}
   - {fileID: 735048563}
   m_Father: {fileID: 302892128}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7683,15 +7682,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4754881000992374, guid: 920d1a591f14415478aa02ed92282b6d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 899
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4754881000992374, guid: 920d1a591f14415478aa02ed92282b6d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1584
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4754881000992374, guid: 920d1a591f14415478aa02ed92282b6d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 200
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4754881000992374, guid: 920d1a591f14415478aa02ed92282b6d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -7711,7 +7710,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4754881000992374, guid: 920d1a591f14415478aa02ed92282b6d, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114024440553020430, guid: 920d1a591f14415478aa02ed92282b6d,
         type: 2}
@@ -9168,7 +9167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3fa6e4f9c82d854f9faf31bb9b1be22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardInfoImg: {fileID: 1934260497}
+  cardInfoImg: {fileID: 0}
   resourceCommodityDecks: {fileID: 0}
   progressCardDecks: {fileID: 0}
 --- !u!114 &1602155458
@@ -9716,7 +9715,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1762623146
@@ -9904,7 +9903,7 @@ Transform:
   m_LocalScale: {x: 1.0666667, y: 1.0666667, z: 1.0666667}
   m_Children: []
   m_Father: {fileID: 302892128}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1784932978
 Prefab:
@@ -10346,7 +10345,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RollBtn: {fileID: 1762623145}
   AlchemistMenu: {fileID: 0}
-  HasAlchemist: 0
 --- !u!1 &1891181676
 GameObject:
   m_ObjectHideFlags: 0
@@ -10489,73 +10487,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1929624049}
---- !u!1 &1934260496
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1934260499}
-  - component: {fileID: 1934260498}
-  - component: {fileID: 1934260497}
-  m_Layer: 5
-  m_Name: Progress Card Info
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1934260497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1934260496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: 5ac797666b92927449e1f77cd00f55d5, type: 3}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
---- !u!222 &1934260498
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1934260496}
---- !u!224 &1934260499
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1934260496}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 302892128}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 122.8, y: 161.3}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1959688227
 GameObject:
   m_ObjectHideFlags: 0
@@ -11145,7 +11076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3fa6e4f9c82d854f9faf31bb9b1be22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardInfoImg: {fileID: 1934260497}
+  cardInfoImg: {fileID: 0}
   resourceCommodityDecks: {fileID: 0}
   progressCardDecks: {fileID: 0}
 --- !u!114 &2123713451

@@ -25,6 +25,7 @@ public class TurnManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+        Debug.Log("TurnManager created");
     }
 
     public void SetFirstPlayer()

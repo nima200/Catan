@@ -108,7 +108,10 @@ public class TradeManager : MonoBehaviour {
 
 		bankInv = CardManager.getInstance ().getCardInventory();
 		mainPlayer = TurnManager.getInstance ().getMainPlayer ();
-		playerInv = mainPlayer.getCardInventory ();
+
+        playerInv = mainPlayer.getCardInventory();
+        
+		
 
 		GameObject harbours = new GameObject ("Harbours");
 		GameObject specialHarbours = new GameObject ("Special Harbours");

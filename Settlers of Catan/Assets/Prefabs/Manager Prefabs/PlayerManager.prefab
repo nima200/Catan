@@ -34,7 +34,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1140333569315022}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 899, y: 1584, z: 200}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,8 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e71ec672aae9140bd234fa3514d312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameManager: {fileID: 114417105387234774, guid: 3543ef94e7a4e9248a679f63a69df806,
+    type: 2}
   Players: {fileID: 0}
   playerPrefrab: {fileID: 114124705082406530, guid: 4ba07e069105a43f58e5bfa688c16a61,
     type: 2}
   cardInventoryPrefab: {fileID: 0}
   myPlayers: []
+  _lobbyManager: {fileID: 0}
+  _lobbyplayerlist: {fileID: 0}
