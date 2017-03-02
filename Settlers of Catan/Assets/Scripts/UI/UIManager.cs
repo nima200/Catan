@@ -2,10 +2,10 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class UiManager : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
 
-    private static UiManager _instance;
+    private static UIManager _instance;
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class UiManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public static UiManager GetInstance()
+    public static UIManager GetInstance()
     {
         return _instance;
     }

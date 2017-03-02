@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class TurnManager : MonoBehaviour
+public class TurnManager : NetworkBehaviour
 {
 
     private static TurnManager _instance = null;
@@ -12,7 +13,7 @@ public class TurnManager : MonoBehaviour
     public BoardManager Board;
     private Player _localPlayer;                            // --> the player running this instance of the game
     private Player _currentPlayer;                         // --> the player currently PLAYING
-    public UiManager Ui = UiManager.GetInstance();
+    public UIManager Ui = UIManager.GetInstance();
 
 
     // Use this for initialization
@@ -29,7 +30,7 @@ public class TurnManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-        Debug.Log("TurnManager created");
+        // Debug.Log("TurnManager created");
 
     }
 
@@ -86,18 +87,20 @@ public class TurnManager : MonoBehaviour
 
     public void SetFirstPlayer()
     {
-        int firstplayerindex = PlayerManager.getInstance().SetRandomFirst(); // TODO : make it syntax correct
+        var firstplayerindex = PlayerManager.getInstance().SetRandomFirst(); // TODO : make it syntax correct
         _localPlayer = PlayerManager.getInstance().getLocalPlayer();
         _currentPlayer = PlayerManager.getInstance().getPlayer(firstplayerindex);
         _currentPlayer.MyTurnPhase = TurnPhase.Sandbox1;
         UpdateUi(_currentPlayer);
-        for (int i = 0; i < PlayerManager.getInstance().getNbOfPlayer(); i++)
+        for (var i = 0; i < PlayerManager.getInstance().getNbOfPlayer(); i++)
         { // Initialize UIs of all players
-            if (PlayerManager.getInstance().getPlayer(i) != _currentPlayer)
+            var p = PlayerManager.getInstance().getPlayer(i);
+            if (!p.Equals(_currentPlayer))
             {
-                PlayerManager.getInstance().getPlayer(i).MyTurnPhase = TurnPhase.WaitForTurn;
-                UpdateUi(PlayerManager.getInstance().getPlayer(i));
+                p.MyTurnPhase = TurnPhase.WaitForTurn;
+                UpdateUi(p);
             }
+            Debug.Log(p.MyTurnPhase + " " + p.PlayerId);
         }
     }
 
@@ -115,10 +118,7 @@ public class TurnManager : MonoBehaviour
         SetCurrentToNextPlayer();
         Debug.Log("New current player : " + _currentPlayer.GetPlayerId());
 
-
-        previousCurrentPlayer.NextPhase();              //update phases of the 2 players
         UpdateUi(previousCurrentPlayer);
-        _currentPlayer.NextPhase();
         UpdateUi(_currentPlayer);
 
     }
@@ -126,9 +126,8 @@ public class TurnManager : MonoBehaviour
 
     private void UpdateUi(Player p)
     {
-        Ui = UiManager.GetInstance();
-        if (!p.isLocalPlayer) return;
-        Debug.Log("big dick bandito in da club");   
+        Ui = UIManager.GetInstance();
+        // if (!p.isLocalPlayer) return;
         switch (p.MyTurnPhase)
         {
             case TurnPhase.Sandbox1:
@@ -166,8 +165,10 @@ public class TurnManager : MonoBehaviour
                 }
                 break;
             case TurnPhase.WaitForTurn:
-                Ui.MainMenu.SetActive(true);
                 Ui.BuildMenu.SetActive(false);
+                Ui.MainMenu.SetActive(true);
+                Board.UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
+                    "Please wait for your turn!";
                 foreach (var selectable in Ui.MainMenu.GetComponentsInChildren<Button>())
                 {
                     Debug.Log("hello");

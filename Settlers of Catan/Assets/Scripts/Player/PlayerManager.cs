@@ -45,11 +45,11 @@ public class PlayerManager : MonoBehaviour
         IEnumberableLobbyplayerList = intermiedateList;
 
         int totalPlayers = IEnumberableLobbyplayerList.Count();
-        Debug.Log("There were " + totalPlayers + " Players in the lobby");
+        // Debug.Log("There were " + totalPlayers + " Players in the lobby");
         SetNumberOfPlayers(totalPlayers);
 
         //pointer = 0;
-        Debug.Log("Player Manager created");
+        // Debug.Log("Player Manager created");
     }
 
     public int SetRandomFirst()
@@ -93,7 +93,7 @@ public class PlayerManager : MonoBehaviour
 
     public Player getPlayer(int index)
     {
-        Debug.Log("Player at index is : " + myPlayers[index]);
+        // Debug.Log("Player at index is : " + myPlayers[index]);
         return myPlayers[index];
     }
 
@@ -118,7 +118,7 @@ public class PlayerManager : MonoBehaviour
         myPlayers.Add(_player);
         int i = myPlayers.IndexOf(_player);
         _player.Initialize(i, cardInventoryPrefab);
-        Debug.Log("Player index:" + i + " and List length:" + myPlayers.Count);
+        // Debug.Log("Player index:" + i + " and List length:" + myPlayers.Count);
 
         if (myPlayers.Count == nbOfPlayers)
         {

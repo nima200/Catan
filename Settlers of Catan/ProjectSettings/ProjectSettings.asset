@@ -525,7 +525,7 @@ PlayerSettings:
   vrEditorSettings: {}
   cloudServicesEnabled:
     Analytics: 0
-    Build: 1
+    Build: 0
     Collab: 0
     ErrorHub: 0
     Game_Performance: 0

@@ -19,7 +19,7 @@ public class CardManager : MonoBehaviour
 	//Make Card Manager Singleton
 	void Awake ()
 	{
-        Debug.Log("Card manager created");
+        // Debug.Log("Card manager created");
 		if (instance == null) {
 			instance = this;
 		}
@@ -48,7 +48,7 @@ public class CardManager : MonoBehaviour
 		progressCards.transform.parent = cards.transform;
 		createStealableCard ();
 		createProgressCard ();
-        Debug.Log("Number of Player registered by Player Manager:" + PlayerManager.getInstance().myPlayers.Count);
+        // Debug.Log("Number of Player registered by Player Manager:" + PlayerManager.getInstance().myPlayers.Count);
 		for (int i = 0; i < PlayerManager.getInstance().getNbOfPlayer(); i++) {                //WARNING : EXCEPTION 
             //Debug.Log("What is the index "+ i);
 			distributeSteable(PlayerManager.getInstance().getPlayer(i), SteableKind.GOLD,2);

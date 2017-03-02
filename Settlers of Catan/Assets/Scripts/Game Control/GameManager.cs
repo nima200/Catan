@@ -55,11 +55,11 @@ public class GameManager : MonoBehaviour {
         // Instantiate(_playerManager);
         
         _turnManager.gameObject.SetActive(true);
-        TurnManager.getInstance().SetFirstPlayer();
         _cardManager.gameObject.SetActive(true);
         _tradeManager.gameObject.SetActive(true);
         _cardMenuManager.gameObject.SetActive(true);
 
+        TurnManager.getInstance().SetFirstPlayer();
         // finding lobbymanager and playerlist from assets that weren't destroyed on scene change.
 
 
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour {
 
         // IEnumberableLobbyPlayerlist is the list of lobbyplayers that were available before scene change. It allows iteration as an IEnumberable type. 
 
-        Debug.Log("GameManager created");
+        // Debug.Log("GameManager created");
     }
 
     //Hey Charlotte, I started this for you~

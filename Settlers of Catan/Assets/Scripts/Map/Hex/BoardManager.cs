@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Networking;
 
 public class BoardManager : MonoBehaviour
 {
@@ -44,7 +45,7 @@ public class BoardManager : MonoBehaviour
 
         MakeTokens();
         Cells = new HexCell[Height * Width];
-        UiManager.GetInstance().DirectionDropdown.interactable = false;
+        UIManager.GetInstance().DirectionDropdown.interactable = false;
         // i is the index of the cell in the HexCell array.
         // i goes from 0 to (height*width);
         // i is incremented every time we create a new cell
@@ -113,33 +114,33 @@ public class BoardManager : MonoBehaviour
                 HidePossibleEdgeUnits(p);
                 HidePossibleCornerUnits(p);
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "";
-                UiManager.GetInstance().DirectionDropdown.interactable = false;
+                UIManager.GetInstance().DirectionDropdown.interactable = false;
                 break;
             case BuildMode.Settlement:
                 HidePossibleEdgeUnits(p);
                 ShowPossibleCornerUnits(p);
-                UiManager.GetInstance().DirectionDropdown.interactable = true;
+                UIManager.GetInstance().DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a settlement!";
                 break;
             case BuildMode.City:
                 HidePossibleEdgeUnits(p);
                 ShowPossibleCornerUnits(p);
-                UiManager.GetInstance().DirectionDropdown.interactable = true;
+                UIManager.GetInstance().DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a city!";
                 break;
             case BuildMode.Road:
                 ShowPossibleEdgeUnits(p);
                 HidePossibleCornerUnits(p);
-                UiManager.GetInstance().DirectionDropdown.interactable = true;
+                UIManager.GetInstance().DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a road";
                 break;
             case BuildMode.Ship:
                 ShowPossibleEdgeUnits(p);
                 HidePossibleCornerUnits(p);
-                UiManager.GetInstance().DirectionDropdown.interactable = true;
+                UIManager.GetInstance().DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a ship!";
                 break;
@@ -617,13 +618,13 @@ public class BoardManager : MonoBehaviour
     {
         position = transform.InverseTransformPoint(position);
         var coordinates = HexCoordinates.FromPosition(position);
-        int index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
+        var index = coordinates.X + coordinates.Z * Width + coordinates.Z / 2;
 
         if (index > Cells.Length - 1) return;
 
         var cell = Cells[index];
 
-        int directionInt = (int)direction;
+        var directionInt = (int)direction;
 
         // Prevent duplicates
         if (!cell.MyVertices[directionInt].Type.Equals(CornerUnit.Open)) return;

@@ -11,7 +11,7 @@ public class Player : NetworkBehaviour
     public int PlayerId;
 
     // private bool isTurn;                 We are still debating if it is needed
-    public TurnPhase MyTurnPhase;
+    [SerializeField] public TurnPhase MyTurnPhase { get; set; }
     public List<HexEdge> MyEdges = new List<HexEdge>();
 
     public List<HexVertex> MyVertices = new List<HexVertex>();
@@ -24,10 +24,10 @@ public class Player : NetworkBehaviour
     public void Initialize(int i, CardInventory cardInventoryPrefab)
     {
         //name = "Player" + i;
-        //playerID = i;
+        PlayerId = i;
         PlayerName = "Player " + PlayerName;
         //isTurn = false;
-        MyTurnPhase = TurnPhase.WaitForTurn;
+        // MyTurnPhase = TurnPhase.WaitForTurn;
         CardInventory = Instantiate(cardInventoryPrefab);
         CardInventory.gameObject.SetActive(true);
         CardInventory.transform.parent = this.transform;
@@ -47,7 +47,7 @@ public class Player : NetworkBehaviour
     public int getMaritimTradeRatio(SteableKind resource)
     {
         Ratio = 4;
-        for (int i = 0; i < MyHarbour.Count; i++)
+        for (var i = 0; i < MyHarbour.Count; i++)
         {
             if (MyHarbour[i].GetType() == typeof(GenericHarbour))
             {
@@ -61,10 +61,9 @@ public class Player : NetworkBehaviour
         return Ratio;
     }
 
-    public bool equals(Player otherPlayer)
+    public bool Equals(Player otherPlayer)
     {
-        if (PlayerId == otherPlayer.GetPlayerId()) return true;
-        else return false;
+        return PlayerId == otherPlayer.GetPlayerId();
     }
 
     public int GetPlayerId()
@@ -100,21 +99,4 @@ public class Player : NetworkBehaviour
     {
         // isTurn = b;
     }
-
-    public void NextPhase()
-    {
-        switch (MyTurnPhase)
-        {
-            case TurnPhase.Sandbox1:
-                MyTurnPhase = TurnPhase.Sandbox2;
-                break;
-            case TurnPhase.Sandbox2:
-                MyTurnPhase = TurnPhase.WaitForTurn;
-                break;
-        }
-        Debug.Log("New phase of " + PlayerName + ": " + MyTurnPhase.ToString());
-    }
-
-
-
 }
