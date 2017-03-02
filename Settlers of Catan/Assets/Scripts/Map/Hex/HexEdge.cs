@@ -14,7 +14,6 @@ public class HexEdge : MonoBehaviour
     public HexCell FirstCell, SecondCell;
     public HexEdge[] NeighborEdges;
     public List<HexEdge> Neighbors = new List<HexEdge>();
-
     //head positions
     private Vector3 _positionFc;
     private Vector3 _positionSc;
@@ -53,7 +52,8 @@ public class HexEdge : MonoBehaviour
     }
 
     //the hexvertexes that lie on each end of the edge
-    public List<HexVertex> Heads = new List<HexVertex>(); 
+    public List<HexVertex> Heads = new List<HexVertex>();
+    public Player Owner { get; set; }
 
 
     //Helper functions for setting neighbors

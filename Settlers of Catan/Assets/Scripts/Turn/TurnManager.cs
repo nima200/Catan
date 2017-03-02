@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,36 +7,43 @@ using UnityEngine.UI;
 public class TurnManager : MonoBehaviour
 {
 
-    private static TurnManager instance = null;
-    public GameObject UtilityMenu;
+    private static TurnManager _instance = null;
+    public GameObject MainMenu;
     public GameObject DiceMenu;
-    private Player localPlayer;                            // --> the player running this instance of the game
-    private Player currentPlayer;                         // --> the player currently PLAYING
+    public BoardManager Board;
+    private Player _localPlayer;                            // --> the player running this instance of the game
+    private Player _currentPlayer;                         // --> the player currently PLAYING
+    private readonly UiManager _ui = UiManager.GetInstance();
+
 
     // Use this for initialization
     void Awake()
     {
-        if (instance == null)
+        if (_instance == null)
         {
-            instance = this;
+            _instance = this;
+
         }
-        else if (instance != this)
+        else if (_instance != this)
         {
             Destroy(gameObject);
         }
 
         DontDestroyOnLoad(gameObject);
         Debug.Log("TurnManager created");
+
     }
 
-    public void SetFirstPlayer()
+    private void Update()
     {
-        localPlayer = PlayerManager.getInstance().getLocalPlayer();
-        currentPlayer = PlayerManager.getInstance().getPlayer(0);
-        //currentPlayer.SetIsTurn(true);
+        // Mouse Button 0 = Left Mouse Button
+        if (Input.GetMouseButtonDown(0))
+        {
+            HandleInput();
+        }
     }
 
-    public static TurnManager getInstance()
+    private void HandleInput()
     {
         // Always trying to change state on a mouse click but not doing anything if not player's turn
         var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -74,32 +82,38 @@ public class TurnManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
+
     }
 
     public void SetFirstPlayer()
     {
-        int firstplayerindex = PlayerManager.GetInstance().SetRandomFirst(); // TODO : make it syntax correct
-        _localPlayer = PlayerManager.GetInstance().GetLocalPlayer();
-        _currentPlayer = PlayerManager.GetInstance().GetPlayer(firstplayerindex);
-        for (int i = 0; i < PlayerManager.GetInstance().GetNbOfPlayer(); i++) { // Initialize UIs of all players
-            if (_currentPlayer != PlayerManager.GetInstance().GetPlayer(i)) continue;
+        int firstplayerindex = PlayerManager.getInstance().SetRandomFirst(); // TODO : make it syntax correct
+        _localPlayer = PlayerManager.getInstance().getLocalPlayer();
+        _currentPlayer = PlayerManager.getInstance().getPlayer(firstplayerindex);
+        for (int i = 0; i < PlayerManager.getInstance().getNbOfPlayer(); i++)
+        { // Initialize UIs of all players
+            if (_currentPlayer != PlayerManager.getInstance().getPlayer(i)) continue;
             // Only sets the UI of the 'first player' to active, continues for all others.
-            PlayerManager.GetInstance().GetPlayer(i).MyTurnPhase = TurnPhase.Sandbox1; // First player set into sandbox mode
-            UpdateUi(PlayerManager.GetInstance().GetPlayer(i));
+            PlayerManager.getInstance().getPlayer(i).MyTurnPhase = TurnPhase.Sandbox1; // First player set into sandbox mode
+            UpdateUi(PlayerManager.getInstance().getPlayer(i));
         }
+    }
+
+    public static TurnManager getInstance()
+    {
+        return _instance;
     }
 
     public void NextTurn()
     {
-        DiceRoll.GetInstance().ResetDice();
+        DiceRoll.getInstance().ResetDice();
         Player previousCurrentPlayer = _currentPlayer;                                   // TODO : assigning players? 
 
         Debug.Log("Previous  player : " + previousCurrentPlayer.GetPlayerId());
         SetCurrentToNextPlayer();
         Debug.Log("New current player : " + _currentPlayer.GetPlayerId());
 
-        
+
         previousCurrentPlayer.NextPhase();              //update phases of the 2 players
         UpdateUi(previousCurrentPlayer);
         _currentPlayer.NextPhase();
@@ -136,35 +150,40 @@ public class TurnManager : MonoBehaviour
                 DiceMenu.GetComponent<Selectable>().interactable = false;
                 break;
         }
-        else if (previousCurrentPlayer.isLocalPlayer)
-        {
-            Selectable[] allUtilitySelectable = UtilityMenu.GetComponentsInChildren<Selectable>();
-            foreach (Selectable s in allUtilitySelectable)
-            {
-                s.interactable = false;
-            }
-            Button[] allDiceButtons = DiceMenu.GetComponentsInChildren<Button>();
-            foreach (Button b in allDiceButtons)
-            {
-                b.interactable = false;
-            }
-            Debug.Log("DEACTIVATED: I am the previous player");
-        }
-        else Debug.Log("UNCHANGED.");
+    }
+
+    private void SetInteractable(bool b, List<Selectable> buttonList)
+    {
+        //TODO
     }
 
     public Player getMainPlayer()
     {
-        return localPlayer;
+        return _localPlayer;
     }
 
     public Player getCurrentPlayer()
     {
-        return currentPlayer;
+        return _currentPlayer;
     }
 
-    public void setCurrentToNextPlayer()
+    public void SetCurrentToNextPlayer()
     {
-        currentPlayer = PlayerManager.getInstance().getNextPlayer();
+        _currentPlayer = PlayerManager.getInstance().getNextPlayer();
+    }
+    public void SetCurrentToPreviousPlayer()
+    {
+        _currentPlayer = PlayerManager.getInstance().getPreviousPlayer();
     }
 }
+/*Selectable[] allUtilitySelectable = MainMenu.GetComponentsInChildren<Selectable>();
+foreach (Selectable s in allUtilitySelectable)
+{
+    s.interactable = true;
+}
+Button[] allDiceButtons = DiceMenu.GetComponentsInChildren<Button>();
+foreach (Button b in allDiceButtons)
+{
+    b.interactable = true;
+}
+Debug.Log("ACTIVATED: I am the new current player");*/

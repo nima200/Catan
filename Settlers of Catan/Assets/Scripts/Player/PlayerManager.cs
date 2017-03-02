@@ -7,14 +7,14 @@ using System.Linq;
 public class PlayerManager : MonoBehaviour
 {
 
-	private static PlayerManager instance = null;
+    private static PlayerManager instance = null;
     public GameManager _gameManager;
     public GameObject Players;
-	public Player playerPrefrab;
-	public CardInventory cardInventoryPrefab;
-	public List<Player> myPlayers = new List<Player> ();
+    public Player playerPrefrab;
+    public CardInventory cardInventoryPrefab;
+    public List<Player> myPlayers = new List<Player>();
     private int nbOfPlayers;
-    private int pointer;
+    private int pointer;    // points to current player's index
 
 
     public LobbyManager _lobbyManager;
@@ -24,15 +24,17 @@ public class PlayerManager : MonoBehaviour
     public LobbyPlayerList _lobbyplayerlist;
 
     //Make Player Manager Singleton
-    void Awake ()
-	{
-		if (instance == null) {
-			instance = this;
-		}
-		else if (instance != this) {
-			Destroy (gameObject);    
-		}
-		DontDestroyOnLoad (gameObject);
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
 
         // nbOfPlayers = 4;                    // Set to 4 for now
         //createPlayer ();
@@ -43,55 +45,71 @@ public class PlayerManager : MonoBehaviour
         IEnumberableLobbyplayerList = intermiedateList;
 
         int totalPlayers = IEnumberableLobbyplayerList.Count();
-        Debug.Log("There were " + IEnumberableLobbyplayerList.Count() + " Players in the lobby");
-        PlayerManager.getInstance().SetNumberOfPlayers(totalPlayers);
+        Debug.Log("There were " + totalPlayers + " Players in the lobby");
+        SetNumberOfPlayers(totalPlayers);
 
-        pointer = 0;
-        Debug.Log("Player Manager created");                   
-	}
+        //pointer = 0;
+        Debug.Log("Player Manager created");
+    }
 
-	public static PlayerManager getInstance()
-	{
-		return instance;
-	}
-    
+    public int SetRandomFirst()
+    {
+        pointer = Random.Range(0, (nbOfPlayers - 1));   // Generate random number for first player
+        return pointer;
+    }
+
+    public static PlayerManager getInstance()
+    {
+        return instance;
+    }
+
     // would go away. No need of making 4 players
     // no need for vector transform . 
-	private void createPlayer ()
-	{
+    private void createPlayer()
+    {
         Player player;
         int offset = 100;
-		for (int i = 0; i < nbOfPlayers; i++) {
-			player = Instantiate (playerPrefrab, Players.transform);
-            player.transform.position = new Vector3(200+(offset*i),200,0);
-			player.Initialize(i,cardInventoryPrefab);
+        for (int i = 0; i < nbOfPlayers; i++)
+        {
+            player = Instantiate(playerPrefrab, Players.transform);
+            player.transform.position = new Vector3(200 + (offset * i), 200, 0);
+            player.Initialize(i, cardInventoryPrefab);
             bool e = player.enabled;
-			myPlayers.Add(player);
-		}
-	}
+            myPlayers.Add(player);
+        }
+    }
 
-    public Player getLocalPlayer() {
-        foreach (Player p in myPlayers) {
-            if (p.isLocalPlayer) {
+    public Player getLocalPlayer()
+    {
+        foreach (Player p in myPlayers)
+        {
+            if (p.isLocalPlayer)
+            {
                 return p;
             }
         }
         return null;
     }
 
-    public Player getPlayer (int index)
-	{
-        Debug.Log("Player at index is : "+ myPlayers[index]);
-		return myPlayers[index];
-	}
+    public Player getPlayer(int index)
+    {
+        Debug.Log("Player at index is : " + myPlayers[index]);
+        return myPlayers[index];
+    }
 
-    public int getNbOfPlayer() {
+    public int getNbOfPlayer()
+    {
         return nbOfPlayers;
     }
 
     public Player getNextPlayer()
     {
         pointer = (pointer + 1) % nbOfPlayers;
+        return getPlayer(pointer);
+    }
+    public Player getPreviousPlayer()
+    {
+        pointer = (pointer + (nbOfPlayers - 1)) % nbOfPlayers;
         return getPlayer(pointer);
     }
 
@@ -102,13 +120,15 @@ public class PlayerManager : MonoBehaviour
         _player.Initialize(i, cardInventoryPrefab);
         Debug.Log("Player index:" + i + " and List length:" + myPlayers.Count);
 
-        if (myPlayers.Count == nbOfPlayers) {
+        if (myPlayers.Count == nbOfPlayers)
+        {
             Instantiate(_gameManager);
             _gameManager.gameObject.SetActive(true);
         }
     }
 
-    public void SetNumberOfPlayers(int i) {
+    public void SetNumberOfPlayers(int i)
+    {
         nbOfPlayers = i;
     }
 }

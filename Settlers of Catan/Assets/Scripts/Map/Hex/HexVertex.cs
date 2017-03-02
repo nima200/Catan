@@ -43,14 +43,14 @@ public class HexVertex : MonoBehaviour
     }
     public List<HexEdge> NeighborEdges = new List<HexEdge>();
     public Vector3 Position;
-	public int Index = 0;
+    public int Index = 0;
 
-	//keeps track of neighboring vertices
+    //keeps track of neighboring vertices
     public List<HexVertex> Neighbors = new List<HexVertex>();
     public Player Owner { get; set; }
 
-	private void Awake()
-	{
+    private void Awake()
+    {
         transform.GetComponent<MeshFilter>().mesh = new Mesh();
     }
 }

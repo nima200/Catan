@@ -18,29 +18,29 @@ public class BoardManager : MonoBehaviour
     public HexVertex VertexPrefab;
     public Dropdown DirectionDropdown;
 
-	private static BoardManager _instance;
+    private static BoardManager _instance;
 
     public HexCell[] Cells { get; private set; }
-    
+
     private const int Width = 8;
     private const int Height = 7;
     private int[] _tokens;
     private TurnPhase _phase = TurnPhase.Sandbox1;
-    private BuildMode _buildMode = BuildMode.Off;
+    public BuildMode BuildMode = BuildMode.Off;
 
     private void Awake()
     {
-		//creates singleton on awake
-		if (_instance == null)
-		{
-			_instance = this;
-		}
-		else if (_instance != this)
-		{
-			Destroy(gameObject);
-		}
+        //creates singleton on awake
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+        }
 
-		DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
 
         MakeTokens();
         Cells = new HexCell[Height * Width];
@@ -57,13 +57,13 @@ public class BoardManager : MonoBehaviour
                 CreateCell(x, z, i++);
             }
         }
-        
+
     }
-	// Access singleton 
-	public static BoardManager GetInstance()
-	{
-		return _instance;
-	}
+    // Access singleton 
+    public static BoardManager GetInstance()
+    {
+        return _instance;
+    }
 
     private void Start()
     {
@@ -72,7 +72,6 @@ public class BoardManager : MonoBehaviour
         AssignTokens();
         CreateVertices();
         CreateEdges();
-        StartGame();
     }
 
     private void Update()
@@ -80,14 +79,8 @@ public class BoardManager : MonoBehaviour
         // Mouse Button 0 = Left Mouse Button
         if (Input.GetMouseButtonDown(0))
         {
-            HandleInput();
+            //            HandleInput();
         }
-    }
-
-    private void StartGame()
-    {
-        // We're in phase 1 so we can just get started with building a settlement
-        Build("Settlement");
     }
 
     private void Trim()
@@ -112,41 +105,41 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void Build(string modeName)
+    public void Build(string modeName, Player p)
     {
-        _buildMode = (BuildMode) Enum.Parse(typeof(BuildMode), modeName);
-        switch (_buildMode)
+        BuildMode = (BuildMode)Enum.Parse(typeof(BuildMode), modeName);
+        switch (BuildMode)
         {
             case BuildMode.Off:
-                HidePossibleEdgeUnits();
-                HidePossibleCornerUnits();
+                HidePossibleEdgeUnits(p);
+                HidePossibleCornerUnits(p);
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "";
                 DirectionDropdown.interactable = false;
                 break;
             case BuildMode.Settlement:
-                HidePossibleEdgeUnits();
-                ShowPossibleCornerUnits();
+                HidePossibleEdgeUnits(p);
+                ShowPossibleCornerUnits(p);
                 DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a settlement!";
                 break;
             case BuildMode.City:
-                HidePossibleEdgeUnits();
-                ShowPossibleCornerUnits();
+                HidePossibleEdgeUnits(p);
+                ShowPossibleCornerUnits(p);
                 DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a city!";
                 break;
             case BuildMode.Road:
-                ShowPossibleEdgeUnits();
-                HidePossibleCornerUnits();
+                ShowPossibleEdgeUnits(p);
+                HidePossibleCornerUnits(p);
                 DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a road";
                 break;
             case BuildMode.Ship:
-                ShowPossibleEdgeUnits();
-                HidePossibleCornerUnits();
+                ShowPossibleEdgeUnits(p);
+                HidePossibleCornerUnits(p);
                 DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a ship!";
@@ -156,28 +149,28 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void HandleInput()
+    /*private void HandleInput()
     {
         var inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (!Physics.Raycast(inputRay, out hit)) return;
-        if (_buildMode == BuildMode.Road)
+        if (BuildMode == BuildMode.Road)
         {
             BuildEdgeUnit(hit.point, (HexDirection) DirectionDropdown.value, EdgeUnit.Road);
         }
-        if (_buildMode == BuildMode.Ship)
+        if (BuildMode == BuildMode.Ship)
         {
             BuildEdgeUnit(hit.point, (HexDirection) DirectionDropdown.value, EdgeUnit.Ship);
         }
-        if (_buildMode == BuildMode.Settlement)
+        if (BuildMode == BuildMode.Settlement)
         {
             BuildCornerUnit(hit.point, (HexDirection) DirectionDropdown.value, CornerUnit.Settlement);
         }
-        if (_buildMode == BuildMode.City)
+        if (BuildMode == BuildMode.City)
         {
             BuildCornerUnit(hit.point, (HexDirection) DirectionDropdown.value, CornerUnit.City);
         }
-    }
+    }*/
 
     private void MakeTokens()
     {
@@ -197,19 +190,20 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void ShowPossibleEdgeUnits()
+    private void ShowPossibleEdgeUnits(Player p)
     {
         // Look at all cells
         foreach (var cell in Cells)
         {
             // For those deleted by boardtrimmer
-            if (cell == null) continue;
+            if (cell == null || !p.isLocalPlayer) continue;
 
             // For SANDBOX mode.
             if (_phase == TurnPhase.Sandbox1 || _phase == TurnPhase.Sandbox2)
             {
                 foreach (var vertex in cell.MyVertices)
                 {
+                    if (vertex.Owner != p) continue;
                     // Only take care of city and settlement vertices
                     if (vertex.Type != CornerUnit.Settlement && vertex.Type != CornerUnit.City) continue;
 
@@ -246,7 +240,7 @@ public class BoardManager : MonoBehaviour
                 {
                     // Only take care of roads and ships (not hidden, etc)
                     if (edge.Type != EdgeUnit.Road && edge.Type != EdgeUnit.Ship) continue;
-
+                    if (edge.Owner != p) continue;
                     foreach (var neighbor in edge.Neighbors)
                     {
                         // Make all neighbors available to place on
@@ -257,16 +251,16 @@ public class BoardManager : MonoBehaviour
                     }
                 }
             }
-         }
-     }
+        }
+    }
 
-    private void ShowPossibleCornerUnits()
+    private void ShowPossibleCornerUnits(Player p)
     {
         // Look at all cells
         foreach (var cell in Cells)
         {
             // For those deleted by the boardtrimmer
-            if (cell == null) continue;
+            if (cell == null || !p.isLocalPlayer) continue;
 
             switch (_phase)
             {
@@ -275,6 +269,7 @@ public class BoardManager : MonoBehaviour
                 case TurnPhase.Sandbox1:
                     foreach (var vertex in cell.MyVertices)
                     {
+                        if (vertex.Owner != p) continue;
                         switch (vertex.Type)
                         {
                             case CornerUnit.Disabled:
@@ -299,6 +294,7 @@ public class BoardManager : MonoBehaviour
                 case TurnPhase.Sandbox2:
                     foreach (var vertex in cell.MyVertices)
                     {
+                        if (vertex.Owner != p) continue;
                         switch (vertex.Type)
                         {
                             // The rule is so that within phase 2, when a city is placed
@@ -330,6 +326,7 @@ public class BoardManager : MonoBehaviour
                     // For all vertices
                     foreach (var vertex in cell.MyVertices)
                     {
+                        if (vertex.Owner != p) continue;
                         switch (vertex.Type)
                         {
                             case CornerUnit.Disabled:
@@ -357,6 +354,7 @@ public class BoardManager : MonoBehaviour
                     // For all edges
                     foreach (var edge in cell.MyEdges)
                     {
+                        if (edge.Owner != p) continue;
                         switch (edge.Type)
                         {
                             case EdgeUnit.Disabled:
@@ -391,7 +389,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void HidePossibleEdgeUnits()
+    private void HidePossibleEdgeUnits(Player p)
     {
         // Simply hide every current open edge
         foreach (var cell in Cells)
@@ -399,7 +397,7 @@ public class BoardManager : MonoBehaviour
             if (cell == null) continue;
             foreach (var edge in cell.MyEdges)
             {
-                if (edge.Type == EdgeUnit.Open)
+                if (edge.Type == EdgeUnit.Open && edge.Owner == p && p.isLocalPlayer)
                 {
                     edge.Type = EdgeUnit.Hidden;
                 }
@@ -407,13 +405,14 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void HidePossibleCornerUnits()
+    private void HidePossibleCornerUnits(Player p)
     {
         foreach (var cell in Cells)
         {
-            if (cell == null) continue;
+            if (cell == null || !p.isLocalPlayer) continue;
             foreach (var vertex in cell.MyVertices)
             {
+                if (vertex.Owner != p) continue;
                 switch (vertex.Type)
                 {
                     case CornerUnit.Disabled:
@@ -435,22 +434,22 @@ public class BoardManager : MonoBehaviour
 
     private void CreateCell(int x, int z, int i)
     {
-         /*distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
-         distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
+        /*distance between adjacent hexagon cells in the x direction is equal to twice the inner radius of the hex
+        distance between adjacent hexagon cells in the z direction (distance between two rows) is equal to 1.5 times the outer radius
 
-         also, hex rows are not directly on top of each other. Each row is offset along the X axis by the inner radius.
-         however we need to bring them back cause if for every row we only add half of z, then it just turns into a rhombus in the overall shape
-         to get the brick stack effect,  we need to bring back the x offset of every "other" row.
+        also, hex rows are not directly on top of each other. Each row is offset along the X axis by the inner radius.
+        however we need to bring them back cause if for every row we only add half of z, then it just turns into a rhombus in the overall shape
+        to get the brick stack effect,  we need to bring back the x offset of every "other" row.
 
-         subtracting by the INT division makes this awesome cause we can essentially subtract every time but the effect is only applied
-         once every other row.*/
+        subtracting by the INT division makes this awesome cause we can essentially subtract every time but the effect is only applied
+        once every other row.*/
 
         //HexVertex position;
         float xCoord = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
         float yCoord = 0f;
         float zCoord = z * (HexMetrics.outerRadius * 1.5f);
 
-		var position = new Vector3(xCoord, yCoord, zCoord);
+        var position = new Vector3(xCoord, yCoord, zCoord);
 
         var cell = Cells[i] = Instantiate<HexCell>(CellPrefab);
 
@@ -458,11 +457,11 @@ public class BoardManager : MonoBehaviour
         cell.transform.position = position;
         cell.Coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
-		//Create new HexVertex
-		//HexVertex v = Instantiate(settlementPrefab, position, Quaternion.identity);
+        //Create new HexVertex
+        //HexVertex v = Instantiate(settlementPrefab, position, Quaternion.identity);
 
-		//v.isCenter = true;
-		//cell.centerVertex = v;
+        //v.isCenter = true;
+        //cell.centerVertex = v;
 
         // HEX NEIGHBOR SET
 
@@ -493,7 +492,8 @@ public class BoardManager : MonoBehaviour
                 {
                     cell.SetNeighbor(HexDirection.SW, Cells[i - Width - 1]);
                 }
-            } else
+            }
+            else
             {
                 // now we deal with odd rows
                 cell.SetNeighbor(HexDirection.SW, Cells[i - Width]);
@@ -615,7 +615,7 @@ public class BoardManager : MonoBehaviour
         AssignEdgeNeighbors();
     }
 
-    private void BuildCornerUnit(Vector3 position, HexDirection direction, CornerUnit unitType)
+    public void BuildCornerUnit(Vector3 position, HexDirection direction, CornerUnit unitType, Player p)
     {
         position = transform.InverseTransformPoint(position);
         var coordinates = HexCoordinates.FromPosition(position);
@@ -625,12 +625,12 @@ public class BoardManager : MonoBehaviour
 
         var cell = Cells[index];
 
-        int directionInt = (int) direction;
+        int directionInt = (int)direction;
 
         // Prevent duplicates
         if (!cell.MyVertices[directionInt].Type.Equals(CornerUnit.Open)) return;
 
-        switch (_phase)
+        switch (p.MyTurnPhase)
         {
             // After placing a corner unit, if it was in phase 1 or 2, build a road.
             case TurnPhase.Sandbox1:
@@ -642,19 +642,22 @@ public class BoardManager : MonoBehaviour
                 p.MyVertices.Add(cell.MyVertices[directionInt]);
                 // Only difference between SandBox1, Sandbox2, and Build TurnPhase, where SB1 and SB2 automatically ask for a road
                 // To be built after building a settlement, but build phase does not.
-                Build("Road", p); 
+                Build("Road", p);
                 break;
             // If it was phase 3, turn off the build menu
             case TurnPhase.Build:
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "";
                 if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
                 cell.MyVertices[directionInt].Type = unitType;
-                Build("Off");
+                // Cross reference between the vertex and the owner
+                cell.MyVertices[directionInt].Owner = p;
+                p.MyVertices.Add(cell.MyVertices[directionInt]);
+                Build("Off", p);
                 break;
         }
     }
 
-    private void BuildEdgeUnit(Vector3 position, HexDirection direction, EdgeUnit unitType)
+    public void BuildEdgeUnit(Vector3 position, HexDirection direction, EdgeUnit unitType, Player p)
     {
         // Transform mouse hit location into a cell index
         position = transform.InverseTransformPoint(position);
@@ -675,6 +678,10 @@ public class BoardManager : MonoBehaviour
 
         // Else, can build on that location. So set the unitType to the built unitType passed to function (road/ship/etc...)
         cell.MyEdges[directionInt].Type = unitType;
+        // Cross reference between the edge and the owner
+        cell.MyEdges[directionInt].Owner = p;
+        p.MyEdges.Add(cell.MyEdges[directionInt]);
+
         // Place it in the correct rotation around the cell while you're at it
         cell.MyEdges[directionInt].gameObject.transform.localRotation = EdgeMetrics.rotations[directionInt];
         // Lil hack to resolve ship rotations not appearing correctly as their .fbx model file was screwed up with rotations
@@ -684,22 +691,21 @@ public class BoardManager : MonoBehaviour
         }
 
 
-        switch (_phase)
+        switch (p.MyTurnPhase)
         {
             // If done with phase 1, we can proceed to phase 2 and just build a city after the first road was placed in 'sandbox'
             case TurnPhase.Sandbox1:
-//                Build("City", p);
-                TurnManager.GetInstance().NextTurn();
+                //                Build("City", p);
+                TurnManager.getInstance().NextTurn();
                 break;
             // If done with phase 2, we can proceed to phase 3 and just end the build after the second road placed in 'sandbox'
             case TurnPhase.Sandbox2:
-                 _phase = TurnPhase.Build;
-//                _phase = TurnPhase.WaitForTurn;
-                TurnManager.GetInstance().NextTurn();
+                //                _phase = TurnPhase.WaitForTurn;
+                TurnManager.getInstance().NextTurn();
                 break;
             // And if in phase 3, then we just apply the routine end build state after building a road anywhere
             case TurnPhase.Build:
-                Build("Off");
+                Build("Off", p);
                 break;
             case TurnPhase.WaitForTurn:
                 break;
@@ -762,8 +768,8 @@ public class BoardManager : MonoBehaviour
                     cell.MyEdges[(i + 5) % 6].Neighbors.Add(edge);
                 }
                 // Some unitType casting that's useful below
-                var directionOpposite = ((HexDirection) i).Opposite();
-                int directionOppositeInt = (int) directionOpposite;
+                var directionOpposite = ((HexDirection)i).Opposite();
+                int directionOppositeInt = (int)directionOpposite;
 
                 // Let's only look at border cells
                 if (cell.GetNeighbor(i) != null) continue;
@@ -789,7 +795,7 @@ public class BoardManager : MonoBehaviour
     {
         UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "It is now your turn!";
     }
-    
+
     private static void Triangulate(IEnumerable<HexCell> hexCells)
     {
         foreach (var cell in hexCells)

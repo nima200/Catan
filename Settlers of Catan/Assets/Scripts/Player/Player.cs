@@ -3,19 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class Player : NetworkBehaviour {
+public class Player : NetworkBehaviour
+{
     [SyncVar]
-    public string playerName = "";
+    public string PlayerName = "";
 
-	public int playerID;
-  //  private bool isTurn;
+    public int PlayerId;
 
-	public CardInventory cardInventory;
-	public List<Harbour> myHarbour = new List<Harbour>();
-	public int ratio;
+    // private bool isTurn;                 We are still debating if it is needed
+    public TurnPhase MyTurnPhase { get; set; }
+    public List<HexEdge> MyEdges = new List<HexEdge>();
+
+    public List<HexVertex> MyVertices = new List<HexVertex>();
+
+    public CardInventory CardInventory;
+    public List<Harbour> MyHarbour = new List<Harbour>();
+    public int Ratio;
     public bool hasAlchemist;                             // TODO : find it in inventory
-    
-    public Player()
+
+    public void Initialize(int i, CardInventory cardInventoryPrefab)
     {
         //name = "Player" + i;
         //playerID = i;
@@ -27,68 +33,62 @@ public class Player : NetworkBehaviour {
         CardInventory.transform.parent = this.transform;
     }
 
+    public CardInventory getCardInventory()
+    {
+        return CardInventory;
+    }
 
-	public void Initialize (int i, CardInventory cardInventoryPrefab)
-	{
-		//name = "Player" + i;
-		//playerID = i;
-		playerName = "Player " + playerName;
-        //isTurn = false;
-		cardInventory = Instantiate(cardInventoryPrefab);
-        cardInventory.gameObject.SetActive(true);
-		cardInventory.transform.parent = this.transform;
-	}
+    //The player needs to find a way to determine which harbours he has access to
+    public List<Harbour> GetHarbours()
+    {
+        return MyHarbour;
+    }
 
-	public CardInventory getCardInventory()
-	{
-		return cardInventory;
-	}
+    public int getMaritimTradeRatio(SteableKind resource)
+    {
+        Ratio = 4;
+        for (int i = 0; i < MyHarbour.Count; i++)
+        {
+            if (MyHarbour[i].GetType() == typeof(GenericHarbour))
+            {
+                Ratio = 3;
+            }
+            if (MyHarbour[i].GetType() == typeof(SpecialHarbour) && ((SpecialHarbour)MyHarbour[i]).steableKind == resource)
+            {
+                return 2;
+            }
+        }
+        return Ratio;
+    }
 
-	//The player needs to find a way to determine which harbours he has access to
-	public List<Harbour> getHarbours ()
-	{
-		return myHarbour;
-	}
-
-	public int getMaritimTradeRatio (SteableKind resource)
-	{	
-		ratio = 4;
-		for (int i = 0; i < myHarbour.Count; i++) {
-			if (myHarbour [i].GetType () == typeof(GenericHarbour)) {
-				ratio = 3;
-			}
-			if (myHarbour [i].GetType () == typeof(SpecialHarbour) && ((SpecialHarbour)myHarbour [i]).steableKind == resource) {
-				return 2;
-			}
-		}
-		return ratio;
-	}
-
-    public bool equals(Player otherPlayer) {
-        if (playerID == otherPlayer.getPlayerID()) return true;
+    public bool equals(Player otherPlayer)
+    {
+        if (PlayerId == otherPlayer.GetPlayerId()) return true;
         else return false;
     }
 
-    public int getPlayerID() {
-        return playerID;
+    public int GetPlayerId()
+    {
+        return PlayerId;
     }
 
-    public bool HasAlchemist() {
+    public bool HasAlchemist()
+    {
         return hasAlchemist;                        // TODO : find alchemist in inventory
     }
 
-/*    public bool CheckIsTurn() {
-        return isTurn;
-    }
+    /*    public bool CheckIsTurn() {
+            return isTurn;
+        }
 
-    public void SetIsTurn(bool b) {
-        isTurn = b; 
-    } */
+        public void SetIsTurn(bool b) {
+            isTurn = b; 
+        } */
 
 
     void Awake()
     {
-           PlayerManager.getInstance().AddtoList(this);
+        PlayerManager.getInstance().AddtoList(this);
     }
 
     /*private void Awake()
@@ -96,14 +96,15 @@ public class Player : NetworkBehaviour {
         PlayerManager.getInstance().AddtoList(this);
         Debug.Log(playerName);
     }*/
-
-    // for debuging only.
-    public void Update()
+    public void SetIsTurn(bool b)
     {
+        // isTurn = b;
     }
 
-    public void NextPhase() {
-        switch (MyTurnPhase) {
+    public void NextPhase()
+    {
+        switch (MyTurnPhase)
+        {
             case TurnPhase.Sandbox1:
                 MyTurnPhase = TurnPhase.Sandbox2;
                 break;
@@ -114,6 +115,6 @@ public class Player : NetworkBehaviour {
         Debug.Log("New phase of " + PlayerName + ": " + MyTurnPhase.ToString());
     }
 
-    
-    
+
+
 }

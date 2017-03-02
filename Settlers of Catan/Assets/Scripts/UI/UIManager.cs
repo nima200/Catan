@@ -2,25 +2,16 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class UIManager : MonoBehaviour {
+public class UiManager : MonoBehaviour
+{
 
-    public Button voteButton;
-    
-    public Dropdown gBVoteDD;
+    private static UiManager _instance;
 
-	// Use this for initialization
-	void Start ()
+    private void Awake()
     {
-        voteButton.interactable = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	    if (gBVoteDD.value == 0)
+        if (_instance == null)
         {
-            voteButton.interactable = false;
-        } else {
-            voteButton.interactable = true;
+            _instance = this;
         }
         else
         {
