@@ -6,7 +6,7 @@ using System.Linq;
 
 
 
-public enum HexType { Wood, Ore, Brick, Sheep, Sea, Desert };
+public enum HexType { LUMBER, ORE, BRICK, WOOL, GRAIN, GOLD, SEA, DESERT };
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexCell : MonoBehaviour
 {

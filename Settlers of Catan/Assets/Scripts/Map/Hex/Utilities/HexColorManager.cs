@@ -22,28 +22,26 @@ public class HexColorManager : MonoBehaviour {
     // TODO: Figure out how to change the distribution of the hex types
     // so that they actually correspond to what the game has.
     // i.e. there aren't as many desert hexes as there are wood.
-    HexType TypeGenerator()
-    {
-        int type = Random.Range(0, 6);
-        if (type == 0)
-        {
-            return HexType.Wood;
-        } else if (type == 1)
-        {
-            return HexType.Ore;
-        } else if (type == 2)
-        {
-            return HexType.Brick;
-        } else if (type == 3)
-        {
-            return HexType.Sheep;
-        } else if (type == 4)
-        {
-            return HexType.Sea;
-        } else
-        {
-            return HexType.Desert;
-        }
+    HexType TypeGenerator ()
+	{
+		int type = Random.Range (0, 7);
+		if (type == 0) {
+			return HexType.LUMBER;
+		} else if (type == 1) {
+			return HexType.ORE;
+		} else if (type == 2) {
+			return HexType.BRICK;
+		} else if (type == 3) {
+			return HexType.WOOL;
+		} else if (type == 4) {
+			return HexType.GRAIN;
+		} else if (type == 5) {
+			return HexType.GOLD;
+		} else if (type == 6) {
+			return HexType.SEA;
+		} else {
+			return HexType.DESERT;
+		}
             
     }
 

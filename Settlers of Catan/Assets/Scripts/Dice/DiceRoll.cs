@@ -56,19 +56,40 @@ public class DiceRoll : MonoBehaviour {
    */
     public void RollTrigger () {
         if (!_isRolled){
-            if (TurnManager.getInstance().getCurrentPlayer().hasAlchemist){
-                AlchemistMenu.gameObject.SetActive(true); // action will happen in RollAlchemist
-            }
-
-            else{
+//            if (TurnManager.getInstance().getCurrentPlayer().hasAlchemist){
+//                AlchemistMenu.gameObject.SetActive(true); // action will happen in RollAlchemist
+//            }
+//
+//            else{
                 RollIntDice();
                 RollEventDie();
                 _isRolled = true;
-            }
+//            }
+			resolveDice();
             RollBtn.interactable = false;
         }
         GameManager.getInstance().rollDice();
     }
+
+    public void resolveDice ()
+	{
+		distributeResource();
+	}
+
+	public void distributeResource ()
+	{
+		int num = _intRolls [0] + _intRolls [1];
+		foreach (HexCell c in BoardManager.GetInstance().Cells) {
+			if (c.CellNumber == num) {
+				HexVertex[] hexVertice = c.MyVertices;
+				Dictionary<Player,int> players = new Dictionary<Player, int>();
+				foreach (HexVertex hv in hexVertice) {
+					hv.
+				}
+			}
+		}
+		print (num);
+	}
 
     /* ===================
      *     ROLL Alchemist
