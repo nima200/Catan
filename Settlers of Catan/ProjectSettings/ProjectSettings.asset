@@ -525,7 +525,7 @@ PlayerSettings:
   vrEditorSettings: {}
   cloudServicesEnabled:
     Analytics: 0
-    Build: 0
+    Build: 1
     Collab: 0
     ErrorHub: 0
     Game_Performance: 0
@@ -533,7 +533,7 @@ PlayerSettings:
     Purchasing: 0
     UNet: 1
     Unity_Ads: 0
-  cloudProjectId: 8f5d6f67-b7f9-4c64-b512-438bd43ac9a0
-  projectName: CatanNet
-  organizationId: bangoga
+  cloudProjectId: 96b2c5b9-e3f3-4c3f-a812-5b971b698075
+  projectName: Settlers of Catan
+  organizationId: nima_ap
   cloudEnabled: 0

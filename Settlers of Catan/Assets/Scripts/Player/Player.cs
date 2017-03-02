@@ -17,7 +17,14 @@ public class Player : NetworkBehaviour {
     
     public Player()
     {
-		
+        //name = "Player" + i;
+        //playerID = i;
+        PlayerName = "Player " + PlayerName;
+        //isTurn = false;
+        MyTurnPhase = TurnPhase.WaitForTurn;
+        CardInventory = Instantiate(cardInventoryPrefab);
+        CardInventory.gameObject.SetActive(true);
+        CardInventory.transform.parent = this.transform;
     }
 
 
@@ -94,4 +101,19 @@ public class Player : NetworkBehaviour {
     public void Update()
     {
     }
+
+    public void NextPhase() {
+        switch (MyTurnPhase) {
+            case TurnPhase.Sandbox1:
+                MyTurnPhase = TurnPhase.Sandbox2;
+                break;
+            case TurnPhase.Sandbox2:
+                MyTurnPhase = TurnPhase.WaitForTurn;
+                break;
+        }
+        Debug.Log("New phase of " + PlayerName + ": " + MyTurnPhase.ToString());
+    }
+
+    
+    
 }

@@ -637,8 +637,12 @@ public class BoardManager : MonoBehaviour
             case TurnPhase.Sandbox2:
                 if (cell.MyVertices[directionInt].Type != CornerUnit.Open) return;
                 cell.MyVertices[directionInt].Type = unitType;
-                // cell.MyVertices[directionInt].owner = turnmanager.currentPlayer;  <-- Charlotte apply this when you are trying to make sure that a player has link to the vertices he places.
-                Build("Road");
+                // Cross reference between the vertex and the owner
+                cell.MyVertices[directionInt].Owner = p;
+                p.MyVertices.Add(cell.MyVertices[directionInt]);
+                // Only difference between SandBox1, Sandbox2, and Build TurnPhase, where SB1 and SB2 automatically ask for a road
+                // To be built after building a settlement, but build phase does not.
+                Build("Road", p); 
                 break;
             // If it was phase 3, turn off the build menu
             case TurnPhase.Build:
@@ -684,14 +688,14 @@ public class BoardManager : MonoBehaviour
         {
             // If done with phase 1, we can proceed to phase 2 and just build a city after the first road was placed in 'sandbox'
             case TurnPhase.Sandbox1:
-                _phase = TurnPhase.Sandbox2;
-                Build("City");
+//                Build("City", p);
+                TurnManager.GetInstance().NextTurn();
                 break;
             // If done with phase 2, we can proceed to phase 3 and just end the build after the second road placed in 'sandbox'
             case TurnPhase.Sandbox2:
                  _phase = TurnPhase.Build;
 //                _phase = TurnPhase.WaitForTurn;
-                Build("Off");
+                TurnManager.GetInstance().NextTurn();
                 break;
             // And if in phase 3, then we just apply the routine end build state after building a road anywhere
             case TurnPhase.Build:
