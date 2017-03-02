@@ -11,7 +11,7 @@ public class Player : NetworkBehaviour
     public int PlayerId;
 
     // private bool isTurn;                 We are still debating if it is needed
-    public TurnPhase MyTurnPhase { get; set; }
+    public TurnPhase MyTurnPhase;
     public List<HexEdge> MyEdges = new List<HexEdge>();
 
     public List<HexVertex> MyVertices = new List<HexVertex>();

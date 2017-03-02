@@ -33,6 +33,9 @@ public class UiManager : MonoBehaviour
     public Selectable BuildCityButton;
     public Dropdown DirectionDropdown;
 
+    public GameObject MainMenu;
+    public GameObject UtilityMenu;
+    public GameObject DiceMenu;
 
 
 }

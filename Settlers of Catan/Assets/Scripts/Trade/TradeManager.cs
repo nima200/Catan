@@ -42,7 +42,7 @@ public class TradeManager : MonoBehaviour {
 
         bankInv = CardManager.getInstance().getCardInventory();
         mainPlayer = TurnManager.getInstance().getMainPlayer();
-        if (!mainPlayer)
+        if (mainPlayer)
         {
             Debug.Log("there is a main player :");
             playerInv = mainPlayer.getCardInventory();

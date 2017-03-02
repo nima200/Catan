@@ -47,7 +47,7 @@ public class HexVertex : MonoBehaviour
 
     //keeps track of neighboring vertices
     public List<HexVertex> Neighbors = new List<HexVertex>();
-    public Player Owner { get; set; }
+    public Player Owner;
 
     private void Awake()
     {

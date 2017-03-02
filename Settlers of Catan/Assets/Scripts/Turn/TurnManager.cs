@@ -8,12 +8,11 @@ public class TurnManager : MonoBehaviour
 {
 
     private static TurnManager _instance = null;
-    public GameObject MainMenu;
-    public GameObject DiceMenu;
+    
     public BoardManager Board;
     private Player _localPlayer;                            // --> the player running this instance of the game
     private Player _currentPlayer;                         // --> the player currently PLAYING
-    private readonly UiManager _ui = UiManager.GetInstance();
+    public UiManager Ui = UiManager.GetInstance();
 
 
     // Use this for initialization
@@ -62,16 +61,16 @@ public class TurnManager : MonoBehaviour
                     case BuildMode.Off:
                         break;
                     case BuildMode.Settlement:
-                        Board.BuildCornerUnit(hit.point, (HexDirection)_ui.DirectionDropdown.value, CornerUnit.Settlement, _currentPlayer);
+                        Board.BuildCornerUnit(hit.point, (HexDirection)Ui.DirectionDropdown.value, CornerUnit.Settlement, _currentPlayer);
                         break;
                     case BuildMode.City:
-                        Board.BuildCornerUnit(hit.point, (HexDirection)_ui.DirectionDropdown.value, CornerUnit.City, _currentPlayer);
+                        Board.BuildCornerUnit(hit.point, (HexDirection)Ui.DirectionDropdown.value, CornerUnit.City, _currentPlayer);
                         break;
                     case BuildMode.Road:
-                        Board.BuildEdgeUnit(hit.point, (HexDirection)_ui.DirectionDropdown.value, EdgeUnit.Road, _currentPlayer);
+                        Board.BuildEdgeUnit(hit.point, (HexDirection)Ui.DirectionDropdown.value, EdgeUnit.Road, _currentPlayer);
                         break;
                     case BuildMode.Ship:
-                        Board.BuildEdgeUnit(hit.point, (HexDirection)_ui.DirectionDropdown.value, EdgeUnit.Ship, _currentPlayer);
+                        Board.BuildEdgeUnit(hit.point, (HexDirection)Ui.DirectionDropdown.value, EdgeUnit.Ship, _currentPlayer);
                         break;
                     case BuildMode.Knight:
                         break;
@@ -90,12 +89,15 @@ public class TurnManager : MonoBehaviour
         int firstplayerindex = PlayerManager.getInstance().SetRandomFirst(); // TODO : make it syntax correct
         _localPlayer = PlayerManager.getInstance().getLocalPlayer();
         _currentPlayer = PlayerManager.getInstance().getPlayer(firstplayerindex);
+        _currentPlayer.MyTurnPhase = TurnPhase.Sandbox1;
+        UpdateUi(_currentPlayer);
         for (int i = 0; i < PlayerManager.getInstance().getNbOfPlayer(); i++)
         { // Initialize UIs of all players
-            if (_currentPlayer != PlayerManager.getInstance().getPlayer(i)) continue;
-            // Only sets the UI of the 'first player' to active, continues for all others.
-            PlayerManager.getInstance().getPlayer(i).MyTurnPhase = TurnPhase.Sandbox1; // First player set into sandbox mode
-            UpdateUi(PlayerManager.getInstance().getPlayer(i));
+            if (PlayerManager.getInstance().getPlayer(i) != _currentPlayer)
+            {
+                PlayerManager.getInstance().getPlayer(i).MyTurnPhase = TurnPhase.WaitForTurn;
+                UpdateUi(PlayerManager.getInstance().getPlayer(i));
+            }
         }
     }
 
@@ -124,30 +126,57 @@ public class TurnManager : MonoBehaviour
 
     private void UpdateUi(Player p)
     {
+        Ui = UiManager.GetInstance();
         if (!p.isLocalPlayer) return;
+        Debug.Log("big dick bandito in da club");   
         switch (p.MyTurnPhase)
         {
             case TurnPhase.Sandbox1:
-                MainMenu.SetActive(false);
-                Board.Build("Settlement", p);
-                DiceMenu.GetComponent<Selectable>().interactable = false;
-                break;
-            case TurnPhase.Sandbox2:
-                MainMenu.SetActive(false);
-                Board.Build("City", p);
-                DiceMenu.GetComponent<Selectable>().interactable = false;
-                break;
-            case TurnPhase.Build:
-                MainMenu.SetActive(false);
-                _ui.BuildMenu.SetActive(true);
-                DiceMenu.GetComponent<Selectable>().interactable = false;
-                break;
-            case TurnPhase.WaitForTurn:
-                foreach (var selectable in MainMenu.GetComponentsInChildren<Selectable>())
+                Ui.MainMenu.SetActive(false);
+                Ui.BuildMenu.SetActive(true);
+                foreach (var selectable in Ui.BuildMenu.GetComponentsInChildren<Selectable>())
                 {
                     selectable.interactable = false;
                 }
-                DiceMenu.GetComponent<Selectable>().interactable = false;
+                foreach (var child in Ui.DiceMenu.GetComponentsInChildren<Selectable>())
+                {
+                    child.interactable = false;
+                }
+                Ui.DirectionDropdown.interactable = true;
+                Board.Build("Settlement", p);
+                foreach (var selectable in Ui.DiceMenu.GetComponentsInChildren<Selectable>())
+                {
+                    selectable.interactable = false;
+                }
+                break;
+            case TurnPhase.Sandbox2:
+                Ui.MainMenu.SetActive(false);
+                Board.Build("City", p);
+                foreach (var selectable in Ui.DiceMenu.GetComponentsInChildren<Selectable>())
+                {
+                    selectable.interactable = false;
+                }
+                break;
+            case TurnPhase.Build:
+                Ui.MainMenu.SetActive(false);
+                Ui.BuildMenu.SetActive(true);
+                foreach (var child in Ui.DiceMenu.GetComponentsInChildren<Selectable>())
+                {
+                    child.interactable = false;
+                }
+                break;
+            case TurnPhase.WaitForTurn:
+                Ui.MainMenu.SetActive(true);
+                Ui.BuildMenu.SetActive(false);
+                foreach (var selectable in Ui.MainMenu.GetComponentsInChildren<Button>())
+                {
+                    Debug.Log("hello");
+                    selectable.interactable = false;
+                }
+                foreach (var child in Ui.DiceMenu.GetComponentsInChildren<Selectable>())
+                {
+                    child.interactable = false;
+                }
                 break;
         }
     }

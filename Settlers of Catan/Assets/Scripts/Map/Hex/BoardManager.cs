@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class BoardManager : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class BoardManager : MonoBehaviour
     public Toggle BuildCityButton;
     public HexEdge EdgePrefab;
     public HexVertex VertexPrefab;
-    public Dropdown DirectionDropdown;
 
     private static BoardManager _instance;
 
@@ -25,7 +25,7 @@ public class BoardManager : MonoBehaviour
     private const int Width = 8;
     private const int Height = 7;
     private int[] _tokens;
-    private TurnPhase _phase = TurnPhase.Sandbox1;
+//    private TurnPhase _phase = TurnPhase.Sandbox1;
     public BuildMode BuildMode = BuildMode.Off;
 
     private void Awake()
@@ -44,8 +44,7 @@ public class BoardManager : MonoBehaviour
 
         MakeTokens();
         Cells = new HexCell[Height * Width];
-        DirectionDropdown = UserInterface.GetComponentInChildren<Dropdown>();
-        DirectionDropdown.interactable = false;
+        UiManager.GetInstance().DirectionDropdown.interactable = false;
         // i is the index of the cell in the HexCell array.
         // i goes from 0 to (height*width);
         // i is incremented every time we create a new cell
@@ -114,33 +113,33 @@ public class BoardManager : MonoBehaviour
                 HidePossibleEdgeUnits(p);
                 HidePossibleCornerUnits(p);
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "";
-                DirectionDropdown.interactable = false;
+                UiManager.GetInstance().DirectionDropdown.interactable = false;
                 break;
             case BuildMode.Settlement:
                 HidePossibleEdgeUnits(p);
                 ShowPossibleCornerUnits(p);
-                DirectionDropdown.interactable = true;
+                UiManager.GetInstance().DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a settlement!";
                 break;
             case BuildMode.City:
                 HidePossibleEdgeUnits(p);
                 ShowPossibleCornerUnits(p);
-                DirectionDropdown.interactable = true;
+                UiManager.GetInstance().DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a city!";
                 break;
             case BuildMode.Road:
                 ShowPossibleEdgeUnits(p);
                 HidePossibleCornerUnits(p);
-                DirectionDropdown.interactable = true;
+                UiManager.GetInstance().DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a road";
                 break;
             case BuildMode.Ship:
                 ShowPossibleEdgeUnits(p);
                 HidePossibleCornerUnits(p);
-                DirectionDropdown.interactable = true;
+                UiManager.GetInstance().DirectionDropdown.interactable = true;
                 UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text =
                     "Place yourself a ship!";
                 break;
@@ -199,11 +198,11 @@ public class BoardManager : MonoBehaviour
             if (cell == null || !p.isLocalPlayer) continue;
 
             // For SANDBOX mode.
-            if (_phase == TurnPhase.Sandbox1 || _phase == TurnPhase.Sandbox2)
+            if (p.MyTurnPhase == TurnPhase.Sandbox1 || p.MyTurnPhase == TurnPhase.Sandbox2)
             {
                 foreach (var vertex in cell.MyVertices)
                 {
-                    if (vertex.Owner != p) continue;
+//                    if (vertex.Owner != p) continue;
                     // Only take care of city and settlement vertices
                     if (vertex.Type != CornerUnit.Settlement && vertex.Type != CornerUnit.City) continue;
 
@@ -212,8 +211,7 @@ public class BoardManager : MonoBehaviour
                     {
                         // We only want to show those edges currently hidden
                         if (edge.Type != EdgeUnit.Hidden) continue;
-
-                        switch (_phase)
+                        switch (p.MyTurnPhase)
                         {
                             // SANDBOX: make edges around settlements open
                             case TurnPhase.Sandbox1:
@@ -244,7 +242,7 @@ public class BoardManager : MonoBehaviour
                     foreach (var neighbor in edge.Neighbors)
                     {
                         // Make all neighbors available to place on
-                        if (neighbor.Type == EdgeUnit.Hidden /* TODO: && head.Owner == currentPlayer */)
+                        if (neighbor.Type == EdgeUnit.Hidden /* TODO: && edge.Owner == currentPlayer */)
                         {
                             neighbor.Type = EdgeUnit.Open;
                         }
@@ -262,14 +260,14 @@ public class BoardManager : MonoBehaviour
             // For those deleted by the boardtrimmer
             if (cell == null || !p.isLocalPlayer) continue;
 
-            switch (_phase)
+            switch (p.MyTurnPhase)
             {
                 // In phase 1 every vertex of the board is open
                 // Except if a player before you placed something
                 case TurnPhase.Sandbox1:
                     foreach (var vertex in cell.MyVertices)
                     {
-                        if (vertex.Owner != p) continue;
+//                        if (vertex.Owner != p) continue;
                         switch (vertex.Type)
                         {
                             case CornerUnit.Disabled:
@@ -397,7 +395,7 @@ public class BoardManager : MonoBehaviour
             if (cell == null) continue;
             foreach (var edge in cell.MyEdges)
             {
-                if (edge.Type == EdgeUnit.Open && edge.Owner == p && p.isLocalPlayer)
+                if (edge.Type == EdgeUnit.Open && p.isLocalPlayer)
                 {
                     edge.Type = EdgeUnit.Hidden;
                 }
@@ -409,10 +407,10 @@ public class BoardManager : MonoBehaviour
     {
         foreach (var cell in Cells)
         {
-            if (cell == null || !p.isLocalPlayer) continue;
+            if (cell == null) continue;
             foreach (var vertex in cell.MyVertices)
             {
-                if (vertex.Owner != p) continue;
+//                if (vertex.Owner != p) continue;
                 switch (vertex.Type)
                 {
                     case CornerUnit.Disabled:
@@ -783,12 +781,6 @@ public class BoardManager : MonoBehaviour
                 cell.GetNeighbor((i + 1) % 6).MyEdges[(directionOppositeInt + 2) % 6].Neighbors.Add(edge);
             }
         }
-    }
-
-    public void WaitForTurn()
-    {
-        _phase = TurnPhase.WaitForTurn;
-        UserInterface.GetComponentInChildren<Instruction>().GetComponent<Text>().text = "Please wait for your turn";
     }
 
     public void IsTurn()

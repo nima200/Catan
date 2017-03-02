@@ -53,7 +53,7 @@ public class HexEdge : MonoBehaviour
 
     //the hexvertexes that lie on each end of the edge
     public List<HexVertex> Heads = new List<HexVertex>();
-    public Player Owner { get; set; }
+    public Player Owner;
 
 
     //Helper functions for setting neighbors
